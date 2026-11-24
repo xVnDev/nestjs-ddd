@@ -11,7 +11,7 @@
     "url": "git+https://github.com/xVnDev/nestjs-ddd.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest run",
     "build": "nest build",
     "deploy": "nest deploy",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -23,7 +23,11 @@
     "plans:check": "node scripts/check-plan-links.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "lint": "oxlint --type-aware src/ test/",
-    "lint:fix": "oxlint --fix --type-aware src/ test/"
+    "lint:fix": "oxlint --fix --type-aware src/ test/",
+    "test:unit": "vitest run --config vitest.unit.config.ts",
+    "test:e2e": "vitest run --config vitest.e2e.config.ts",
+    "test:cov": "vitest run --config vitest.unit.config.ts --coverage",
+    "test:watch": "vitest --config vitest.unit.config.ts"
   },
   "dependencies": {
     "@nestjs/common": "^12.0.1",

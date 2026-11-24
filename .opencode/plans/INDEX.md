@@ -16,3 +16,7 @@ Canonical source: [`roadmap.md`](../../roadmap.md). This index only navigates to
 | P09 | Hardening & Observability | [Step 1 — Hardening Controls](phase-09-hardening-and-observability/step-1-hardening-controls.md)<br>[Step 2 — Observability](phase-09-hardening-and-observability/step-2-observability.md)<br>[Step 3 — Compliance & Release](phase-09-hardening-and-observability/step-3-compliance-and-release.md) |
 | P10 | Delivery & Benchmark | [Step 1 — Production Delivery & Benchmark](phase-10-delivery-and-benchmark/step-1-production-delivery.md) |
 
+## Prompts
+
+- [`roadmap-step.md`](../prompts/roadmap-step.md) — break down the active step.
+- [`phase-gate.md`](../prompts/phase-gate.md) — run the Phase Gate checklist.

@@ -10,8 +10,8 @@ class EchoService {
 }
 
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
-import { ConfigService } from "@nestjs/config";
-import { ConfigModule } from "../src/common/config/config.module.js";
+import { ConfigService } from '@nestjs/config';
+import { ConfigModule } from '../src/common/config/config.module.js';
 
 @Controller('validation')
 class ValidationController {
@@ -36,7 +36,11 @@ describe('Validation (e2e)', () => {
     }).compile();
     app = moduleRef.createNestApplication();
     const configService: ConfigService = app.get(ConfigService);
-    app.useGlobalPipes(new ValidationPipe(configService.get<ValidationPipeOptions>('validationPipe')));
+    app.useGlobalPipes(
+      new ValidationPipe(
+        configService.get<ValidationPipeOptions>('validationPipe'),
+      ),
+    );
     await app.init();
   });
 

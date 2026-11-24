@@ -8,7 +8,11 @@ async function bootstrap() {
     instrument: ObserveInstrument,
   });
   const configService = app.get(ConfigService);
-  app.useGlobalPipes(new ValidationPipe(configService.get<ValidationPipeOptions>('validationPipe')));
+  app.useGlobalPipes(
+    new ValidationPipe(
+      configService.get<ValidationPipeOptions>('validationPipe'),
+    ),
+  );
   await app.listen(configService.get<number>('app.port') ?? 3000);
 }
 

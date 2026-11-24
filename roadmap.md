@@ -102,9 +102,9 @@ Status legend: ⬜ Planned · 🚧 In progress · ✅ Done · ⏸ Blocked · ❌
 | :-- | :---- | :--- | :---- | :----- |
 | `P0-01` | P0 · Governance & Planning | 1 | `chore(repo): initialize nestjs-ddd repository, branch model and PR governance` | ✅ Done |
 | `P0-02` | P0 · Governance & Planning | 1 | `chore(plan): scaffold roadmap, phase plans and prompt templates` | ✅ Done |
-| `P01-01` | P01 · Foundation | 1 | `chore(core): scaffold nestjs 12 app with strict ts, oxlint, prettier, editorconfig, health & readiness endpoints` | ⬜ Planned |
-| `P01-02` | P01 · Foundation | 1 | `chore(test): add vitest unit/e2e setup with coverage thresholds` | ⬜ Planned |
-| `P01-03` | P01 · Foundation | 1 | `chore(test): add faker-backed fixture factories` | ⬜ Planned |
+| `P01-01` | P01 · Foundation | 1 | `chore(core): scaffold nestjs 12 app with strict ts, oxlint, prettier, editorconfig, health & readiness endpoints` | ✅ Done |
+| `P01-02` | P01 · Foundation | 1 | `chore(test): add vitest unit/e2e setup with coverage thresholds` | ✅ Done |
+| `P01-03` | P01 · Foundation | 1 | `chore(test): add faker-backed fixture factories` | ✅ Done |
 | `P01-04` | P01 · Foundation | 2 | `feat(config): add typed env validation with joi and registerAs providers` | ⬜ Planned |
 | `P01-05` | P01 · Foundation | 2 | `feat(config): add global ValidationPipe with whitelist and transform` | ⬜ Planned |
 | `P01-06` | P01 · Foundation | 2 | `feat(core): add structured logger with redaction (console dev, JSON prod)` | ⬜ Planned |

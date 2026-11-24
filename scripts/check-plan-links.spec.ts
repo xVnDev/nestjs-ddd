@@ -2,7 +2,9 @@ import { describe, expect, it, vi } from 'vitest';
 
 describe('check-plan-links link extractor', () => {
   it('resolves relative links', () => {
-    const fs = { existsSync: vi.fn(() => true) };
+    const existsSync = vi.fn();
+    existsSync.mockReturnValue(true);
+    const fs = { existsSync };
     expect(fs.existsSync('/tmp/x')).toBe(true);
   });
 });

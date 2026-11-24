@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
-import { AppModule } from '../src/app.module';
+import { AppModule } from '../src/app.module.js';
 import { INestApplication } from '@nestjs/common';
 
 describe('Health (e2e)', () => {

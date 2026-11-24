@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { describe, expect, it } from 'vitest';
-import { HealthController } from './interfaces/health.controller';
-import { HealthModule } from './health.module';
+import { HealthController } from './interfaces/health.controller.js';
+import { HealthModule } from './health.module.js';
 
 describe('HealthModule', () => {
   it('compiles and resolves HealthController', async () => {

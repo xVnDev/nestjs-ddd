@@ -3,7 +3,7 @@ import Joi from 'joi';
 export const envSchema = Joi.object({
   PORT: Joi.number().integer().min(1).max(65535).default(3000),
   NODE_ENV: Joi.string()
-    .valid('development', 'test', 'production')
+    .valid('development', 'test', 'production').required(),
 
   MAIL_HOST: Joi.string().allow('').optional(),
   REDIS_URL: Joi.string().allow('').optional(),

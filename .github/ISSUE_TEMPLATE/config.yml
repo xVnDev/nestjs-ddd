@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security vulnerability (private)
+    url: mailto:security@example.invalid
+    about: Report security issues privately. Placeholder address security@ only; no real contact secret is stored here.

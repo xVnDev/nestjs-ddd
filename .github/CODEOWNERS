@@ -1,0 +1,7 @@
+# Default owner for all files
+* @xVnDev
+
+# Governance surfaces
+/.github/ @xVnDev
+/roadmap.md @xVnDev
+/.opencode/ @xVnDev

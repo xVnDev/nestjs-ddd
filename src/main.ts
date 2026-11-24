@@ -1,1 +1,2 @@
-// placeholder
+// bootstrap entry point
+export {};

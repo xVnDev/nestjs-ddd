@@ -17,7 +17,11 @@
     "start:dev": "nest start --watch",
     "start:prod": "node dist/main",
     "plans:check": "node scripts/check-plan-links.mjs",
-    "typecheck": "tsc --noEmit -p tsconfig.json"
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "oxlint --type-aware src/ test/",
+    "lint:fix": "oxlint --fix --type-aware src/ test/",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\""
   },
   "repository": {
     "type": "git",
@@ -34,6 +38,9 @@
   "private": "true",
   "devDependencies": {
     "@types/node": "^26.6.6",
+    "oxlint": "^1.95.0",
+    "oxlint-tsgolint": "^7.0.2008",
+    "prettier": "^3.10.1",
     "typescript": "^7.0.2"
   }
 }

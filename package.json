@@ -37,10 +37,13 @@
   "homepage": "https://github.com/xVnDev/nestjs-ddd#readme",
   "private": "true",
   "devDependencies": {
+    "@nestjs/testing": "^12.6.0",
     "@types/node": "^26.6.6",
+    "@types/supertest": "^7.2.1",
     "oxlint": "^1.95.0",
     "oxlint-tsgolint": "^7.0.2008",
     "prettier": "^3.10.1",
+    "supertest": "^7.3.2",
     "typescript": "^7.0.2"
   }
 }

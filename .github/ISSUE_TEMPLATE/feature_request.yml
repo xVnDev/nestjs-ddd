@@ -1,0 +1,41 @@
+name: Feature Request
+description: Propose a new feature or change
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the proposed change and how it maps to the roadmap.
+  - type: input
+    id: task_id
+    attributes:
+      label: Affected phase/task ID
+      description: Roadmap task ID, e.g. P1-02a (optional).
+      placeholder: P0-01e
+    validations:
+      required: false
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / motivation
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: false
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+    validations:
+      required: false

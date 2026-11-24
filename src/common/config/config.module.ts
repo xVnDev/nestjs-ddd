@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule as NestConfigModule } from '@nestjs/config';
 import { envSchema, validateEnv } from './validation/env.validation.js';
 import { appConfig } from './app.config.js';
+import { observeConfig } from "./observe.config.js";
 
 @Module({
   imports: [
@@ -11,7 +12,7 @@ import { appConfig } from './app.config.js';
       validate: validateEnv,
       envFilePath: '.env',
       expandVariables: true,
-      load: [appConfig],
+      load: [appConfig, observeConfig],
       cache: true,
     }),
   ],

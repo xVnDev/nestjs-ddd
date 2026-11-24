@@ -184,3 +184,119 @@ Status legend: ⬜ Planned · 🚧 In progress · ✅ Done · ⏸ Blocked · ❌
 | `P10-02` | P10 · Delivery & Benchmark | 1 | `feat(infra): add production CI/CD deploy workflow, runbook with rollback, backup/restore and DR` | ⬜ Planned |
 | `P10-03` | P10 · Delivery & Benchmark | 1 | `chore(perf): add performance benchmark and record baseline` | ⬜ Planned |
 
+
+
+---
+
+## 5. Conventions & Guardrails
+
+### 5.1 Layer Map
+
+| Layer | Folder | Contains | Dependency rule |
+| :---- | :----- | :------- | :-------------- |
+| Domain | `domain/` | Entities, value objects, domain services, port interfaces, domain events | Pure — no Nest, TypeORM, Redis or HTTP imports |
+| Application | `application/` (auth: `use-cases/`) | Use cases, query handlers | Orchestrates via ports; no transport or persistence detail |
+| Infrastructure | `infrastructure/`, `adapters/` | TypeORM repos, cache, queue, mail, crypto, TOTP, notifiers | Implements ports; injected by token |
+| Interfaces | `interfaces/`, controllers, DTOs, strategies, guards | HTTP controllers, DTOs, Passport strategies/guards, response mappers | Thin translation; no business rules |
+
+### 5.2 Port & Adapter Rules
+
+- `src/modules/shared/` owns cross-context tokens (`PASSWORD_HASHER`, `TOKEN_ISSUER`, `ENCRYPTION_SERVICE`, `ID_GENERATOR`, `CLOCK`) and default adapters. Contexts rebind tokens; they never redefine the port.
+- `src/common/` is domain-free and must never import a context's `domain/`.
+- A port is introduced only for a mechanism that must be swappable or isolated in tests. Config values and DTOs are not ports.
+- Every port ships one conformance spec executed against **all** adapters, including in-memory fallbacks. A new adapter is accepted only when that spec passes unchanged.
+- Memory fallbacks are production-shaped first-class adapters — never throwaway test stubs.
+
+### 5.3 SOLID Mapping
+
+| Principle | Practice |
+| :-------- | :------- |
+| SRP | One use case or adapter per class |
+| OCP | Rebind a token / add an adapter instead of editing a use case |
+| LSP | Interchangeability proven by conformance specs |
+| ISP | Narrow, consumer-specific ports |
+| DIP | Domain/application depend on port tokens only |
+
+### 5.4 Reference Shape
+
+```
+src/
+├── main.ts                 # setupOpenApi() → useSecurityHeaders() → listen + enableShutdownHooks()
+├── app.module.ts
+├── common/
+│   ├── config/             # typed, Joi-validated, exported as Provider()
+│   ├── logger/             # structured JSON logger + redaction
+│   ├── middleware/         # idempotency, throttling, audit hooks
+│   └── crypto/             # AES-256-GCM helpers, key rotation
+└── modules/
+    ├── shared/             # port tokens + default adapters; cache/blacklist ports + adapters; HTTP client; shared domain primitives
+    ├── user/               # domain · application · infrastructure · interfaces
+    ├── auth/               # domain · use-cases · strategies · guards · adapters
+    ├── mail/               # domain · application · adapters · workers
+    ├── security/           # MFA, OTP, magic link, device, audit, policies
+    └── alerts/             # notifier ports + channel adapters
+```
+
+### 5.5 Non-Negotiable Practices
+
+1. Prefer NestJS 12 first-party modules over hand-rolled infrastructure.
+2. Business rules live in entities, value objects and use cases — not controllers.
+3. Config is split into small typed files exported as `as Provider()` for `.forRootAsync()` / `.registerAsync()`.
+4. Value objects, aggregates and domain events are added only when invariants or multi-entity consistency demand them.
+5. All Vitest mocks use `vi.fn()`; fixtures come from faker factories.
+6. No secrets or PII in logs, errors, docs or OpenAPI examples.
+
+---
+
+## 6. Phase Plan
+
+| Phase | Name | Steps | Outcome |
+| :---- | :---- | :---- | :------ |
+| P0 | Governance & Planning | 1 | Repo governance + planning system |
+| P01 | Foundation | 3 | Bootable app, typed config, secure HTTP surface, docs, test infra |
+| P02 | DDD/SOLID Skeleton | 2 | Context layout, ports, conformance harness, architecture guard |
+| P03 | Data & Infrastructure | 4 | Postgres, cache, queue, mail, platform clients — all with fallbacks |
+| P04 | Identity Domain | 2 | User aggregate, hashing/repository ports, admin CRUD |
+| P05 | Authentication | 3 | Local + RS256 JWT, refresh/blacklist/revocation, RBAC |
+| P06 | Federated Identity | 2 | Generic OAuth2 base + five provider adapters |
+| P07 | End-user Auth APIs | 3 | Register, login, recovery, change password |
+| P08 | Advanced Security | 4 | Credential hardening, MFA/OTP/magic link, device, audit, rotation |
+| P09 | Hardening & Observability | 3 | Rate limits, encryption, key rotation, OTel/Prometheus, alerts, release |
+| P10 | Delivery & Benchmark | 1 | Production deploy config, CI/CD, performance baseline |
+
+### 6.1 Phase Exit Criteria
+
+| Phase | Exit criterion |
+| :---- | :------------- |
+| P0 | Roadmap, index, step plans and prompts exist and reference `nestjs-ddd`. |
+| P01 | App boots with Joi-validated config, security headers, validation, docs, logging, graceful shutdown; coverage thresholds live. |
+| P02 | Context skeleton + port tokens + conformance harness + passing architecture guard test. |
+| P03 | Full stack runs with no external services; migrations apply; mail queue and templates verified E2E; all fallback adapters conform. |
+| P04 | User aggregate supports local + federated identity via `sub`; admin CRUD protected and tested. |
+| P05 | Login → tokens → refresh → logout → revocation works; RBAC protects admin APIs; timing defence present. |
+| P06 | One generic OAuth2 base, five thin adapters, verified-email merge gate, no duplicate users. |
+| P07 | All self-service flows E2E covered including failure paths and mail side effects. |
+| P08 | Every new security port has conformance specs; audit events emitted; secrets versioned. |
+| P09 | Control mapping doc complete; metrics and alerts live; `v1.0.0` tagged. |
+| P10 | Reproducible production deploy documented; benchmark baseline recorded. |
+
+---
+
+### 6.2 Infrastructure & Deployment Coverage
+
+| Concern | Coverage | Primary tasks |
+| :------ | :------- | :------------ |
+| Persistence & migrations | TypeORM + Postgres, soft delete, migration CI | Phase 3, step 1 |
+| Cache / blacklist (Redis + memory) | Shared port, conformance specs | Phase 3, step 2 |
+| Queue (BullMQ + memory fallback) | Named queues, producer/worker | Phase 3, step 2 |
+| Mail (async, i18n templates, send status) | Pluggable provider, queue-backed | Phase 3, step 3 |
+| Outbound HTTP, throttler, idempotency, resilience | First-party adapters + basic config | Phase 3, step 4 |
+| Health / readiness probes | Health module + container healthcheck | Phase 1 step 1, Phase 10 step 1 |
+| Secrets & config | Joi-validated typed config, runtime env only | Phase 1 step 2, Phase 10 step 1 |
+| Observability (OTel, Prometheus, alerts) | SDK, metrics, notifiers | Phase 9, step 2 |
+| Hardening (rate limits, encryption, lockout) | Sliding window, AES-256-GCM, lockout | Phase 9, step 1 |
+| Container image (secret-free, non-root) | Multi-stage Dockerfile, smoke test | Phase 10, step 1 |
+| CI/CD deploy (OIDC, protected env, rollback) | Workflow + runbook | Phase 10, step 1 |
+| Performance baseline | Repeatable benchmark + recorded baseline | Phase 10, step 1 |
+
+> Backup/restore and DR steps are captured in the production runbook (Phase 10); horizontal scaling stays stateless by design (no in-process session state).

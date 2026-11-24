@@ -24,4 +24,8 @@ describe('Health (e2e)', () => {
       .expect(200)
       .expect({ status: 'ok' });
   });
+
+  it('GET /does-not-exist returns 404', async () => {
+    await request(app.getHttpServer()).get('/does-not-exist').expect(404);
+  });
 });

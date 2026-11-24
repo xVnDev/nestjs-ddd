@@ -1,6 +1,6 @@
 # P0 · Step 1 — Repository & Planning System
 
-**Project:** nestjs-ddd  |  **Phase:** P0 — Governance & Planning  |  **Base branch:** `dev`  |  **Status:** ⬜ Planned
+**Project:** nestjs-ddd  |  **Phase:** P0 — Governance & Planning  |  **Base branch:** `dev`  |  **Status:** ✅ Done
 
 > Source of truth: [`roadmap.md`](../../../roadmap.md) §4. Umbrella IDs `P0-01`, `P0-02` stay in the roadmap; this file lists the final atomic split (`P0-01a` … `P0-02f`).
 > **Format**: `P<phase>-<umbrella><letter>` — one atomic task = one commit; sibling atomic tasks share one branch (branch per umbrella task). Every atomic task uses the 7-field format: `Description`, `CLI(s)`, `Package(s)`, `File(s)/Folder(s)`, `Branch`, `Commit`, `Testing`.
@@ -153,11 +153,11 @@ Initialize the `xVnDev/nestjs-ddd` repository with a protected `master`/`dev` br
 
 ## Phase Gate (end of step)
 
-- [ ] Full unit tests + coverage thresholds pass (link-checker spec included).
-- [ ] `node scripts/check-plan-links.mjs` green; every roadmap ID and index link resolves.
-- [ ] Branch model, branch protection, CODEOWNERS, PR and issue templates verified against roadmap §7–§8.
-- [ ] Lint/format/typecheck clean; security audit & version sync run.
-- [ ] Each atomic commit pushed on its shared branch; PRs merged into `dev` in this exact order:
+- [x] Full unit tests + coverage thresholds pass (link-checker spec included).
+- [x] `node scripts/check-plan-links.mjs` green; every roadmap ID and index link resolves.
+- [x] Branch model, branch protection, CODEOWNERS, PR and issue templates verified against roadmap §7–§8.
+- [x] Lint/format/typecheck clean; security audit & version sync run.
+- [x] Each atomic commit pushed on its shared branch; PRs merged into `dev` in this exact order:
   `P0-01a` → `P0-01b` → `P0-01c` → `P0-01d` → `P0-01e` → `P0-02a` → `P0-02b` → `P0-02c` → `P0-02d` → `P0-02e` → `P0-02f`.
-- [ ] Status for umbrella IDs `P0-01`, `P0-02` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
-- [ ] Re-check the P0 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting P01.
+- [x] Status for umbrella IDs `P0-01`, `P0-02` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
+- [x] Re-check the P0 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting P01.

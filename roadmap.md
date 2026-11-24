@@ -100,8 +100,8 @@ Status legend: ⬜ Planned · 🚧 In progress · ✅ Done · ⏸ Blocked · ❌
 
 | ID | Phase | Step | Task | Status |
 | :-- | :---- | :--- | :---- | :----- |
-| `P0-01` | P0 · Governance & Planning | 1 | `chore(repo): initialize nestjs-ddd repository, branch model and PR governance` | ⬜ Planned |
-| `P0-02` | P0 · Governance & Planning | 1 | `chore(plan): scaffold roadmap, phase plans and prompt templates` | ⬜ Planned |
+| `P0-01` | P0 · Governance & Planning | 1 | `chore(repo): initialize nestjs-ddd repository, branch model and PR governance` | ✅ Done |
+| `P0-02` | P0 · Governance & Planning | 1 | `chore(plan): scaffold roadmap, phase plans and prompt templates` | ✅ Done |
 | `P01-01` | P01 · Foundation | 1 | `chore(core): scaffold nestjs 12 app with strict ts, oxlint, prettier, editorconfig, health & readiness endpoints` | ⬜ Planned |
 | `P01-02` | P01 · Foundation | 1 | `chore(test): add vitest unit/e2e setup with coverage thresholds` | ⬜ Planned |
 | `P01-03` | P01 · Foundation | 1 | `chore(test): add faker-backed fixture factories` | ⬜ Planned |

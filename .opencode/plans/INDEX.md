@@ -4,7 +4,7 @@ Canonical source: [`roadmap.md`](../../roadmap.md). This index only navigates to
 
 | Phase | Name | Step plans |
 | :---- | :--- | :--------- |
-| P0 | Governance & Planning | [Step 1 — Repository & Planning System](phase-0-governance-and-planning/step-1-repository-and-planning.md) |
+| P0 | Governance & Planning | [Step 1 — Repository & Planning System](phase-00-governance-and-planning/step-1-repository-and-planning.md) |
 | P01 | Foundation | [Step 1 — NestJS 12 Scaffold & Test Infrastructure](phase-01-foundation/step-1-scaffold-and-test-infra.md)<br>[Step 2 — Typed Config & Secure Bootstrap](phase-01-foundation/step-2-typed-config-and-secure-bootstrap.md)<br>[Step 3 — API Docs & Project Policies](phase-01-foundation/step-3-api-docs-and-project-policies.md) |
 | P02 | DDD/SOLID Skeleton | [Step 1 — Context Layout, Ports & Conformance](phase-02-ddd-solid-skeleton/step-1-contexts-ports-conformance.md)<br>[Step 2 — Domain Primitives & Architecture Guard](phase-02-ddd-solid-skeleton/step-2-domain-primitives-and-guard.md) |
 | P03 | Data & Infrastructure | [Step 1 — Persistence](phase-03-data-and-infrastructure/step-1-persistence.md)<br>[Step 2 — Cache & Queue with Fallbacks](phase-03-data-and-infrastructure/step-2-cache-and-queue-fallbacks.md)<br>[Step 3 — Async Mail Delivery](phase-03-data-and-infrastructure/step-3-async-mail-delivery.md)<br>[Step 4 — Platform Clients & Basic Controls](phase-03-data-and-infrastructure/step-4-platform-clients-and-basic-controls.md) |

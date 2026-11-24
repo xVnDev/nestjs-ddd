@@ -15,7 +15,9 @@ export function createExampleFixture(
     id: faker.string.uuid(),
     name: faker.person.fullName(),
     email: `${faker.internet.username()}@example.com`,
-    createdAt: faker.date.recent({ days: 10, refDate: new Date('2026-01-01') }).toISOString(),
+    createdAt: faker.date
+      .recent({ days: 10, refDate: new Date('2026-01-01') })
+      .toISOString(),
   };
   return { ...base, ...overrides };
 }

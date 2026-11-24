@@ -16,7 +16,8 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:prod": "node dist/main",
-    "plans:check": "node scripts/check-plan-links.mjs"
+    "plans:check": "node scripts/check-plan-links.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "repository": {
     "type": "git",
@@ -31,5 +32,8 @@
   },
   "homepage": "https://github.com/xVnDev/nestjs-ddd#readme",
   "private": "true",
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2"
+  }
 }

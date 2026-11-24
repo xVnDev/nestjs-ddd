@@ -1,4 +1,7 @@
-import { ConfigModule as NestConfigModule, ConfigService } from '@nestjs/config';
+import {
+  ConfigModule as NestConfigModule,
+  ConfigService,
+} from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import { describe, expect, it } from 'vitest';
 import { appConfig } from './app.config.js';
@@ -24,7 +27,9 @@ describe('appConfig', () => {
     process.env.PORT = '3000';
     process.env.NODE_ENV = 'test';
     const moduleRef = await Test.createTestingModule({
-      imports: [NestConfigModule.forRoot({ load: [appConfig], isGlobal: true })],
+      imports: [
+        NestConfigModule.forRoot({ load: [appConfig], isGlobal: true }),
+      ],
     }).compile();
     const configService = moduleRef.get(ConfigService);
     expect(configService.get('app.port')).toBe(3000);

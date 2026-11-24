@@ -9,7 +9,9 @@ describe('validateEnv', () => {
   });
 
   it('throws on invalid PORT', () => {
-    expect(() => validateEnv({ PORT: 'abc', NODE_ENV: 'development' })).toThrow();
+    expect(() =>
+      validateEnv({ PORT: 'abc', NODE_ENV: 'development' }),
+    ).toThrow();
   });
 
   it('throws on missing NODE_ENV', () => {
@@ -17,8 +19,6 @@ describe('validateEnv', () => {
   });
 
   it('throws on unknown NODE_ENV', () => {
-    expect(() =>
-      validateEnv({ PORT: 3000, NODE_ENV: 'staging' }),
-    ).toThrow();
+    expect(() => validateEnv({ PORT: 3000, NODE_ENV: 'staging' })).toThrow();
   });
 });

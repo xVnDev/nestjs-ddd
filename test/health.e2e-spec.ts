@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
-import * as request from 'supertest';
-import { AppModule } from '../src/app.module';
+import request from 'supertest';
+import { AppModule } from '../src/app.module.js';
 import { INestApplication } from '@nestjs/common';
 
 describe('Health (e2e)', () => {
@@ -23,5 +23,9 @@ describe('Health (e2e)', () => {
       .get('/health')
       .expect(200)
       .expect({ status: 'ok' });
+  });
+
+  it('GET /does-not-exist returns 404', async () => {
+    await request(app.getHttpServer()).get('/does-not-exist').expect(404);
   });
 });

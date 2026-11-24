@@ -300,3 +300,121 @@ src/
 | Performance baseline | Repeatable benchmark + recorded baseline | Phase 10, step 1 |
 
 > Backup/restore and DR steps are captured in the production runbook (Phase 10); horizontal scaling stays stateless by design (no in-process session state).
+
+## 7. Execution Order & Parallelism
+
+```
+P0 → P01 → P02 → P03 → P04 → P05 → ( P06 ∥ P07 ) → P08 → P09 → P10
+```
+
+- **Strict sequential**: P0 → P01 → P02 → P03 → P04 → P05.
+- **Parallel stream**: P06 ∥ P07 (branch from a common `dev` base; tasks may also run in parallel when independent).
+- **Strict sequential after merge**: P08 → P09 → P10.
+- Within a phase, steps run in ascending order unless the step plan states otherwise.
+
+**Policy**: one task = one branch = one commit; merge back to `dev` at the Phase Gate.
+
+---
+
+## 8. Phase Gate / Definition of Done
+
+> ⚠️ **Pause & Push.** Execution **must stop** at the end of every step. The next step may not start until this checklist is fully green.
+
+- [ ] Step tasks match the canonical backlog and its step plan.
+- [ ] Unit tests pass; domain/use cases tested with ports mocked via `vi.fn()`.
+- [ ] E2E tests pass at the interfaces layer, including the in-memory fallback path.
+- [ ] Coverage thresholds met; conformance specs pass for every adapter of any touched port.
+- [ ] Typed config validated; no secrets or PII committed.
+- [ ] Lint, format, typecheck clean.
+- [ ] Package security audit and version sync executed.
+- [ ] Step branch pushed, PR opened and merged into `dev`.
+- [ ] Backlog status and step plan updated; phase exit criteria re-checked.
+
+Before the next step: prefer NestJS 12 built-ins (config, HTTP client, throttle, idempotency, resilience, cache, queue, mail); keep config in small typed `as Provider()` files.
+
+---
+
+## 9. Testing Strategy
+
+| Level | Target | Rule |
+| :---- | :----- | :--- |
+| Domain unit | entities, value objects, policies | Framework-free |
+| Use-case unit | application / use-cases | Ports mocked with `vi.fn()` |
+| Adapter conformance | one spec per port | Unchanged across Redis/memory, real/fallback |
+| E2E | controllers, guards, strategies | Real Nest app, faker fixtures, negative paths |
+| Migration | TypeORM | Apply + revert on clean Postgres in CI |
+| Security | SAST/deps | Dependabot, CodeQL, Snyk, Codacy, SonarCloud |
+| Performance | P10 | Baseline recorded |
+
+---
+
+## 10. Branching, Commits & Release
+
+- **Branches**: `master` (stable) → `dev` (integration) → task branches cut from `dev`.
+- **Naming**: `feat/<scope>-<kebab-subject>`, `chore/<scope>-<kebab-subject>`, `ci/<scope>-<kebab-subject>`.
+- **Commits**: Conventional Commits, one task per commit, reference the task ID.
+- **Numbering**: umbrella tasks use sequential numbers when committed on separate branches; atomic sub-tasks sharing one branch use letters (for example `PXX-YYa`, `PXX-YYb`). See §14.
+- **PR**: after each step's Phase Gate → push → PR → merge into `dev`.
+- **Release**: after P09 → the release task updates badge and tags `v1.0.0`.
+
+---
+
+## 11. Security & Compliance Traceability
+
+| Control | ISO 27001:2022 | OWASP ASVS 4.0 | HIPAA §164.312 | GDPR | Code location |
+| :------ | :------------- | :-------------- | :------------- | :---- | :------------ |
+| Argon2id hashing + dummy-hash timing defence | A.5.15, A.8.24 | V2.1 | (d) Access Control | Art. 32(1)(a) | `src/modules/user/adapters/`, `src/modules/security/` |
+| Native security headers | A.8.20 | V14.4 | (e) Transmission | Art. 32(1)(a) | `src/main.ts` |
+| Validation, whitelist, exception filter | A.8.29 | V5.1 | (c) Integrity | Art. 32(1)(b) | `src/common/`, `src/main.ts` |
+| Field-level AES-256-GCM encryption | A.8.24 | V8.3 | (a)(2)(iv) | Art. 32(1)(a) | `src/common/crypto/` |
+| RS256 + `kid` rotation, blacklist, revocation | A.5.17, A.8.24 | V3.5, V3.3 | (d) Session integrity | Art. 32(1)(b) | `src/modules/auth/` |
+| MFA, OTP, magic link, recovery codes | A.5.17 | V2.8 | (d) | Art. 32(1)(b) | `src/modules/security/` |
+| Idempotency, throttling, circuit breaker | A.8.23 | V11.1 | (c) System integrity | Art. 32(1)(b) | `src/common/middleware/` |
+| Audit logging + secrets rotation | A.8.15, A.5.17 | V7.2 | (b) Audit controls | Art. 32(1)(d) | `src/modules/security/` |
+| Dependency & SAST pipelines | A.8.8, A.8.29 | V14.2 | (b) | Art. 32(1)(d) | `.github/workflows/` |
+
+> The control-mapping task reconciles every shipped control with this table and records residual gaps.
+
+---
+
+## 12. Risk Register
+
+| Risk | Mitigation |
+| :--- | :--------- |
+| DDD ceremony slows delivery | Guardrails §5.2 — ports/value objects only where justified |
+| Memory fallback drifts from real adapter | One conformance spec run against every adapter |
+| Late security changes force rewrites | Ports introduced in P02; policies slot in without touching use cases |
+| Secret/PII leakage | Redacting logger, Joi env, Phase Gate audit |
+| OAuth duplication or merge abuse | Verified-email gate, one normalizer, E2E negative tests |
+| Parallel branch drift | Common-base branches + task-per-branch + Phase Gate merge |
+| Compliance evidence gap | Traceability matrix maintained from day one, reconciled in P09 |
+
+---
+
+## 13. Glossary
+
+| Term | Meaning |
+| :--- | :------ |
+| Bounded context | Feature module under `src/modules/` owning its layers |
+| Port | Narrow interface bound to a DI token |
+| Adapter | Concrete implementation of a port |
+| Conformance spec | Shared test suite every adapter of a port must pass |
+| `sub` | Stable identity linking local and federated identities |
+| Refresh-token family | Tokens descended from one login, basis for reuse detection |
+| Revocation scope | account / user / device / session |
+| Send status | Lifecycle of a queued mail job |
+| Phase Gate | Mandatory pause + test + audit + push + merge |
+
+---
+
+## 14. Planning System Map
+
+| Path | Role |
+| :--- | :--- |
+| `roadmap.md` | Canonical backlog, architecture, gates, compliance — this file |
+| `.opencode/plans/INDEX.md` | Navigation across all phase/step plans |
+| `.opencode/plans/<phase>/<step>.md` | Atomic breakdown for one step; an umbrella task splits into lettered atomics (one atomic = one commit, siblings share a branch) |
+| `.opencode/prompts/roadmap-step.md` | Prompt to break down the active step |
+| `.opencode/prompts/phase-gate.md` | Prompt to run the Phase Gate checklist |
+
+When a task completes: set its status to ✅ in §4, tick its checkbox in the step plan, and re-check the phase exit criteria in §6.1.

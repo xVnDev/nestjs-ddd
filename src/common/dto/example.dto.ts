@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsInt, IsNotEmpty, IsOptional, IsString, Min } from 'class-validator';
+import {
+  IsEmail,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Min,
+} from 'class-validator';
 
 import { createSwaggerExamples } from '../fixtures/swagger-examples.js';
 
@@ -25,7 +32,10 @@ export class ExampleDto {
   @Min(0)
   age!: number;
 
-  @ApiProperty({ example: examples.createdAt, description: 'Creation timestamp' })
+  @ApiProperty({
+    example: examples.createdAt,
+    description: 'Creation timestamp',
+  })
   @IsOptional()
   @IsString()
   createdAt?: string;

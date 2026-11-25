@@ -1,6 +1,5 @@
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
-import { ConfigService } from '@nestjs/config';
 import { INestApplication } from '@nestjs/common';
 import { AppModule } from '../src/app.module.js';
 import { setupOpenApi } from '../src/common/config/openapi/setup-openapi.js';

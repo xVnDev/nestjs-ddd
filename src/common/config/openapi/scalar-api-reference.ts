@@ -16,7 +16,6 @@ export function shouldRegisterAdminDocs(nodeEnv?: string): boolean {
   return nodeEnv !== 'production';
 }
 
-
 /**
  * Builds a Scalar handler pointing at the given OpenAPI JSON URL.
  *

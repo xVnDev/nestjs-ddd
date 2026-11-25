@@ -109,9 +109,9 @@ Status legend: ⬜ Planned · 🚧 In progress · ✅ Done · ⏸ Blocked · ❌
 | `P01-05` | P01 · Foundation | 2 | `feat(config): add global ValidationPipe with whitelist and transform` | ✅ Done |
 | `P01-06` | P01 · Foundation | 2 | `feat(core): add structured logger with redaction (console dev, JSON prod)` | ✅ Done |
 | `P01-07` | P01 · Foundation | 2 | `feat(sec): add native security headers and graceful shutdown hooks` | ✅ Done |
-| `P01-08` | P01 · Foundation | 3 | `feat(api): add OpenAPI + Scalar with bearer scheme, user/admin instances` | ⬜ Planned |
-| `P01-09` | P01 · Foundation | 3 | `feat(api): add faker-backed OpenAPI examples` | ⬜ Planned |
-| `P01-10` | P01 · Foundation | 3 | `docs(project): add README, LICENSE, SECURITY.md and CHANGELOG.md` | ⬜ Planned |
+| `P01-08` | P01 · Foundation | 3 | `feat(api): add OpenAPI + Scalar with bearer scheme, user/admin instances` | ✅ Done |
+| `P01-09` | P01 · Foundation | 3 | `feat(api): add faker-backed OpenAPI examples` | ✅ Done |
+| `P01-10` | P01 · Foundation | 3 | `docs(project): add README, LICENSE, SECURITY.md and CHANGELOG.md` | ✅ Done |
 | `P02-01` | P02 · DDD/SOLID Skeleton | 1 | `feat(arch): establish bounded-context folder layout and shared kernel` | ⬜ Planned |
 | `P02-02` | P02 · DDD/SOLID Skeleton | 1 | `feat(arch): define port tokens and narrow interfaces for swappable mechanisms` | ⬜ Planned |
 | `P02-03` | P02 · DDD/SOLID Skeleton | 1 | `chore(test): add conformance-test harness shared by all port adapters` | ⬜ Planned |

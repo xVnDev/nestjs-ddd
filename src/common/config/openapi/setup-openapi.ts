@@ -132,7 +132,10 @@ export function setupOpenApi(app: INestApplication): void {
       true,
     );
 
-    SwaggerModule.setup('admin/docs', app, adminDocument, { ui: false, raw: ['json'] });
+    SwaggerModule.setup('admin/docs', app, adminDocument, {
+      ui: false,
+      raw: ['json'],
+    });
 
     app.use('/admin/docs', apiReference({ url: '/admin/docs-json' }));
   }

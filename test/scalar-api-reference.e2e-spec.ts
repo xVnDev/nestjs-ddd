@@ -28,9 +28,7 @@ describe('Scalar API Reference (e2e)', () => {
   });
 
   it('GET /docs returns HTML containing /docs-json', async () => {
-    const res = await request(app.getHttpServer())
-      .get('/docs')
-      .expect(200);
+    const res = await request(app.getHttpServer()).get('/docs').expect(200);
     expect(res.text).toContain('/docs-json');
     expect(res.text).not.toContain('/admin/docs-json');
   });

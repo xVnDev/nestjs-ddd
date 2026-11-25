@@ -46,7 +46,6 @@ jobs:
       # Execute Codacy Analysis CLI and generate a SARIF output with the security issues identified during the analysis
       - name: Run Codacy Analysis CLI
         uses: codacy/codacy-analysis-cli-action@562ee3e92b8e92df8b67e0a5ff8aa8e261919c08
-        continue-on-error: true
         with:
           # Check https://github.com/codacy/codacy-analysis-cli#project-token to get your project token from your Codacy repository
           # You can also omit the token and run the tools that support default configurations
@@ -73,7 +72,28 @@ jobs:
           # errors when overwriting the Codacy-generated (possibly read-only)
           # results.sarif.
           if [ -f results.sarif ]; then
-            install -m 600 results.sarif results-upload.sarif
+            # GitHub code scanning no longer accepts multiple runs with the
+            # same category in one SARIF file. Merge all Codacy runs into a
+            # single run so every finding is uploaded without that error.
+            rm -f results-upload.sarif
+            python3 - <<'PY'
+              import json
+              src = json.load(open("results.sarif"))
+              runs = src.get("runs") or []
+              if runs:
+                  merged = json.loads(json.dumps(runs[0]))
+                  merged.setdefault("tool", {}).setdefault("driver", {})["name"] = "Codacy"
+                  merged["results"] = [result for run in runs for result in (run.get("results") or [])]
+                  out = {
+                      "version": src.get("version", "2.1.0"),
+                      "$schema": src.get("$schema", "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json"),
+                      "runs": [merged],
+                  }
+              else:
+                  out = src
+              json.dump(out, open("results-upload.sarif", "w"))
+              PY
+            chmod 600 results-upload.sarif
           else
             : > results-upload.sarif
           fi

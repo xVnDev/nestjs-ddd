@@ -24,6 +24,11 @@ async function bootstrap() {
       configService.get<ValidationPipeOptions>('validationPipe'),
     ),
   );
+  app.useSecurityHeaders({
+    xFrameOptions: { action: 'deny' },
+    strictTransportSecurity:
+      configService.get('app.nodeEnv') === 'production',
+  });
   await app.listen(configService.get<number>('app.port') ?? 3000);
 }
 

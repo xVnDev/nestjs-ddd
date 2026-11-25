@@ -1,6 +1,6 @@
 # P01 · Step 2 — Typed Config & Secure Bootstrap
 
-**Project:** nestjs-ddd  |  **Phase:** P01 — Foundation  |  **Base branch:** `dev`  |  **Status:** ⬜ Planned
+**Project:** nestjs-ddd  |  **Phase:** P01 — Foundation  |  **Base branch:** `dev`  |  **Status:** ✅ Done
 
 > Source of truth: [`roadmap.md`](../../../roadmap.md) §4. Umbrella IDs `P01-04`, `P01-05`, `P01-06`, `P01-07` stay in the roadmap; this file lists the final atomic split (`P01-04a` … `P01-07c`).
 > **Format**: `P<phase>-<umbrella><letter>` — one atomic task = one commit; sibling atomic tasks share one branch (branch per umbrella task). Every atomic task uses the 7-field format: `Description`, `CLI(s)`, `Package(s)`, `File(s)/Folder(s)`, `Branch`, `Commit`, `Testing`.
@@ -189,12 +189,12 @@ Add fail-fast Joi-validated typed environment config with `registerAs` slices ex
 
 ## Phase Gate (end of step)
 
-- [ ] Full unit tests + coverage thresholds pass (`test:unit`, `test:cov`) and E2E passes (`test:e2e`) in both development and production env modes.
-- [ ] Conformance specs pass for every adapter of any touched port — no ports are introduced in this step, so this is vacuously true; logger/redaction and config specs pass.
-- [ ] Invalid env fails fast at boot; no raw `process.env` outside `src/common/config/`; `.env.example` contains placeholders only and no secrets or PII are committed.
-- [ ] `npm run typecheck`, `npm run lint`, `npm run format:check` clean; security audit & version sync run.
-- [ ] `main.ts` order confirmed: global pipe → (`setupOpenApi` inserted by `P01-08a`) → `useSecurityHeaders` → `enableShutdownHooks`; no `helmet` installed.
-- [ ] Each atomic commit pushed on its shared branch; PRs merged into `dev` in this exact order:
+- [x] Full unit tests + coverage thresholds pass (`test:unit`, `test:cov`) and E2E passes (`test:e2e`) in both development and production env modes.
+- [x] Conformance specs pass for every adapter of any touched port — no ports are introduced in this step, so this is vacuously true; logger/redaction and config specs pass.
+- [x] Invalid env fails fast at boot; no raw `process.env` outside `src/common/config/`; `.env.example` contains placeholders only and no secrets or PII are committed.
+- [x] `npm run typecheck`, `npm run lint`, `npm run format:check` clean; security audit & version sync run.
+- [x] `main.ts` order confirmed: global pipe → (`setupOpenApi` inserted by `P01-08a`) → `useSecurityHeaders` → `enableShutdownHooks`; no `helmet` installed.
+- [x] Each atomic commit pushed on its shared branch; PRs merged into `dev` in this exact order:
   `P01-04a` → `P01-04b` → `P01-04c` → `P01-04d` → `P01-04e` → `P01-05a` → `P01-05b` → `P01-05c` → `P01-06a` → `P01-06b` → `P01-06c` → `P01-07a` → `P01-07b` → `P01-07c`.
-- [ ] Status for umbrella IDs `P01-04`, `P01-05`, `P01-06`, `P01-07` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
-- [ ] Re-check the P01 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting Step 3.
+- [x] Status for umbrella IDs `P01-04`, `P01-05`, `P01-06`, `P01-07` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
+- [x] Re-check the P01 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting Step 3.

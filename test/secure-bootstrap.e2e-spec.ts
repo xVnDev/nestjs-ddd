@@ -15,7 +15,8 @@ describe('Secure bootstrap (e2e)', () => {
     const configService = app.get(ConfigService);
     app.useSecurityHeaders({
       xFrameOptions: { action: 'deny' },
-      strictTransportSecurity: configService.get('app.nodeEnv') === 'production',
+      strictTransportSecurity:
+        configService.get('app.nodeEnv') === 'production',
     });
     app.enableShutdownHooks();
     await app.init();

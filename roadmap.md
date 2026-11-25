@@ -105,10 +105,10 @@ Status legend: ⬜ Planned · 🚧 In progress · ✅ Done · ⏸ Blocked · ❌
 | `P01-01` | P01 · Foundation | 1 | `chore(core): scaffold nestjs 12 app with strict ts, oxlint, prettier, editorconfig, health & readiness endpoints` | ✅ Done |
 | `P01-02` | P01 · Foundation | 1 | `chore(test): add vitest unit/e2e setup with coverage thresholds` | ✅ Done |
 | `P01-03` | P01 · Foundation | 1 | `chore(test): add faker-backed fixture factories` | ✅ Done |
-| `P01-04` | P01 · Foundation | 2 | `feat(config): add typed env validation with joi and registerAs providers` | ⬜ Planned |
-| `P01-05` | P01 · Foundation | 2 | `feat(config): add global ValidationPipe with whitelist and transform` | ⬜ Planned |
-| `P01-06` | P01 · Foundation | 2 | `feat(core): add structured logger with redaction (console dev, JSON prod)` | ⬜ Planned |
-| `P01-07` | P01 · Foundation | 2 | `feat(sec): add native security headers and graceful shutdown hooks` | ⬜ Planned |
+| `P01-04` | P01 · Foundation | 2 | `feat(config): add typed env validation with joi and registerAs providers` | ✅ Done |
+| `P01-05` | P01 · Foundation | 2 | `feat(config): add global ValidationPipe with whitelist and transform` | ✅ Done |
+| `P01-06` | P01 · Foundation | 2 | `feat(core): add structured logger with redaction (console dev, JSON prod)` | ✅ Done |
+| `P01-07` | P01 · Foundation | 2 | `feat(sec): add native security headers and graceful shutdown hooks` | ✅ Done |
 | `P01-08` | P01 · Foundation | 3 | `feat(api): add OpenAPI + Scalar with bearer scheme, user/admin instances` | ⬜ Planned |
 | `P01-09` | P01 · Foundation | 3 | `feat(api): add faker-backed OpenAPI examples` | ⬜ Planned |
 | `P01-10` | P01 · Foundation | 3 | `docs(project): add README, LICENSE, SECURITY.md and CHANGELOG.md` | ⬜ Planned |

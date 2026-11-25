@@ -1,3 +1,7 @@
+/**
+ * @file Unit tests for the observe config slice.
+ */
+
 import {
   ConfigModule as NestConfigModule,
   ConfigService,

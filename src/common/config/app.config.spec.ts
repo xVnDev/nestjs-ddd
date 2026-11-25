@@ -1,3 +1,7 @@
+/**
+ * @file Unit tests for the app config slice.
+ */
+
 import {
   ConfigModule as NestConfigModule,
   ConfigService,

@@ -1,3 +1,7 @@
+/**
+ * @file Application bootstrap entry point.
+ */
+
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, ValidationPipeOptions } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';

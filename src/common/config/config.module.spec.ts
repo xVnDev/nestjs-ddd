@@ -1,3 +1,7 @@
+/**
+ * @file Unit tests for the config module.
+ */
+
 import { Test } from '@nestjs/testing';
 import { describe, expect, it } from 'vitest';
 import { ConfigModule } from './config.module.js';

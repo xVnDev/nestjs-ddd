@@ -1,3 +1,7 @@
+/**
+ * @file Cross-factory conformance checks for fixture factories.
+ */
+
 import { describe, expect, it } from 'vitest';
 import * as fixtures from './index.js';
 

@@ -4,7 +4,7 @@
 
 import { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { apiReference } from '@scalar/nestjs-api-reference';
@@ -29,24 +29,27 @@ const packageJson = JSON.parse(
  * @param includeAdmin - Whether to keep only admin-tagged operations.
  * @returns The filtered document.
  */
-function isPlainObject(value: unknown): value is Record<string, any> {
+function isPlainObject(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 }
 
-function isOperationEntry(operation: Record<string, any>): boolean {
+function isOperationEntry(operation: Record<string, unknown>): boolean {
   return 'responses' in operation || 'tags' in operation;
 }
 
-function operationTags(operation: Record<string, any>): string[] {
+function operationTags(operation: Record<string, unknown>): string[] {
   return Array.isArray(operation.tags) ? (operation.tags as string[]) : [];
 }
 
-function isAdminTagged(operation: Record<string, any>): boolean {
+function isAdminTagged(operation: Record<string, unknown>): boolean {
   return operationTags(operation).includes('admin');
 }
 
-function filterPathItem(pathItem: Record<string, any>, includeAdmin: boolean): Record<string, any> | null {
-  const filtered: Record<string, any> = {};
+function filterPathItem(
+  pathItem: Record<string, unknown>,
+  includeAdmin: boolean,
+): Record<string, unknown> | null {
+  const filtered: Record<string, unknown> = {};
   let hasOperation = false;
 
   for (const [method, operation] of Object.entries(pathItem)) {
@@ -70,12 +73,12 @@ function filterPathItem(pathItem: Record<string, any>, includeAdmin: boolean): R
   return hasOperation ? filtered : null;
 }
 
-function filterDocumentByTags(document: any, includeAdmin: boolean): any {
+function filterDocumentByTags(document: OpenAPIObject, includeAdmin: boolean): OpenAPIObject {
   if (!document || typeof document !== 'object' || !document.paths) {
     return document;
   }
 
-  const paths: Record<string, any> = {};
+  const paths: Record<string, unknown> = {};
   for (const [route, pathItem] of Object.entries(document.paths)) {
     if (!isPlainObject(pathItem)) {
       paths[route] = pathItem;
@@ -88,7 +91,7 @@ function filterDocumentByTags(document: any, includeAdmin: boolean): any {
     }
   }
 
-  return { ...document, paths };
+  return { ...document, paths } as OpenAPIObject;
 }
 
 /**

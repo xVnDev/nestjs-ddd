@@ -62,36 +62,39 @@ jobs:
       # Validate the generated SARIF file before attempting to upload it.
       # GitHub's code scanning API rejects uploads whose SARIF contains zero
       # runs ("1 item required; only 0 were supplied"), which happens when
-      # Codacy produced no analyzable results. Synthesize a minimal SARIF with
-      # one empty run in that case so the commit still gets a scan result.
+      # Codacy produced no analyzable results. Work on a writable copy so that
+      # read-only files produced by the Codacy action can be replaced.
       - name: Check SARIF results
         id: sarif_check
         run: |
           set -euo pipefail
-          if [ ! -f results.sarif ]; then
-            echo "exists=false" >> "$GITHUB_OUTPUT"
-            python3 -c "import json; json.dump({'version':'2.1.0','\$schema':'https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json','runs':[{'tool':{'driver':{'name':'Codacy','informationUri':'https://www.codacy.com'}},'results':[]}]}, open('results.sarif','w'))"
-            echo "has_runs=true" >> "$GITHUB_OUTPUT"
-            echo "::warning::Codacy did not generate results.sarif; uploaded a minimal empty-run SARIF instead."
-            exit 0
+          # Build a writable copy owned by the runner to avoid permission
+          # errors when overwriting the Codacy-generated (possibly read-only)
+          # results.sarif.
+          if [ -f results.sarif ]; then
+            cp results.sarif results-upload.sarif
+          else
+            : > results-upload.sarif
           fi
-          runs=$(python3 -c "import json,sys; d=json.load(open('results.sarif')); print(len(d.get('runs',[]) or []))")
-          echo "exists=true" >> "$GITHUB_OUTPUT"
+          runs=0
+          if [ -s results-upload.sarif ]; then
+            runs=$(python3 -c "import json,sys; d=json.load(open('results-upload.sarif')); print(len(d.get('runs',[]) or []))")
+          fi
           echo "runs=$runs" >> "$GITHUB_OUTPUT"
           if [ "$runs" -gt 0 ]; then
             echo "has_runs=true" >> "$GITHUB_OUTPUT"
+            echo "upload_file=results-upload.sarif" >> "$GITHUB_OUTPUT"
           else
-            # Codacy produced no runs (e.g. no findings). GitHub's code scanning
-            # API rejects SARIF with zero runs, so synthesize a minimal valid
-            # SARIF with one empty run so the commit still gets a scan result.
-            python3 -c "import json; json.dump({'version':'2.1.0','\$schema':'https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json','runs':[{'tool':{'driver':{'name':'Codacy','informationUri':'https://www.codacy.com'}},'results':[]}]}, open('results.sarif','w'))"
+            # Codacy produced no runs (e.g. no findings). Synthesize a minimal
+            # valid SARIF with one empty run so the commit still gets a scan.
+            python3 -c "import json; json.dump({'version':'2.1.0','\$schema':'https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json','runs':[{'tool':{'driver':{'name':'Codacy','informationUri':'https://www.codacy.com'}},'results':[]}]}, open('results-upload.sarif','w'))"
             echo "has_runs=true" >> "$GITHUB_OUTPUT"
+            echo "upload_file=results-upload.sarif" >> "$GITHUB_OUTPUT"
             echo "::notice::Codacy SARIF contained no runs; uploaded a minimal empty-run SARIF instead."
           fi
 
       # Upload the SARIF file generated in the previous step
       - name: Upload SARIF results file
-        if: steps.sarif_check.outputs.has_runs == 'true'
         uses: github/codeql-action/upload-sarif@v4
         with:
-          sarif_file: results.sarif
+          sarif_file: ${{ steps.sarif_check.outputs.upload_file }}

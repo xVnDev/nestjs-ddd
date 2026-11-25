@@ -1,6 +1,6 @@
 # P01 · Step 3 — API Docs & Project Policies
 
-**Project:** nestjs-ddd  |  **Phase:** P01 — Foundation  |  **Base branch:** `dev`  |  **Status:** ⬜ Planned
+**Project:** nestjs-ddd  |  **Phase:** P01 — Foundation  |  **Base branch:** `dev`  |  **Status:** ✅ Done
 
 > Source of truth: [`roadmap.md`](../../../roadmap.md) §4. Umbrella IDs `P01-08`, `P01-09`, `P01-10` stay in the roadmap; this file lists the final atomic split (`P01-08a` … `P01-10e`).
 > **Format**: `P<phase>-<umbrella><letter>` — one atomic task = one commit; sibling atomic tasks share one branch (branch per umbrella task). Every atomic task uses the 7-field format: `Description`, `CLI(s)`, `Package(s)`, `File(s)/Folder(s)`, `Branch`, `Commit`, `Testing`.
@@ -165,10 +165,10 @@ Mount two OpenAPI documents (user + admin) with a bearer scheme and a Scalar UI,
 
 ## Phase Gate (end of step)
 
-- [ ] Full unit tests + coverage thresholds pass.
-- [ ] E2E passes for user/admin OpenAPI docs, Scalar UI, production guard and header ordering.
-- [ ] Security audit & version sync pass.
-- [ ] Each atomic commit pushed on its shared branch; PR merged into `dev` in this exact order:
+- [x] Full unit tests + coverage thresholds pass.
+- [x] E2E passes for user/admin OpenAPI docs, Scalar UI, production guard and header ordering.
+- [x] Security audit & version sync pass.
+- [x] Each atomic commit pushed on its shared branch; PR merged into `dev` in this exact order:
   `P01-08a` → `P01-08b` → `P01-08c` → `P01-08d` → `P01-09a` → `P01-09b` → `P01-09c` → `P01-10a` → `P01-10b` → `P01-10c` → `P01-10d` → `P01-10e`.
-- [ ] Status for umbrella IDs `P01-08`, `P01-09`, `P01-10` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
-- [ ] Re-check the P01 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting the next step.
+- [x] Status for umbrella IDs `P01-08`, `P01-09`, `P01-10` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
+- [x] Re-check the P01 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting the next step.

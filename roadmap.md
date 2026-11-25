@@ -102,16 +102,16 @@ Status legend: ⬜ Planned · 🚧 In progress · ✅ Done · ⏸ Blocked · ❌
 | :-- | :---- | :--- | :---- | :----- |
 | `P0-01` | P0 · Governance & Planning | 1 | `chore(repo): initialize nestjs-ddd repository, branch model and PR governance` | ✅ Done |
 | `P0-02` | P0 · Governance & Planning | 1 | `chore(plan): scaffold roadmap, phase plans and prompt templates` | ✅ Done |
-| `P01-01` | P01 · Foundation | 1 | `chore(core): scaffold nestjs 12 app with strict ts, oxlint, prettier, editorconfig, health & readiness endpoints` | ⬜ Planned |
-| `P01-02` | P01 · Foundation | 1 | `chore(test): add vitest unit/e2e setup with coverage thresholds` | ⬜ Planned |
-| `P01-03` | P01 · Foundation | 1 | `chore(test): add faker-backed fixture factories` | ⬜ Planned |
-| `P01-04` | P01 · Foundation | 2 | `feat(config): add typed env validation with joi and registerAs providers` | ⬜ Planned |
-| `P01-05` | P01 · Foundation | 2 | `feat(config): add global ValidationPipe with whitelist and transform` | ⬜ Planned |
-| `P01-06` | P01 · Foundation | 2 | `feat(core): add structured logger with redaction (console dev, JSON prod)` | ⬜ Planned |
-| `P01-07` | P01 · Foundation | 2 | `feat(sec): add native security headers and graceful shutdown hooks` | ⬜ Planned |
-| `P01-08` | P01 · Foundation | 3 | `feat(api): add OpenAPI + Scalar with bearer scheme, user/admin instances` | ⬜ Planned |
-| `P01-09` | P01 · Foundation | 3 | `feat(api): add faker-backed OpenAPI examples` | ⬜ Planned |
-| `P01-10` | P01 · Foundation | 3 | `docs(project): add README, LICENSE, SECURITY.md and CHANGELOG.md` | ⬜ Planned |
+| `P01-01` | P01 · Foundation | 1 | `chore(core): scaffold nestjs 12 app with strict ts, oxlint, prettier, editorconfig, health & readiness endpoints` | ✅ Done |
+| `P01-02` | P01 · Foundation | 1 | `chore(test): add vitest unit/e2e setup with coverage thresholds` | ✅ Done |
+| `P01-03` | P01 · Foundation | 1 | `chore(test): add faker-backed fixture factories` | ✅ Done |
+| `P01-04` | P01 · Foundation | 2 | `feat(config): add typed env validation with joi and registerAs providers` | ✅ Done |
+| `P01-05` | P01 · Foundation | 2 | `feat(config): add global ValidationPipe with whitelist and transform` | ✅ Done |
+| `P01-06` | P01 · Foundation | 2 | `feat(core): add structured logger with redaction (console dev, JSON prod)` | ✅ Done |
+| `P01-07` | P01 · Foundation | 2 | `feat(sec): add native security headers and graceful shutdown hooks` | ✅ Done |
+| `P01-08` | P01 · Foundation | 3 | `feat(api): add OpenAPI + Scalar with bearer scheme, user/admin instances` | ✅ Done |
+| `P01-09` | P01 · Foundation | 3 | `feat(api): add faker-backed OpenAPI examples` | ✅ Done |
+| `P01-10` | P01 · Foundation | 3 | `docs(project): add README, LICENSE, SECURITY.md and CHANGELOG.md` | ✅ Done |
 | `P02-01` | P02 · DDD/SOLID Skeleton | 1 | `feat(arch): establish bounded-context folder layout and shared kernel` | ⬜ Planned |
 | `P02-02` | P02 · DDD/SOLID Skeleton | 1 | `feat(arch): define port tokens and narrow interfaces for swappable mechanisms` | ⬜ Planned |
 | `P02-03` | P02 · DDD/SOLID Skeleton | 1 | `chore(test): add conformance-test harness shared by all port adapters` | ⬜ Planned |

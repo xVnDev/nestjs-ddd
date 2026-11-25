@@ -1,6 +1,6 @@
 # P01 · Step 1 — NestJS 12 Scaffold & Test Infrastructure
 
-**Project:** nestjs-ddd  |  **Phase:** P01 — Foundation  |  **Base branch:** `dev`  |  **Status:** ⬜ Planned
+**Project:** nestjs-ddd  |  **Phase:** P01 — Foundation  |  **Base branch:** `dev`  |  **Status:** ✅ Done
 
 > Source of truth: [`roadmap.md`](../../../roadmap.md) §4. Umbrella IDs `P01-01`, `P01-02`, `P01-03` stay in the roadmap; this file lists the final atomic split (`P01-01a` … `P01-03c`).
 > **Format**: `P<phase>-<umbrella><letter>` — one atomic task = one commit; sibling atomic tasks share one branch (branch per umbrella task). Every atomic task uses the 7-field format: `Description`, `CLI(s)`, `Package(s)`, `File(s)/Folder(s)`, `Branch`, `Commit`, `Testing`.
@@ -165,11 +165,11 @@ Bootstrap a NestJS 12 application in strict TypeScript with Oxlint/Prettier/Edit
 
 ## Phase Gate (end of step)
 
-- [ ] Full unit tests + coverage thresholds pass (`test:unit`, `test:cov`) and E2E passes (`test:e2e`) including the health smoke path.
-- [ ] Conformance specs pass for every adapter of any touched port — no ports are introduced in this step, so this is vacuously true; fixture conformance spec passes.
-- [ ] `npm run typecheck`, `npm run lint`, `npm run format:check` clean; security audit & version sync run.
-- [ ] No secrets or PII in fixtures (all emails use `@example.com`); faker is still a devDependency at this stage.
-- [ ] Each atomic commit pushed on its shared branch; PRs merged into `dev` in this exact order:
+- [x] Full unit tests + coverage thresholds pass (`test:unit`, `test:cov`) and E2E passes (`test:e2e`) including the health smoke path.
+- [x] Conformance specs pass for every adapter of any touched port — no ports are introduced in this step, so this is vacuously true; fixture conformance spec passes.
+- [x] `npm run typecheck`, `npm run lint`, `npm run format:check` clean; security audit & version sync run.
+- [x] No secrets or PII in fixtures (all emails use `@example.com`); faker is still a devDependency at this stage.
+- [x] Each atomic commit pushed on its shared branch; PRs merged into `dev` in this exact order:
   `P01-01a` → `P01-01b` → `P01-01c` → `P01-01d` → `P01-01e` → `P01-02a` → `P01-02b` → `P01-02c` → `P01-02d` → `P01-03a` → `P01-03b` → `P01-03c`.
-- [ ] Status for umbrella IDs `P01-01`, `P01-02`, `P01-03` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
-- [ ] Re-check the P01 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting Step 2.
+- [x] Status for umbrella IDs `P01-01`, `P01-02`, `P01-03` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
+- [x] Re-check the P01 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting Step 2.

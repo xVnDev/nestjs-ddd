@@ -59,8 +59,34 @@ jobs:
           # This will handover control about PR rejection to the GitHub side
           max-allowed-issues: 2147483647
 
+      # Validate the generated SARIF file before attempting to upload it.
+      # GitHub's code scanning API rejects uploads whose SARIF contains zero
+      # runs ("1 item required; only 0 were supplied"), which happens when
+      # Codacy produced no analyzable results. Skip the upload in that case
+      # instead of failing the whole job.
+      - name: Check SARIF results
+        id: sarif_check
+        run: |
+          set -euo pipefail
+          if [ ! -f results.sarif ]; then
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "has_runs=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Codacy did not generate results.sarif; skipping SARIF upload."
+            exit 0
+          fi
+          runs=$(python3 -c "import json,sys; d=json.load(open('results.sarif')); print(len(d.get('runs',[]) or []))")
+          echo "exists=true" >> "$GITHUB_OUTPUT"
+          echo "runs=$runs" >> "$GITHUB_OUTPUT"
+          if [ "$runs" -gt 0 ]; then
+            echo "has_runs=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_runs=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Codacy SARIF contains no runs; skipping GitHub code scanning upload."
+          fi
+
       # Upload the SARIF file generated in the previous step
       - name: Upload SARIF results file
-        uses: github/codeql-action/upload-sarif@v3
+        if: steps.sarif_check.outputs.has_runs == 'true'
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: results.sarif

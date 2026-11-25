@@ -61,7 +61,6 @@ export function setupOpenApi(app: INestApplication): void {
     typeof configService?.get === 'function'
       ? configService.get<string>('app.nodeEnv')
       : undefined;
-  void nodeEnv;
 
   const version = packageJson.version;
 
@@ -82,4 +81,24 @@ export function setupOpenApi(app: INestApplication): void {
   );
 
   SwaggerModule.setup('docs', app, userDocument);
+
+  if (nodeEnv !== 'production') {
+    const adminDocument = filterDocumentByTags(
+      SwaggerModule.createDocument(
+        app,
+        new DocumentBuilder()
+          .setTitle('nestjs-ddd API')
+          .setDescription('nestjs-ddd API documentation (admin)')
+          .setVersion(version)
+          .addBearerAuth(
+            { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+            'bearer',
+          )
+          .build(),
+      ),
+      true,
+    );
+
+    SwaggerModule.setup('admin/docs', app, adminDocument);
+  }
 }

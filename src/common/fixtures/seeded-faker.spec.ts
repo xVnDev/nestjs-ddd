@@ -1,3 +1,7 @@
+/**
+ * @file Unit tests for {@link createSeededFaker}.
+ */
+
 import { describe, expect, it } from 'vitest';
 import { createSeededFaker } from './seeded-faker.js';
 

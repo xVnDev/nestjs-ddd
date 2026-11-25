@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { INestApplication } from '@nestjs/common';
 import { AppModule } from '../src/app.module.js';
 import { setupOpenApi } from '../src/common/config/openapi/setup-openapi.js';
+import { createSwaggerExamples } from '../src/common/fixtures/swagger-examples.js';
 
 describe('OpenAPI (e2e)', () => {
   let app: INestApplication;

@@ -4,7 +4,7 @@
 
 import { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { apiReference } from '@scalar/nestjs-api-reference';
@@ -29,55 +29,69 @@ const packageJson = JSON.parse(
  * @param includeAdmin - Whether to keep only admin-tagged operations.
  * @returns The filtered document.
  */
-function filterDocumentByTags(document: any, includeAdmin: boolean): any {
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+}
+
+function isOperationEntry(operation: Record<string, unknown>): boolean {
+  return 'responses' in operation || 'tags' in operation;
+}
+
+function operationTags(operation: Record<string, unknown>): string[] {
+  return Array.isArray(operation.tags) ? (operation.tags as string[]) : [];
+}
+
+function isAdminTagged(operation: Record<string, unknown>): boolean {
+  return operationTags(operation).includes('admin');
+}
+
+function filterPathItem(
+  pathItem: Record<string, unknown>,
+  includeAdmin: boolean,
+): Record<string, unknown> | null {
+  const filtered: Record<string, unknown> = {};
+  let hasOperation = false;
+
+  for (const [method, operation] of Object.entries(pathItem)) {
+    if (!isPlainObject(operation)) {
+      filtered[method] = operation;
+      hasOperation = true;
+      continue;
+    }
+
+    if (!isOperationEntry(operation)) {
+      filtered[method] = operation;
+      continue;
+    }
+
+    if (includeAdmin === isAdminTagged(operation)) {
+      filtered[method] = operation;
+      hasOperation = true;
+    }
+  }
+
+  return hasOperation ? filtered : null;
+}
+
+function filterDocumentByTags(document: OpenAPIObject, includeAdmin: boolean): OpenAPIObject {
   if (!document || typeof document !== 'object' || !document.paths) {
     return document;
   }
 
-  const paths: Record<string, any> = {};
+  const paths: Record<string, unknown> = {};
   for (const [route, pathItem] of Object.entries(document.paths)) {
-    if (!pathItem || typeof pathItem !== 'object') {
+    if (!isPlainObject(pathItem)) {
       paths[route] = pathItem;
       continue;
     }
 
-    const filtered: Record<string, any> = {};
-    let hasOperation = false;
-    for (const [method, operation] of Object.entries(pathItem)) {
-      if (
-        !operation ||
-        typeof operation !== 'object' ||
-        Array.isArray(operation)
-      ) {
-        filtered[method] = operation;
-        hasOperation = true;
-        continue;
-      }
-
-      // Preserve non-operation path-item members (e.g. parameters) only when
-      // at least one operation survives filtering.
-      const isOperation = 'responses' in operation || 'tags' in operation;
-      if (!isOperation) {
-        filtered[method] = operation;
-        continue;
-      }
-
-      const tags = Array.isArray((operation as { tags?: unknown }).tags)
-        ? ((operation as { tags: string[] }).tags ?? [])
-        : [];
-      const isAdmin = tags.includes('admin');
-      if (includeAdmin === isAdmin) {
-        filtered[method] = operation;
-        hasOperation = true;
-      }
-    }
-
-    if (hasOperation) {
+    const filtered = filterPathItem(pathItem, includeAdmin);
+    if (filtered) {
       paths[route] = filtered;
     }
   }
 
-  return { ...document, paths };
+  return { ...document, paths } as OpenAPIObject;
 }
 
 /**

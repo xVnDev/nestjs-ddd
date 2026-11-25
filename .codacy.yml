@@ -1,0 +1,26 @@
+---
+engines:
+  eslint:
+    enabled: false
+  tslint:
+    enabled: false
+  # Use oxlint-compatible checks via generic tooling; Codacy auto-detects TS.
+  duplication:
+    enabled: true
+  metrics:
+    enabled: true
+  coverage:
+    enabled: true
+
+exclude_paths:
+  - "node_modules/**"
+  - "dist/**"
+  - "coverage/**"
+  - "*.spec.ts"
+  - "*.e2e-spec.ts"
+
+languages:
+  - TypeScript
+  - JavaScript
+
+max_file_size: 500

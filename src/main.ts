@@ -29,6 +29,7 @@ async function bootstrap() {
     strictTransportSecurity:
       configService.get('app.nodeEnv') === 'production',
   });
+  app.enableShutdownHooks();
   await app.listen(configService.get<number>('app.port') ?? 3000);
 }
 

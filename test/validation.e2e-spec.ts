@@ -3,7 +3,6 @@ import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { vi } from 'vitest';
 import { ExampleDto } from '../src/common/dto/example.dto.js';
-import { validationPipeOptions } from '../src/common/config/validation-pipe.config.js';
 
 class EchoService {
   echo = vi.fn();

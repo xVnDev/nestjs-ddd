@@ -1,3 +1,7 @@
+/**
+ * @file Unit tests for {@link createExampleFixture}.
+ */
+
 import { describe, expect, it } from 'vitest';
 import { createExampleFixture } from './example.factory.js';
 

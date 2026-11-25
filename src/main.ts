@@ -6,6 +6,7 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, ValidationPipeOptions } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AppModule, ObserveInstrument } from './app.module.js';
+import { setupOpenApi } from './common/config/openapi/setup-openapi.js';
 import { StructuredLoggerService } from './common/logger/structured-logger.service.js';
 
 /**
@@ -24,10 +25,10 @@ async function bootstrap() {
       configService.get<ValidationPipeOptions>('validationPipe'),
     ),
   );
+  setupOpenApi(app);
   app.useSecurityHeaders({
     xFrameOptions: { action: 'deny' },
-    strictTransportSecurity:
-      configService.get('app.nodeEnv') === 'production',
+    strictTransportSecurity: configService.get('app.nodeEnv') === 'production',
   });
   app.enableShutdownHooks();
   await app.listen(configService.get<number>('app.port') ?? 3000);

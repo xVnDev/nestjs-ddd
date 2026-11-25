@@ -1,4 +1,11 @@
-import { ConfigModule as NestConfigModule, ConfigService } from '@nestjs/config';
+/**
+ * @file Unit tests for the observe config slice.
+ */
+
+import {
+  ConfigModule as NestConfigModule,
+  ConfigService,
+} from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import { describe, expect, it } from 'vitest';
 import type { ObserveOptions } from '@nestjs/observe';
@@ -30,7 +37,9 @@ describe('observeConfig', () => {
     process.env.OBSERVE_APP_SECRET = 'secret';
     process.env.OBSERVE_SERVICE_ID = 'svc';
     const moduleRef = await Test.createTestingModule({
-      imports: [NestConfigModule.forRoot({ load: [observeConfig], isGlobal: true })],
+      imports: [
+        NestConfigModule.forRoot({ load: [observeConfig], isGlobal: true }),
+      ],
     }).compile();
     const configService = moduleRef.get(ConfigService);
     expect(configService.get('observe.appKey')).toBe('key');

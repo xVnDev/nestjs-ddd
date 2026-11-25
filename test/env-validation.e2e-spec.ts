@@ -1,3 +1,7 @@
+/**
+ * @file E2E test for fail-fast environment validation.
+ */
+
 import { spawnSync } from 'node:child_process';
 import { describe, expect, it } from 'vitest';
 

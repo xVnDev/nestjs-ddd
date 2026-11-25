@@ -1,5 +1,10 @@
+/**
+ * @file Joi environment schema, typed Env and validateEnv helper.
+ */
+
 import Joi from 'joi';
 
+/** Joi schema validating the process environment. */
 export const envSchema = Joi.object({
   PORT: Joi.number().integer().min(1).max(65535).default(3000),
   NODE_ENV: Joi.string().valid('development', 'test', 'production').required(),
@@ -10,6 +15,7 @@ export const envSchema = Joi.object({
   JWT_PUBLIC_KEY_PATH: Joi.string().allow('').optional(),
 });
 
+/** Typed environment values produced by {@link validateEnv}. */
 export interface Env {
   PORT: number;
   NODE_ENV: 'development' | 'test' | 'production';
@@ -19,6 +25,13 @@ export interface Env {
   JWT_PUBLIC_KEY_PATH?: string;
 }
 
+/**
+ * Validates a raw environment object against {@link envSchema}.
+ *
+ * @param config - Raw environment values.
+ * @returns The validated and typed environment.
+ * @throws {Error} When validation fails.
+ */
 export function validateEnv(config: Record<string, unknown>): Env {
   const { error, value } = envSchema.validate(config, {
     abortEarly: false,

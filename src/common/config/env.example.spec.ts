@@ -1,3 +1,7 @@
+/**
+ * @file Tests for .env.example documentation and secret hygiene.
+ */
+
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';

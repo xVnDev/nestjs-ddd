@@ -1,7 +1,14 @@
+/**
+ * @file Application bootstrap entry point.
+ */
+
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { AppModule, ObserveInstrument } from './app.module.js';
 
+/**
+ * Bootstraps the Nest application.
+ */
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     instrument: ObserveInstrument,

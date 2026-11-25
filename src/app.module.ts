@@ -1,3 +1,7 @@
+/**
+ * @file Root application module wiring config, observe and health modules.
+ */
+
 import { Module } from '@nestjs/common';
 import { createObserveModule } from '@nestjs/observe';
 import { HealthModule } from './modules/health/health.module.js';
@@ -16,4 +20,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     HealthModule,
   ],
 })
+/**
+ * Root application module.
+ */
 export class AppModule {}

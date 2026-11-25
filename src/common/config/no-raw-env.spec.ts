@@ -1,7 +1,17 @@
+/**
+ * @file Guard test forbidding raw process.env outside config.
+ */
+
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
+/**
+ * Recursively collects TypeScript files under a directory.
+ *
+ * @param dir - Directory to walk.
+ * @returns List of TypeScript file paths.
+ */
 function walk(dir: string): string[] {
   const out: string[] = [];
   for (const name of readdirSync(dir)) {

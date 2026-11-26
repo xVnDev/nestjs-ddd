@@ -46,7 +46,8 @@ describe('port tokens', () => {
 
   it('PortToken is invariant in its type parameter', () => {
     // @ts-expect-error - incompatible port types must not be assignable
-    const _incompatible: PortToken<{ a: number }> = null as unknown as PortToken<{ b: string }>;
+    const _incompatible: PortToken<{ a: number }> =
+      null as unknown as PortToken<{ b: string }>;
     void _incompatible;
   });
 });

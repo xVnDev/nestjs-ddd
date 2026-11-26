@@ -73,7 +73,10 @@ function filterPathItem(
   return hasOperation ? filtered : null;
 }
 
-function filterDocumentByTags(document: OpenAPIObject, includeAdmin: boolean): OpenAPIObject {
+function filterDocumentByTags(
+  document: OpenAPIObject,
+  includeAdmin: boolean,
+): OpenAPIObject {
   if (!document || typeof document !== 'object' || !document.paths) {
     return document;
   }

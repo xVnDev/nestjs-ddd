@@ -2,9 +2,9 @@
  * @file Shared repository port conformance spec.
  */
 
-import { describe, expect, it } from 'vitest';
+import { expect, it } from 'vitest';
 import { definePortConformance } from '../../testing/conformance.js';
-import { PortAdapterEntry, PortAdapterAccessor } from '../../testing/conformance.js';
+import { PortAdapterEntry } from '../../testing/conformance.js';
 import type { RepositoryPort } from '../../ports/repository.port.js';
 import { InMemoryRepositoryAdapter } from './in-memory-repository.adapter.js';
 

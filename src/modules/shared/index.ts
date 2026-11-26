@@ -5,4 +5,4 @@
  * domain internals must never be reachable through this barrel.
  */
 
-export {};
+export * from './ports/index.js';

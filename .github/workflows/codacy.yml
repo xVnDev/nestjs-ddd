@@ -18,7 +18,7 @@ on:
     branches: [ "master" ]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: 
+    branches:
       - master
       - dev
   schedule:
@@ -76,6 +76,7 @@ jobs:
           python3 <<'PY'
           import json
           from pathlib import Path
+          from urllib.parse import unquote, urlparse
 
           source = Path("results.sarif")
           target = Path("normalized.sarif")
@@ -84,20 +85,46 @@ jobs:
               sarif = json.load(file)
 
           runs = sarif.get("runs") or []
+          markdown_findings = 0
+
+          def is_markdown_finding(result, artifacts=None):
+              locations = result.get("locations") or []
+              if not locations:
+                  return False
+              physical_location = locations[0].get("physicalLocation") or {}
+              artifact_location = physical_location.get("artifactLocation") or {}
+              uri = artifact_location.get("uri")
+              if not uri:
+                  # Resolve artifactLocation.index through the current run's
+                  # artifacts when uri is absent before applying the filter.
+                  index = artifact_location.get("index")
+                  if index is not None and artifacts and 0 <= index < len(artifacts):
+                      artifact = artifacts[index] or {}
+                      artifact_loc = artifact.get("location") or {}
+                      uri = artifact_loc.get("uri")
+              uri = uri or ""
+              path = unquote(urlparse(uri).path)
+              return path.lower().endswith(".md")
+
           if not runs:
               target.unlink(missing_ok=True)
           else:
               # GitHub rejects multiple runs with the same category.
               # Keep one run and merge all remaining runs into it.
               merged = runs[0]
-              merged_results = merged.get("results") or []
-              for run in runs[1:]:
-                  merged_results.extend(run.get("results") or [])
+              merged_results = []
+              for run in runs:
+                  results = run.get("results") or []
+                  artifacts = run.get("artifacts") or []
+                  kept_results = [result for result in results if not is_markdown_finding(result, artifacts)]
+                  markdown_findings += len(results) - len(kept_results)
+                  merged_results.extend(kept_results)
 
-                  for key in ("tool", "invocations", "artifacts", "automationDetails",
-                              "taxonomies", "translations", "properties"):
-                      if key not in merged and key in run:
-                          merged[key] = run[key]
+                  if run is not merged:
+                      for key in ("tool", "invocations", "artifacts", "automationDetails",
+                                  "taxonomies", "translations", "properties"):
+                          if key not in merged and key in run:
+                              merged[key] = run[key]
 
               merged["results"] = merged_results
               sarif["runs"] = [merged]
@@ -106,6 +133,7 @@ jobs:
                   json.dump(sarif, file)
 
           print(f"Normalized {len(runs)} SARIF run(s) into 1 run")
+          print(f"Filtered {markdown_findings} finding(s) from Markdown files")
           PY
 
           if [ ! -f normalized.sarif ]; then

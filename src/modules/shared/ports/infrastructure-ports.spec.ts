@@ -6,7 +6,9 @@ import type { Cache, Mail, Queue } from './index.js';
 
 describe('infrastructure ports', () => {
   it('Cache has typed get/set/del', () => {
-    expectTypeOf<Cache['get']>().returns.toEqualTypeOf<Promise<unknown | null>>();
+    expectTypeOf<Cache['get']>().returns.toEqualTypeOf<
+      Promise<unknown | null>
+    >();
     expectTypeOf<Cache['set']>().returns.toEqualTypeOf<Promise<void>>();
     expectTypeOf<Cache['del']>().returns.toEqualTypeOf<Promise<void>>();
   });

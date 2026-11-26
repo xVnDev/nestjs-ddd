@@ -32,13 +32,26 @@ function walk(dir: string): string[] {
 }
 
 function collectImportSpecifiers(source: string): string[] {
-  const sf = ts.createSourceFile('virtual.ts', source, ts.ScriptTarget.Latest, true);
+  const sf = ts.createSourceFile(
+    'virtual.ts',
+    source,
+    ts.ScriptTarget.Latest,
+    true,
+  );
   const specs: string[] = [];
   const visit = (node: ts.Node): void => {
-    if (ts.isImportDeclaration(node) && node.moduleSpecifier && ts.isStringLiteral(node.moduleSpecifier)) {
+    if (
+      ts.isImportDeclaration(node) &&
+      node.moduleSpecifier &&
+      ts.isStringLiteral(node.moduleSpecifier)
+    ) {
       specs.push(node.moduleSpecifier.text);
     }
-    if (ts.isExportDeclaration(node) && node.moduleSpecifier && ts.isStringLiteral(node.moduleSpecifier)) {
+    if (
+      ts.isExportDeclaration(node) &&
+      node.moduleSpecifier &&
+      ts.isStringLiteral(node.moduleSpecifier)
+    ) {
       specs.push(node.moduleSpecifier.text);
     }
     ts.forEachChild(node, visit);
@@ -56,7 +69,10 @@ function isForbiddenImport(specifier: string): boolean {
   return false;
 }
 
-function findForbiddenImports(files: string[], reader: (p: string) => string): string[] {
+function findForbiddenImports(
+  files: string[],
+  reader: (p: string) => string,
+): string[] {
   const offenders: string[] = [];
   for (const f of files) {
     const specs = collectImportSpecifiers(reader(f));
@@ -66,7 +82,12 @@ function findForbiddenImports(files: string[], reader: (p: string) => string): s
 }
 
 function countExportedInterfaces(source: string): number {
-  const sf = ts.createSourceFile('virtual.ts', source, ts.ScriptTarget.Latest, true);
+  const sf = ts.createSourceFile(
+    'virtual.ts',
+    source,
+    ts.ScriptTarget.Latest,
+    true,
+  );
   let count = 0;
   ts.forEachChild(sf, (node) => {
     if (ts.isInterfaceDeclaration(node)) {
@@ -88,13 +109,18 @@ describe('port conformance', () => {
 
   it('port layer is import-pure', () => {
     const files = walk(PORTS_DIR).filter((f) => f.endsWith('.ts'));
-    const offenders = findForbiddenImports(files, (p) => readFileSync(p, 'utf8'));
+    const offenders = findForbiddenImports(files, (p) =>
+      readFileSync(p, 'utf8'),
+    );
     expect(offenders).toEqual([]);
   });
 
   it('has one interface per token (8 total)', () => {
     const files = walk(PORTS_DIR).filter((f) => f.endsWith('.port.ts'));
-    const total = files.reduce((acc, f) => acc + countExportedInterfaces(readFileSync(f, 'utf8')), 0);
+    const total = files.reduce(
+      (acc, f) => acc + countExportedInterfaces(readFileSync(f, 'utf8')),
+      0,
+    );
     expect(total).toBe(8);
   });
 

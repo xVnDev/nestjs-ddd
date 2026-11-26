@@ -17,35 +17,39 @@ import {
 } from './fixtures/dummy-adapters.js';
 
 describe('conformance harness self-test', () => {
-  definePortConformance('Greeter', [inMemoryGreeterAdapter, alternateGreeterAdapter], (getAdapter) => {
-    it('greet returns a string', () => {
-      expect(typeof getAdapter().greet('Ada')).toBe('string');
-    });
+  definePortConformance(
+    'Greeter',
+    [inMemoryGreeterAdapter, alternateGreeterAdapter],
+    (getAdapter) => {
+      it('greet returns a string', () => {
+        expect(typeof getAdapter().greet('Ada')).toBe('string');
+      });
 
-    it('starts with an empty item list', () => {
-      expect(getAdapter().items).toEqual([]);
-    });
+      it('starts with an empty item list', () => {
+        expect(getAdapter().items).toEqual([]);
+      });
 
-    it('records a greeting', () => {
-      getAdapter().greet('Ada');
-      expect(getAdapter().items).toEqual(['Ada']);
-    });
+      it('records a greeting', () => {
+        getAdapter().greet('Ada');
+        expect(getAdapter().items).toEqual(['Ada']);
+      });
 
-    it('mutates adapter state', () => {
-      getAdapter().items.push('mutated');
-    });
+      it('mutates adapter state', () => {
+        getAdapter().items.push('mutated');
+      });
 
-    it('observes a fresh instance in the next test', () => {
-      expect(getAdapter().items).toEqual([]);
-    });
+      it('observes a fresh instance in the next test', () => {
+        expect(getAdapter().items).toEqual([]);
+      });
 
-    it('exposes named accessors', () => {
-      const instance = getAdapter();
-      expect(getAdapter.get()).toBe(instance);
-      expect(getAdapter.getAdapter()).toBe(instance);
-      expect(getAdapter.adapter()).toBe(instance);
-    });
-  });
+      it('exposes named accessors', () => {
+        const instance = getAdapter();
+        expect(getAdapter.get()).toBe(instance);
+        expect(getAdapter.getAdapter()).toBe(instance);
+        expect(getAdapter.adapter()).toBe(instance);
+      });
+    },
+  );
 
   it('runs both adapters', () => {
     // factory spies prove each adapter's describe block executed at least once

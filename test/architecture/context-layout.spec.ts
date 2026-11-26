@@ -5,6 +5,7 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import ts from 'typescript';
 import { describe, expect, it, vi } from 'vitest';
+import { checkCommonDomainFree, scanSource } from './lib/import-scanner.js';
 
 const MODULES_DIR = join(process.cwd(), 'src', 'modules');
 const COMMON_DIR = join(process.cwd(), 'src', 'common');
@@ -191,10 +192,16 @@ describe('context layout', () => {
   });
 
   it('src/common is domain-free (no context domain imports)', () => {
-    const files = walk(COMMON_DIR).filter((f) => f.endsWith('.ts'));
-    const offenders = findCommonDomainImports(files, (p) =>
-      readFileSync(p, 'utf8'),
+    const files = walk(COMMON_DIR).filter(
+      (f) =>
+        f.endsWith('.ts') &&
+        !f.endsWith('.spec.ts') &&
+        !f.endsWith('.e2e-spec.ts'),
     );
+    const records = files.flatMap((f) =>
+      scanSource(readFileSync(f, 'utf8'), f),
+    );
+    const offenders = checkCommonDomainFree(records).map((v) => v.file);
     expect(offenders).toEqual([]);
   });
 

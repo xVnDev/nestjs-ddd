@@ -117,7 +117,7 @@ Status legend: ⬜ Planned · 🚧 In progress · ✅ Done · ⏸ Blocked · ❌
 | `P02-03` | P02 · DDD/SOLID Skeleton | 1 | `chore(test): add conformance-test harness shared by all port adapters` | ✅ Done |
 | `P02-04` | P02 · DDD/SOLID Skeleton | 2 | `feat(domain): add base entity, value-object base and domain error/result types` | ✅ Done |
 | `P02-05` | P02 · DDD/SOLID Skeleton | 2 | `feat(api): add global exception filter mapping domain errors to HTTP` | ✅ Done |
-| `P02-06` | P02 · DDD/SOLID Skeleton | 2 | `chore(test): add architecture dependency-rule guard test` | ⬜ Planned |
+| `P02-06` | P02 · DDD/SOLID Skeleton | 2 | `chore(test): add architecture dependency-rule guard test` | ✅ Done |
 | `P03-01` | P03 · Data & Infrastructure | 1 | `feat(db): register TypeORM PostgreSQL async config` | ⬜ Planned |
 | `P03-02` | P03 · Data & Infrastructure | 1 | `feat(db): add soft-delete base entity and repository port` | ⬜ Planned |
 | `P03-03` | P03 · Data & Infrastructure | 1 | `feat(db): generate initial migration and add migration CI check` | ⬜ Planned |

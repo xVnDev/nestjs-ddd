@@ -1,6 +1,6 @@
 # P02 · Step 2 — Domain Primitives & Architecture Guard
 
-**Project:** nestjs-ddd  |  **Phase:** P02 — DDD/SOLID Skeleton  |  **Base branch:** `dev`  |  **Status:** ⬜ Planned
+**Project:** nestjs-ddd  |  **Phase:** P02 — DDD/SOLID Skeleton  |  **Base branch:** `dev`  |  **Status:** ✅ Done
 
 > Source of truth: [`roadmap.md`](../../../roadmap.md) §4. Umbrella IDs `P02-04`, `P02-05`, `P02-06` stay in the roadmap; this file lists the final atomic split (`P02-04a` … `P02-06e`).
 > **Format**: `P<phase>-<umbrella><letter>` — one atomic task = one commit; sibling atomic tasks share one branch (branch per umbrella task). Every atomic task uses the 7-field format: `Description`, `CLI(s)`, `Package(s)`, `File(s)/Folder(s)`, `Branch`, `Commit`, `Testing`.
@@ -190,11 +190,11 @@ Add the framework-free domain kernel — base `Entity`, base `ValueObject`, `Res
 
 ## Phase Gate (end of step)
 
-- [ ] Full unit tests + coverage thresholds pass for entity, value object, result and domain error primitives.
-- [ ] E2E passes for every `DomainError` subclass plus `HttpException` and unknown-error paths, with no stack traces leaked.
-- [ ] `npm run test:arch` green: inward-only dependencies, domain purity, domain-free `src/common/`, and the deliberate-violation self-test all pass.
-- [ ] Domain layer contains no Nest/TypeORM/Redis/HTTP imports; `src/common/` contains no runtime context-domain imports.
-- [ ] Lint/format/typecheck clean; security audit & version sync run.
+- [x] Full unit tests + coverage thresholds pass for entity, value object, result and domain error primitives.
+- [x] E2E passes for every `DomainError` subclass plus `HttpException` and unknown-error paths, with no stack traces leaked.
+- [x] `npm run test:arch` green: inward-only dependencies, domain purity, domain-free `src/common/`, and the deliberate-violation self-test all pass.
+- [x] Domain layer contains no Nest/TypeORM/Redis/HTTP imports; `src/common/` contains no runtime context-domain imports.
+- [x] Lint/format/typecheck clean; security audit & version sync run.
 - [ ] Each atomic commit pushed on its shared branch; PRs merged into `dev` in this exact order:
   `P02-04a` → `P02-04b` → `P02-04c` → `P02-04d` → `P02-04e` → `P02-05a` → `P02-05b` → `P02-05c` → `P02-05d` → `P02-06a` → `P02-06b` → `P02-06c` → `P02-06d` → `P02-06e`.
 - [ ] Status for umbrella IDs `P02-04`, `P02-05`, `P02-06` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).

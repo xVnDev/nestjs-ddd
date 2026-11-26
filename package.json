@@ -11,7 +11,8 @@
     "url": "git+https://github.com/xVnDev/nestjs-ddd.git"
   },
   "scripts": {
-    "test": "vitest run",
+    "test": "vitest run && npm run test:arch",
+    "test:arch": "vitest run test/architecture",
     "build": "nest build",
     "deploy": "nest deploy",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

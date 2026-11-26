@@ -7,6 +7,7 @@ import { ValidationPipe, ValidationPipeOptions } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AppModule, ObserveInstrument } from './app.module.js';
 import { setupOpenApi } from './common/config/openapi/setup-openapi.js';
+import { DomainExceptionFilter } from './common/filters/index.js';
 import { StructuredLoggerService } from './common/logger/structured-logger.service.js';
 
 /**
@@ -26,6 +27,7 @@ async function bootstrap() {
     ),
   );
   setupOpenApi(app);
+  app.useGlobalFilters(new DomainExceptionFilter());
   app.useSecurityHeaders({
     xFrameOptions: { action: 'deny' },
     strictTransportSecurity: configService.get('app.nodeEnv') === 'production',

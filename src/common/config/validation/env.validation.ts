@@ -13,6 +13,10 @@ export const envSchema = Joi.object({
   REDIS_URL: Joi.string().allow('').optional(),
   JWT_PRIVATE_KEY_PATH: Joi.string().allow('').optional(),
   JWT_PUBLIC_KEY_PATH: Joi.string().allow('').optional(),
+
+  DATABASE_URL: Joi.string().uri().required(),
+  DATABASE_SSL: Joi.string().allow('').optional(),
+  DATABASE_POOL_SIZE: Joi.number().integer().min(1).optional(),
 });
 
 /** Typed environment values produced by {@link validateEnv}. */
@@ -23,6 +27,9 @@ export interface Env {
   REDIS_URL?: string;
   JWT_PRIVATE_KEY_PATH?: string;
   JWT_PUBLIC_KEY_PATH?: string;
+  DATABASE_URL: string;
+  DATABASE_SSL?: string;
+  DATABASE_POOL_SIZE?: number;
 }
 
 /**

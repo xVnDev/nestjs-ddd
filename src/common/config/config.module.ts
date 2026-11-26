@@ -8,6 +8,7 @@ import { envSchema, validateEnv } from './validation/env.validation.js';
 import { appConfig } from './app.config.js';
 import { observeConfig } from './observe.config.js';
 import { validationPipeConfig } from './validation-pipe.config.js';
+import { databaseConfig } from './database.config.js';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { validationPipeConfig } from './validation-pipe.config.js';
       validate: validateEnv,
       envFilePath: '.env',
       expandVariables: true,
-      load: [appConfig, observeConfig, validationPipeConfig],
+      load: [appConfig, observeConfig, validationPipeConfig, databaseConfig],
       cache: true,
     }),
   ],

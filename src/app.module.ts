@@ -11,6 +11,7 @@ import { MailModule } from './modules/mail/mail.module.js';
 import { SecurityModule } from './modules/security/security.module.js';
 import { UserModule } from './modules/user/user.module.js';
 import { ConfigModule } from './common/config/config.module.js';
+import { PersistenceModule } from './modules/shared/infrastructure/persistence/persistence.module.js';
 import { LoggerModule } from './common/logger/logger.module.js';
 import { observeConfig } from './common/config/observe.config.js';
 
@@ -19,6 +20,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
 @Module({
   imports: [
     ConfigModule,
+    PersistenceModule,
     LoggerModule,
     // Distributed tracing, auto-correlated logs, request/job metrics, error
     // telemetry, alarms, and more — out of the box. Sign up at https://observe.nestjs.com,

@@ -36,3 +36,13 @@ export const databaseConfig = registerAs<DatabaseConfig>('database', () => {
 
 /** DI token under which the database config slice is registered. */
 export const DATABASE_CONFIG = databaseConfig.KEY;
+
+
+/**
+ * Indicates whether a database URL is configured.
+ *
+ * @returns True when DATABASE_URL is set.
+ */
+export function isDatabaseConfigured(): boolean {
+  return Boolean(process.env.DATABASE_URL);
+}

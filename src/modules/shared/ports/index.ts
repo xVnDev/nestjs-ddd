@@ -10,3 +10,4 @@ export * from './clock.port.js';
 export * from './cache.port.js';
 export * from './queue.port.js';
 export * from './mail.port.js';
+export * from './repository.port.js';

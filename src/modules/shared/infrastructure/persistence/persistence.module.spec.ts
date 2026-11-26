@@ -7,14 +7,25 @@ import { describe, expect, it, vi } from 'vitest';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PersistenceModule } from './persistence.module.js';
 
-vi.mock('@nestjs/typeorm', () => {
+vi.mock('@nestjs/typeorm', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@nestjs/typeorm')>();
   class TypeOrmModule {}
   (TypeOrmModule as any).forRootAsync = vi.fn(() => ({
     module: class MockPersistenceModule {},
     providers: [],
     exports: [],
   }));
-  return { TypeOrmModule };
+  (TypeOrmModule as any).forFeature = vi.fn((entities: unknown[]) => ({
+    module: class MockFeatureModule {},
+    providers: [
+      {
+        provide: actual.getRepositoryToken(entities?.[0] ?? 'Entity'),
+        useValue: {},
+      },
+    ],
+    exports: [actual.getRepositoryToken(entities?.[0] ?? 'Entity')],
+  }));
+  return { ...actual, TypeOrmModule };
 });
 
 describe('PersistenceModule', () => {

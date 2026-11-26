@@ -6,10 +6,11 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import { REPOSITORY_PORT } from '../../ports/tokens.js';
-import { databaseConfig, DATABASE_CONFIG } from '../../../../common/config/database.config.js';
+import { databaseConfig, DATABASE_CONFIG, isDatabaseConfigured } from '../../../../common/config/database.config.js';
 import type { DatabaseConfig as DatabaseConfigType } from '../../../../common/config/database.config.js';
 import { SoftDeleteEntity } from './soft-delete.entity.js';
 import { TypeOrmRepositoryAdapter } from './typeorm-repository.adapter.js';
+import { InMemoryRepositoryAdapter } from './in-memory-repository.adapter.js';
 
 /**
  * DI token for the typed database config slice.
@@ -37,9 +38,13 @@ export { DATABASE_CONFIG };
   providers: [
     {
       provide: REPOSITORY_PORT,
-      useFactory: (repository: unknown) =>
-        new TypeOrmRepositoryAdapter(repository as never),
-      inject: [getRepositoryToken(SoftDeleteEntity)],
+      useFactory: (...args: unknown[]) =>
+        isDatabaseConfigured()
+          ? new TypeOrmRepositoryAdapter(args[0] as never)
+          : new InMemoryRepositoryAdapter(),
+      inject: isDatabaseConfigured()
+        ? [getRepositoryToken(SoftDeleteEntity)]
+        : [],
     },
   ],
 })

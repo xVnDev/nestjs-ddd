@@ -3,6 +3,8 @@
  */
 
 import {
+  Entity,
+  Index,
   CreateDateColumn,
   DeleteDateColumn,
   PrimaryGeneratedColumn,
@@ -13,7 +15,8 @@ import { SoftDeletable } from '../../domain/soft-deletable.js';
 /**
  * TypeORM-decorated persistence base mapped from {@link SoftDeletable}.
  */
-export abstract class SoftDeleteEntity extends SoftDeletable {
+@Entity()
+export class SoftDeleteEntity extends SoftDeletable {
   @PrimaryGeneratedColumn('uuid')
   declare id: string;
 
@@ -23,6 +26,7 @@ export abstract class SoftDeleteEntity extends SoftDeletable {
   @UpdateDateColumn()
   declare updatedAt: Date;
 
+  @Index()
   @DeleteDateColumn()
   declare deletedAt: Date | null;
 }

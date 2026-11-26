@@ -6,6 +6,7 @@ import { DataSource } from 'typeorm';
 import { databaseConfig } from './database.config.js';
 import type { DatabaseConfig } from './database.config.js';
 import { SoftDeleteEntity } from '../../modules/shared/infrastructure/persistence/soft-delete.entity.js';
+import { Init1795719746297 } from '../../migrations/1795719746297-Init.js';
 
 const config = databaseConfig() as unknown as DatabaseConfig;
 
@@ -21,6 +22,6 @@ export const dataSource = new DataSource({
   synchronize: config.synchronize,
   uuidExtension: 'pgcrypto',
   entities: [SoftDeleteEntity],
-  migrations: ['src/migrations/*{.ts,.js}'],
+  migrations: [Init1795719746297],
 });
 

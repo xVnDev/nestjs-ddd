@@ -30,7 +30,7 @@
     "test:cov": "vitest run --config vitest.unit.config.ts --coverage",
     "test:watch": "vitest --config vitest.unit.config.ts",
     "docs:check": "node scripts/check-links.mjs",
-    "typeorm": "typeorm-ts-node-commonjs -d src/common/config/data-source.ts",
+    "typeorm": "typeorm -d dist/common/config/data-source.js",
     "migration:generate": "npm run typeorm -- migration:generate",
     "migration:run": "npm run typeorm -- migration:run",
     "migration:revert": "npm run typeorm -- migration:revert"

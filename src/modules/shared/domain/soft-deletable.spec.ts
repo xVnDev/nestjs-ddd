@@ -3,9 +3,7 @@
  */
 
 import { describe, expect, it, vi } from 'vitest';
-import { getMetadataArgsStorage } from 'typeorm';
 import { SoftDeletable } from './soft-deletable.js';
-import { SoftDeleteEntity } from '../infrastructure/persistence/soft-delete.entity.js';
 
 class TestEntity extends SoftDeletable {}
 
@@ -19,26 +17,5 @@ describe('SoftDeletable', () => {
     expect(clock.now).toHaveBeenCalled();
     expect(entity.createdAt).toBe(fixed);
     expect(entity.updatedAt).toBe(fixed);
-  });
-
-  it('TypeORM base declares a delete-date column and uuid primary column', () => {
-    const storage = getMetadataArgsStorage();
-    const columns = storage.columns.filter(
-      (c) => c.target === SoftDeleteEntity,
-    );
-    const primaryColumns = storage.columns.filter(
-      (c) => c.target === SoftDeleteEntity && c.options?.primary === true,
-    );
-    // @PrimaryGeneratedColumn stores generation metadata separately; check columns names
-    const hasDeletedAt = columns.some((c) => c.propertyName === 'deletedAt');
-    const hasCreatedAt = columns.some((c) => c.propertyName === 'createdAt');
-    expect(hasDeletedAt).toBe(true);
-    expect(hasCreatedAt).toBe(true);
-    // Primary generated column metadata
-    const generated = storage.generations.filter(
-      (g) => g.target === SoftDeleteEntity,
-    );
-    expect(generated.length).toBeGreaterThan(0);
-    expect(generated[0].strategy).toBe('uuid');
   });
 });

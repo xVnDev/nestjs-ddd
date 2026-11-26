@@ -44,7 +44,9 @@ describe('databaseConfig', () => {
       ],
     }).compile();
     const configService = moduleRef.get(ConfigService);
-    expect(configService.get('database.url')).toBe('postgres://localhost:5432/db');
+    expect(configService.get('database.url')).toBe(
+      'postgres://localhost:5432/db',
+    );
     expect(configService.get('database.synchronize')).toBe(false);
   });
 

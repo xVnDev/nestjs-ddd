@@ -33,14 +33,21 @@ describe('repository port', () => {
     }
     const repo: RepositoryPort<{ id: string }> = new Dummy();
     expect(repo).toBeDefined();
-    expectTypeOf<RepositoryPort<{ id: string }>['findById']>().returns.toEqualTypeOf<
-      Promise<{ id: string } | null>
-    >();
+    expectTypeOf<
+      RepositoryPort<{ id: string }>['findById']
+    >().returns.toEqualTypeOf<Promise<{ id: string } | null>>();
   });
 
   it('has no typeorm import', () => {
     const content = readFileSync(
-      join(process.cwd(), 'src', 'modules', 'shared', 'ports', 'repository.port.ts'),
+      join(
+        process.cwd(),
+        'src',
+        'modules',
+        'shared',
+        'ports',
+        'repository.port.ts',
+      ),
       'utf8',
     );
     expect(content).not.toMatch(/typeorm/);

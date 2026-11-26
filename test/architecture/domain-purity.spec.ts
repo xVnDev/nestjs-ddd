@@ -4,10 +4,7 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
-import {
-  checkDomainPurity,
-  scanSource,
-} from './lib/import-scanner.js';
+import { checkDomainPurity, scanSource } from './lib/import-scanner.js';
 
 const MODULES_DIR = join(process.cwd(), 'src', 'modules');
 

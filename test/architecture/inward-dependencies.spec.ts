@@ -4,10 +4,7 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
-import {
-  checkInwardDependencies,
-  scanSource,
-} from './lib/import-scanner.js';
+import { checkInwardDependencies, scanSource } from './lib/import-scanner.js';
 
 const MODULES_DIR = join(process.cwd(), 'src', 'modules');
 
@@ -33,9 +30,7 @@ describe('inward dependencies', () => {
   });
 
   it('detects an application -> infrastructure import via a stubbed reader', () => {
-    const reader = vi.fn(
-      () => "import { x } from '../infrastructure/foo.js';",
-    );
+    const reader = vi.fn(() => "import { x } from '../infrastructure/foo.js';");
     const file = join(MODULES_DIR, 'user', 'application', 'bar.ts');
     const records = scanSource(reader(), file);
     const violations = checkInwardDependencies(records);

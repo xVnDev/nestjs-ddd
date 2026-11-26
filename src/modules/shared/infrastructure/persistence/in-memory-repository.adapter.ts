@@ -30,9 +30,14 @@ function clone<T>(value: T): T {
  *
  * @typeParam T - The entity type managed by the repository.
  */
-export class InMemoryRepositoryAdapter<T extends { id?: string; deletedAt?: unknown; createdAt?: unknown; updatedAt?: unknown } = any>
-  implements RepositoryPort<T>
-{
+export class InMemoryRepositoryAdapter<
+  T extends {
+    id?: string;
+    deletedAt?: unknown;
+    createdAt?: unknown;
+    updatedAt?: unknown;
+  } = any,
+> implements RepositoryPort<T> {
   private readonly store = new Map<string, T>();
   private counter = 0;
 

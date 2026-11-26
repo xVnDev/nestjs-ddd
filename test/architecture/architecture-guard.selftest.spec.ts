@@ -32,7 +32,8 @@ describe('architecture guard self-test', () => {
 
   it('detects a src/common file importing a context domain', () => {
     const file = 'src/common/bad.ts';
-    const source = "import { X } from '../modules/user/domain/user.entity.js';\n";
+    const source =
+      "import { X } from '../modules/user/domain/user.entity.js';\n";
     const records = scanSource(source, file);
     const violations = checkCommonDomainFree(records);
     expect(violations).toHaveLength(1);
@@ -42,7 +43,8 @@ describe('architecture guard self-test', () => {
 
   it('reports zero violations for a clean source', () => {
     const file = 'src/modules/user/domain/good.ts';
-    const source = "import { Entity } from '../../shared/domain/entity.base.js';\n";
+    const source =
+      "import { Entity } from '../../shared/domain/entity.base.js';\n";
     const records = scanSource(source, file);
     const violations = checkDomainPurity(records);
     expect(violations).toHaveLength(0);

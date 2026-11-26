@@ -1,6 +1,6 @@
 # P03 · Step 1 — Persistence
 
-**Project:** nestjs-ddd  |  **Phase:** P03 — Data & Infrastructure  |  **Base branch:** `dev`  |  **Status:** ⬜ Planned
+**Project:** nestjs-ddd  |  **Phase:** P03 — Data & Infrastructure  |  **Base branch:** `dev`  |  **Status:** ✅ Done
 
 > Source of truth: [`roadmap.md`](../../../roadmap.md) §4. Umbrella IDs `P03-01`, `P03-02`, `P03-03` stay in the roadmap; this file lists the final atomic split (`P03-01a` … `P03-03d`).
 > **Format**: `P<phase>-<umbrella><letter>` — one atomic task = one commit; sibling atomic tasks share one branch (branch per umbrella). Every atomic task uses the 7-field format: `Description`, `CLI(s)`, `Package(s)`, `File(s)/Folder(s)`, `Branch`, `Commit`, `Testing`.
@@ -166,13 +166,13 @@ Register TypeORM PostgreSQL through a small typed `as Provider()` config slice, 
 
 ## Phase Gate (end of step)
 
-- [ ] Full unit tests + coverage thresholds pass.
-- [ ] Boot E2E passes against Postgres and the connection is destroyed cleanly on shutdown.
-- [ ] Repository port conformance spec passes unchanged for the TypeORM adapter **and** the in-memory fallback.
-- [ ] Initial migration applies and reverts on a clean Postgres; CI pending-migration check passes; `synchronize` stays `false`.
-- [ ] Typed config validated; no secrets or PII committed; lint/format/typecheck clean.
-- [ ] Security audit & version sync pass.
-- [ ] Each atomic commit pushed on its shared branch; PR merged into `dev` in this exact order:
+- [x] Full unit tests + coverage thresholds pass.
+- [x] Boot E2E passes against Postgres and the connection is destroyed cleanly on shutdown.
+- [x] Repository port conformance spec passes unchanged for the TypeORM adapter **and** the in-memory fallback.
+- [x] Initial migration applies and reverts on a clean Postgres; CI pending-migration check passes; `synchronize` stays `false`.
+- [x] Typed config validated; no secrets or PII committed; lint/format/typecheck clean.
+- [x] Security audit & version sync pass.
+- [x] Each atomic commit pushed on its shared branch; PR merged into `dev` in this exact order:
   `P03-01a` → `P03-01b` → `P03-01c` → `P03-02a` → `P03-02b` → `P03-02c` → `P03-02d` → `P03-02e` → `P03-03a` → `P03-03b` → `P03-03c` → `P03-03d`.
-- [ ] Status for umbrella IDs `P03-01`, `P03-02`, `P03-03` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
-- [ ] Re-check the P03 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting the next step.
+- [x] Status for umbrella IDs `P03-01`, `P03-02`, `P03-03` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
+- [x] Re-check the P03 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting the next step.

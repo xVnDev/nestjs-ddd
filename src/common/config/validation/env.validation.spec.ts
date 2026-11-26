@@ -43,7 +43,9 @@ describe('validateEnv', () => {
   });
 
   it('throws on missing DATABASE_URL', () => {
-    expect(() => validateEnv({ PORT: 3000, NODE_ENV: 'development' })).toThrow();
+    expect(() =>
+      validateEnv({ PORT: 3000, NODE_ENV: 'development' }),
+    ).toThrow();
   });
 
   it('throws on invalid DATABASE_URL', () => {

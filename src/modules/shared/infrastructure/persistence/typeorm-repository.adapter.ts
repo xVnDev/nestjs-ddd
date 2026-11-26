@@ -18,9 +18,9 @@ import { SoftDeleteEntity } from './soft-delete.entity.js';
  * @typeParam T - The entity type managed by the repository.
  */
 @Injectable()
-export class TypeOrmRepositoryAdapter<T extends ObjectLiteral = SoftDeleteEntity>
-  implements RepositoryPort<T>
-{
+export class TypeOrmRepositoryAdapter<
+  T extends ObjectLiteral = SoftDeleteEntity,
+> implements RepositoryPort<T> {
   private readonly entityManager?: EntityManager;
   private readonly entityTarget?: EntityTarget<T>;
   private readonly repository?: Repository<T>;

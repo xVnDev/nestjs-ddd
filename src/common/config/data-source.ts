@@ -24,4 +24,3 @@ export const dataSource = new DataSource({
   entities: [SoftDeleteEntity],
   migrations: [Init1795719746297],
 });
-

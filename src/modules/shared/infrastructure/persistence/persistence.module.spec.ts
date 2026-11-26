@@ -31,9 +31,11 @@ describe('PersistenceModule', () => {
     }).compile();
     expect(moduleRef).toBeDefined();
     expect(TypeOrmModule.forRootAsync).toHaveBeenCalled();
-    const options = (TypeOrmModule.forRootAsync as unknown as {
-      mock: { calls: unknown[][] };
-    }).mock.calls[0][0] as {
+    const options = (
+      TypeOrmModule.forRootAsync as unknown as {
+        mock: { calls: unknown[][] };
+      }
+    ).mock.calls[0][0] as {
       useFactory: (cfg: unknown) => unknown;
       inject: unknown[];
     };
@@ -53,9 +55,11 @@ describe('PersistenceModule', () => {
   });
 
   it('uses a defined config injection token', () => {
-    const options = (TypeOrmModule.forRootAsync as unknown as {
-      mock: { calls: unknown[][] };
-    }).mock.calls[0][0] as { inject: unknown[] };
+    const options = (
+      TypeOrmModule.forRootAsync as unknown as {
+        mock: { calls: unknown[][] };
+      }
+    ).mock.calls[0][0] as { inject: unknown[] };
     expect(options.inject).toBeDefined();
     expect(options.inject.length).toBeGreaterThan(0);
   });

@@ -13,7 +13,10 @@ import './repository.conformance.spec.js';
 describe('InMemoryRepositoryAdapter', () => {
   it('deep-copies stored rows', async () => {
     const adapter = new InMemoryRepositoryAdapter();
-    const saved = (await adapter.save({ name: 'mutable' })) as { id: string; name: string };
+    const saved = (await adapter.save({ name: 'mutable' })) as {
+      id: string;
+      name: string;
+    };
     const found = (await adapter.findById(saved.id)) as { name: string };
     found.name = 'changed';
     const again = (await adapter.findById(saved.id)) as { name: string };
@@ -36,7 +39,9 @@ describe('InMemoryRepositoryAdapter', () => {
   it('uses the ID_GENERATOR port for ids', async () => {
     const idGenerator: IdGenerator = { next: vi.fn(() => 'generated-id') };
     const adapter = new InMemoryRepositoryAdapter(idGenerator);
-    const saved = (await adapter.save({ name: 'identified' })) as { id: string };
+    const saved = (await adapter.save({ name: 'identified' })) as {
+      id: string;
+    };
     expect(idGenerator.next).toHaveBeenCalled();
     expect(saved.id).toBe('generated-id');
   });
@@ -68,7 +73,10 @@ describe('InMemoryRepositoryAdapter', () => {
   it('preserves createdAt when explicitly provided', async () => {
     const fixed = new Date('2026-01-01T00:00:00.000Z');
     const adapter = new InMemoryRepositoryAdapter();
-    const saved = (await adapter.save({ name: 'with-date', createdAt: fixed })) as {
+    const saved = (await adapter.save({
+      name: 'with-date',
+      createdAt: fixed,
+    })) as {
       createdAt: Date;
     };
     expect(new Date(saved.createdAt).getTime()).toBe(fixed.getTime());
@@ -95,7 +103,10 @@ describe('InMemoryRepositoryAdapter', () => {
   it('keeps an explicitly provided deletedAt value', async () => {
     const when = new Date('2026-03-03T00:00:00.000Z');
     const adapter = new InMemoryRepositoryAdapter();
-    const saved = (await adapter.save({ name: 'deleted', deletedAt: when })) as {
+    const saved = (await adapter.save({
+      name: 'deleted',
+      deletedAt: when,
+    })) as {
       deletedAt: Date;
     };
     expect(new Date(saved.deletedAt).getTime()).toBe(when.getTime());

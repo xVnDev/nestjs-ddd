@@ -36,7 +36,10 @@ describe('TypeOrmRepositoryAdapter', () => {
       count: vi.fn(async () => 0),
     };
     const manager = { getRepository: vi.fn(() => repo) };
-    const adapter = new TypeOrmRepositoryAdapter(manager as never, 'Entity' as never);
+    const adapter = new TypeOrmRepositoryAdapter(
+      manager as never,
+      'Entity' as never,
+    );
     await adapter.findById('x');
     expect(manager.getRepository).toHaveBeenCalled();
   });

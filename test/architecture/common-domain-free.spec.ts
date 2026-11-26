@@ -4,10 +4,7 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
-import {
-  checkCommonDomainFree,
-  scanSource,
-} from './lib/import-scanner.js';
+import { checkCommonDomainFree, scanSource } from './lib/import-scanner.js';
 
 const COMMON_DIR = join(process.cwd(), 'src', 'common');
 
@@ -39,7 +36,8 @@ describe('common domain-free', () => {
 
   it('allows a type-only import of the shared domain barrel', () => {
     const file = join(COMMON_DIR, 'filters', 'x.ts');
-    const source = "import type { DomainError } from '../../modules/shared/domain/index.js';";
+    const source =
+      "import type { DomainError } from '../../modules/shared/domain/index.js';";
     const records = scanSource(source, file);
     const violations = checkCommonDomainFree(records);
     expect(violations).toEqual([]);

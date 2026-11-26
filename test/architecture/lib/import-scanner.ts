@@ -34,7 +34,12 @@ export interface Violation {
   reason?: string;
 }
 
-const LAYERS = ['domain', 'application', 'infrastructure', 'interfaces'] as const;
+const LAYERS = [
+  'domain',
+  'application',
+  'infrastructure',
+  'interfaces',
+] as const;
 type Layer = (typeof LAYERS)[number];
 
 /**
@@ -154,9 +159,7 @@ function importEqualsSpecifier(node: ts.Node): string | undefined {
  * @returns True when type-only.
  */
 function importEqualsIsTypeOnly(node: ts.ImportEqualsDeclaration): boolean {
-  return (
-    node.modifiers?.some((m) => m.getText() === 'type') ?? false
-  );
+  return node.modifiers?.some((m) => m.getText() === 'type') ?? false;
 }
 
 /**
@@ -193,7 +196,10 @@ export function scanSource(source: string, file: string): ImportRecord[] {
           isTypeOnly: exportIsTypeOnly(node),
         });
       }
-    } else if (ts.isCallExpression(node) && node.expression.kind === ts.SyntaxKind.ImportKeyword) {
+    } else if (
+      ts.isCallExpression(node) &&
+      node.expression.kind === ts.SyntaxKind.ImportKeyword
+    ) {
       const spec = dynamicImportSpecifier(node);
       if (spec !== undefined) {
         records.push({ file, line, specifier: spec, isTypeOnly: false });
@@ -232,7 +238,9 @@ export function scanSource(source: string, file: string): ImportRecord[] {
 export function resolveSpecifier(specifier: string, file: string): string {
   const base = toAbs(file);
   if (specifier.startsWith('.') || specifier.startsWith('/')) {
-    return path.posix.normalize(path.posix.join(path.posix.dirname(base), specifier));
+    return path.posix.normalize(
+      path.posix.join(path.posix.dirname(base), specifier),
+    );
   }
   return specifier;
 }
@@ -306,7 +314,12 @@ export function checkDomainPurity(records: ImportRecord[]): Violation[] {
   const out: Violation[] = [];
   for (const r of records) {
     if (isForbiddenDomainImport(r.specifier)) {
-      out.push({ file: r.file, line: r.line, specifier: r.specifier, reason: 'forbidden domain import' });
+      out.push({
+        file: r.file,
+        line: r.line,
+        specifier: r.specifier,
+        reason: 'forbidden domain import',
+      });
     }
   }
   return out;
@@ -346,7 +359,12 @@ export function checkCommonDomainFree(records: ImportRecord[]): Violation[] {
   for (const r of records) {
     if (!resolvesToDomain(r)) continue;
     if (isAllowedSharedDomainTypeOnly(r)) continue;
-    out.push({ file: r.file, line: r.line, specifier: r.specifier, reason: 'common imports domain' });
+    out.push({
+      file: r.file,
+      line: r.line,
+      specifier: r.specifier,
+      reason: 'common imports domain',
+    });
   }
   return out;
 }
@@ -371,7 +389,12 @@ export function checkInwardDependencies(records: ImportRecord[]): Violation[] {
           ctx !== null && resolved.includes(`/modules/${ctx}/domain/`);
         const sharedDomain = resolved.includes('/modules/shared/domain/');
         if (!sameContextDomain && !sharedDomain) {
-          out.push({ file: r.file, line: r.line, specifier: r.specifier, reason: 'domain imports non-domain' });
+          out.push({
+            file: r.file,
+            line: r.line,
+            specifier: r.specifier,
+            reason: 'domain imports non-domain',
+          });
         }
       }
       continue;
@@ -379,8 +402,16 @@ export function checkInwardDependencies(records: ImportRecord[]): Violation[] {
 
     if (layer === 'application') {
       if (r.specifier.startsWith('.') || r.specifier.startsWith('/')) {
-        if (/\/infrastructure(\/|$)/.test(resolved) || /\/interfaces(\/|$)/.test(resolved)) {
-          out.push({ file: r.file, line: r.line, specifier: r.specifier, reason: 'application imports infrastructure/interfaces' });
+        if (
+          /\/infrastructure(\/|$)/.test(resolved) ||
+          /\/interfaces(\/|$)/.test(resolved)
+        ) {
+          out.push({
+            file: r.file,
+            line: r.line,
+            specifier: r.specifier,
+            reason: 'application imports infrastructure/interfaces',
+          });
         }
       }
       continue;

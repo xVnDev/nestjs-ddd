@@ -87,13 +87,22 @@ jobs:
           runs = sarif.get("runs") or []
           markdown_findings = 0
 
-          def is_markdown_finding(result):
+          def is_markdown_finding(result, artifacts=None):
               locations = result.get("locations") or []
               if not locations:
                   return False
               physical_location = locations[0].get("physicalLocation") or {}
               artifact_location = physical_location.get("artifactLocation") or {}
-              uri = artifact_location.get("uri") or ""
+              uri = artifact_location.get("uri")
+              if not uri:
+                  # Resolve artifactLocation.index through the current run's
+                  # artifacts when uri is absent before applying the filter.
+                  index = artifact_location.get("index")
+                  if index is not None and artifacts and 0 <= index < len(artifacts):
+                      artifact = artifacts[index] or {}
+                      artifact_loc = artifact.get("location") or {}
+                      uri = artifact_loc.get("uri")
+              uri = uri or ""
               path = unquote(urlparse(uri).path)
               return path.lower().endswith(".md")
 
@@ -106,7 +115,8 @@ jobs:
               merged_results = []
               for run in runs:
                   results = run.get("results") or []
-                  kept_results = [result for result in results if not is_markdown_finding(result)]
+                  artifacts = run.get("artifacts") or []
+                  kept_results = [result for result in results if not is_markdown_finding(result, artifacts)]
                   markdown_findings += len(results) - len(kept_results)
                   merged_results.extend(kept_results)
 

@@ -112,9 +112,9 @@ Status legend: ⬜ Planned · 🚧 In progress · ✅ Done · ⏸ Blocked · ❌
 | `P01-08` | P01 · Foundation | 3 | `feat(api): add OpenAPI + Scalar with bearer scheme, user/admin instances` | ✅ Done |
 | `P01-09` | P01 · Foundation | 3 | `feat(api): add faker-backed OpenAPI examples` | ✅ Done |
 | `P01-10` | P01 · Foundation | 3 | `docs(project): add README, LICENSE, SECURITY.md and CHANGELOG.md` | ✅ Done |
-| `P02-01` | P02 · DDD/SOLID Skeleton | 1 | `feat(arch): establish bounded-context folder layout and shared kernel` | ⬜ Planned |
-| `P02-02` | P02 · DDD/SOLID Skeleton | 1 | `feat(arch): define port tokens and narrow interfaces for swappable mechanisms` | ⬜ Planned |
-| `P02-03` | P02 · DDD/SOLID Skeleton | 1 | `chore(test): add conformance-test harness shared by all port adapters` | ⬜ Planned |
+| `P02-01` | P02 · DDD/SOLID Skeleton | 1 | `feat(arch): establish bounded-context folder layout and shared kernel` | ✅ Done |
+| `P02-02` | P02 · DDD/SOLID Skeleton | 1 | `feat(arch): define port tokens and narrow interfaces for swappable mechanisms` | ✅ Done |
+| `P02-03` | P02 · DDD/SOLID Skeleton | 1 | `chore(test): add conformance-test harness shared by all port adapters` | ✅ Done |
 | `P02-04` | P02 · DDD/SOLID Skeleton | 2 | `feat(domain): add base entity, value-object base and domain error/result types` | ⬜ Planned |
 | `P02-05` | P02 · DDD/SOLID Skeleton | 2 | `feat(api): add global exception filter mapping domain errors to HTTP` | ⬜ Planned |
 | `P02-06` | P02 · DDD/SOLID Skeleton | 2 | `chore(test): add architecture dependency-rule guard test` | ⬜ Planned |

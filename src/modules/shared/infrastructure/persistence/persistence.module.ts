@@ -29,6 +29,7 @@ export { DATABASE_CONFIG };
         poolSize: cfg.poolSize,
         logging: cfg.logging,
         synchronize: cfg.synchronize,
+        uuidExtension: 'pgcrypto',
         autoLoadEntities: true,
       }),
       inject: [DATABASE_CONFIG],

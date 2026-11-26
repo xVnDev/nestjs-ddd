@@ -19,6 +19,7 @@ export const dataSource = new DataSource({
   poolSize: config.poolSize,
   logging: config.logging,
   synchronize: config.synchronize,
+  uuidExtension: 'pgcrypto',
   entities: [SoftDeleteEntity],
   migrations: ['src/migrations/*{.ts,.js}'],
 });

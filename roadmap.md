@@ -120,7 +120,7 @@ Status legend: ⬜ Planned · 🚧 In progress · ✅ Done · ⏸ Blocked · ❌
 | `P02-06` | P02 · DDD/SOLID Skeleton | 2 | `chore(test): add architecture dependency-rule guard test` | ✅ Done |
 | `P03-01` | P03 · Data & Infrastructure | 1 | `feat(db): register TypeORM PostgreSQL async config` | ✅ Done |
 | `P03-02` | P03 · Data & Infrastructure | 1 | `feat(db): add soft-delete base entity and repository port` | ✅ Done |
-| `P03-03` | P03 · Data & Infrastructure | 1 | `feat(db): generate initial migration and add migration CI check` | ⬜ Planned |
+| `P03-03` | P03 · Data & Infrastructure | 1 | `feat(db): generate initial migration and add migration CI check` | ✅ Done |
 | `P03-04` | P03 · Data & Infrastructure | 2 | `feat(cache): add Keyv Redis adapter with boilerplate namespace` | ⬜ Planned |
 | `P03-05` | P03 · Data & Infrastructure | 2 | `feat(cache): add in-memory cache fallback adapter and conformance spec` | ⬜ Planned |
 | `P03-06` | P03 · Data & Infrastructure | 2 | `feat(queue): add BullMQ adapter, in-memory fallback and queue port conformance` | ⬜ Planned |

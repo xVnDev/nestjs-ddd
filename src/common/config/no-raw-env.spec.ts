@@ -27,7 +27,7 @@ describe('no raw process.env outside config', () => {
   it('has no process.env usage in src except config', () => {
     const root = join(process.cwd(), 'src');
     const files = walk(root).filter(
-      (f) => !relative(root, f).startsWith('common/config'),
+      (f) => !relative(root, f).replace(/\\/g, '/').startsWith('common/config'),
     );
     const offenders: string[] = [];
     for (const f of files) {

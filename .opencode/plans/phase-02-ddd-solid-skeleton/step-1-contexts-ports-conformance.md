@@ -1,6 +1,6 @@
 # P02 · Step 1 — Context Layout, Ports & Conformance
 
-**Project:** nestjs-ddd  |  **Phase:** P02 — DDD/SOLID Skeleton  |  **Base branch:** `dev`  |  **Status:** ⬜ Planned
+**Project:** nestjs-ddd  |  **Phase:** P02 — DDD/SOLID Skeleton  |  **Base branch:** `dev`  |  **Status:** ✅ Done
 
 > Source of truth: [`roadmap.md`](../../../roadmap.md) §4. Umbrella IDs `P02-01`, `P02-02`, `P02-03` stay in the roadmap; this file lists the final atomic split (`P02-01a` … `P02-03c`).
 > **Format**: `P<phase>-<umbrella><letter>` — one atomic task = one commit; sibling atomic tasks share one branch (branch per umbrella task). Every atomic task uses the 7-field format: `Description`, `CLI(s)`, `Package(s)`, `File(s)/Folder(s)`, `Branch`, `Commit`, `Testing`.
@@ -166,12 +166,12 @@ Establish the `src/modules/<context>/{domain,application,infrastructure,interfac
 
 ## Phase Gate (end of step)
 
-- [ ] Full unit tests + coverage thresholds pass, including all 8 port conformance specs against their memory fixtures.
-- [ ] E2E passes for app boot with all five context modules registered.
-- [ ] Context layout, domain-free `src/common/` and port-layer purity assertions pass.
-- [ ] Conformance harness self-test proves two dummy adapters share one spec and a broken adapter fails.
-- [ ] Lint/format/typecheck clean; security audit & version sync run.
-- [ ] Each atomic commit pushed on its shared branch; PRs merged into `dev` in this exact order:
+- [x] Full unit tests + coverage thresholds pass, including all 8 port conformance specs against their memory fixtures.
+- [x] E2E passes for app boot with all five context modules registered.
+- [x] Context layout, domain-free `src/common/` and port-layer purity assertions pass.
+- [x] Conformance harness self-test proves two dummy adapters share one spec and a broken adapter fails.
+- [x] Lint/format/typecheck clean; security audit & version sync run.
+- [x] Each atomic commit pushed on its shared branch; PRs merged into `dev` in this exact order:
   `P02-01a` → `P02-01b` → `P02-01c` → `P02-01d` → `P02-02a` → `P02-02b` → `P02-02c` → `P02-02d` → `P02-02e` → `P02-03a` → `P02-03b` → `P02-03c`.
-- [ ] Status for umbrella IDs `P02-01`, `P02-02`, `P02-03` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
-- [ ] Re-check the P02 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting the next step.
+- [x] Status for umbrella IDs `P02-01`, `P02-02`, `P02-03` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
+- [x] Re-check the P02 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting the next step.

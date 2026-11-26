@@ -15,6 +15,23 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: nestjs_ddd
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/nestjs_ddd
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: actions/setup-node@v7
@@ -26,3 +43,4 @@ jobs:
       - run: npm run test:unit
       - run: npm run test:cov
       - run: npm run test:e2e
+      - run: npm run test:arch

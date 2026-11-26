@@ -9,6 +9,7 @@ import {
   ID_GENERATOR,
   MAIL,
   PASSWORD_HASHER,
+  REPOSITORY_PORT,
   QUEUE,
   TOKEN_ISSUER,
   type PortToken,
@@ -25,9 +26,10 @@ describe('port tokens', () => {
       CACHE,
       QUEUE,
       MAIL,
+      REPOSITORY_PORT,
     ];
-    expect(tokens).toHaveLength(8);
-    expect(new Set(tokens).size).toBe(8);
+    expect(tokens).toHaveLength(9);
+    expect(new Set(tokens).size).toBe(9);
     for (const token of tokens) {
       expect(typeof token).toBe('symbol');
     }
@@ -42,6 +44,7 @@ describe('port tokens', () => {
     expect(Symbol.keyFor(CACHE)).toBe('CACHE');
     expect(Symbol.keyFor(QUEUE)).toBe('QUEUE');
     expect(Symbol.keyFor(MAIL)).toBe('MAIL');
+    expect(Symbol.keyFor(REPOSITORY_PORT)).toBe('REPOSITORY_PORT');
   });
 
   it('PortToken is invariant in its type parameter', () => {

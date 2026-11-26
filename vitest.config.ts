@@ -6,6 +6,7 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'lcov'],
+      exclude: ['test/architecture/**', 'src/**/*.spec.ts', 'src/**/*.e2e-spec.ts'],
       thresholds: {
         statements: 100,
         branches: 80,

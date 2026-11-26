@@ -13,6 +13,7 @@ import type { Clock } from './clock.port.js';
 import type { Cache } from './cache.port.js';
 import type { Queue } from './queue.port.js';
 import type { Mail } from './mail.port.js';
+import type { RepositoryPort } from './repository.port.js';
 
 /**
  * Branded helper that binds an injection token to its port interface.
@@ -52,3 +53,8 @@ export const QUEUE: PortToken<Queue> = Symbol.for('QUEUE') as PortToken<Queue>;
 
 /** Mail delivery port token. */
 export const MAIL: PortToken<Mail> = Symbol.for('MAIL') as PortToken<Mail>;
+
+/** Repository port token. */
+export const REPOSITORY_PORT: PortToken<RepositoryPort<any>> = Symbol.for(
+  'REPOSITORY_PORT',
+) as PortToken<RepositoryPort<any>>;

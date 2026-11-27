@@ -2,7 +2,7 @@
  * @file In-memory mail status store adapter spec.
  */
 
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { MailSendStatus } from '../domain/mail-send-status.js';
 import { InMemoryMailStatusStoreAdapter } from './in-memory-mail-status-store.adapter.js';
 

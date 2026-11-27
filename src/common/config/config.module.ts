@@ -8,6 +8,7 @@ import { envSchema, validateEnv } from './validation/env.validation.js';
 import { appConfig } from './app.config.js';
 import { cacheConfig } from './cache.config.js';
 import { httpConfig } from './http.config.js';
+import { idempotencyConfig } from './idempotency.config.js';
 import { throttlerConfig } from './throttler.config.js';
 import { i18nConfig } from './i18n.config.js';
 import { mailConfig } from './mail.config.js';
@@ -29,6 +30,7 @@ import { databaseConfig } from './database.config.js';
         cacheConfig,
         httpConfig,
         throttlerConfig,
+        idempotencyConfig,
         i18nConfig,
         mailConfig,
         queueConfig,

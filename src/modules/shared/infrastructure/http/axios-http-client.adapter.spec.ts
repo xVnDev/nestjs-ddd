@@ -64,6 +64,33 @@ describe('AxiosHttpClientAdapter', () => {
     await expect(adapter.get('http://example.com/s')).rejects.toBeInstanceOf(HttpError);
   });
 
+  it('maps status error with missing statusText to fallback message', async () => {
+    const mockAxios = {
+      request: vi.fn(async () => {
+        const err: any = new Error('fail');
+        err.response = { status: 404 };
+        throw err;
+      }),
+    };
+    const adapter = new AxiosHttpClientAdapter(mockAxios as any);
+    const err = await adapter.get('http://example.com/s2').catch((e) => e) as any;
+    expect(err).toBeInstanceOf(HttpError);
+    expect(err.status).toBe(404);
+    expect(err.message).toBe('HTTP request failed');
+  });
+
+  it('maps timeout by message regex to HttpError 408', async () => {
+    const mockAxios = {
+      request: vi.fn(async () => {
+        throw new Error('request timeout exceeded');
+      }),
+    };
+    const adapter = new AxiosHttpClientAdapter(mockAxios as any);
+    const err = await adapter.get('http://example.com/tr').catch((e) => e) as any;
+    expect(err).toBeInstanceOf(HttpError);
+    expect(err.status).toBe(408);
+  });
+
   it('maps timeout to HttpError 408', async () => {
     const mockAxios = {
       request: vi.fn(async () => {
@@ -94,5 +121,91 @@ describe('AxiosHttpClientAdapter', () => {
     const mockAxios = { request: vi.fn(async () => ({ data: 7, status: 200 })) };
     const adapter = new AxiosHttpClientAdapter({ axios: mockAxios as any, config: { timeoutMs: 9 } });
     expect(await adapter.get<number>('http://example.com/o')).toBe(7);
+  });
+
+  it('handles non-object first constructor argument (else branch)', () => {
+    const adapter = new AxiosHttpClientAdapter(undefined as any, { timeoutMs: 3 } as any);
+    expect(adapter).toBeInstanceOf(AxiosHttpClientAdapter);
+  });
+
+  it('supports axiosInstance/instance constructor variants', async () => {
+    const m1 = { request: vi.fn(async () => ({ data: 1, status: 200 })) };
+    const a1 = new AxiosHttpClientAdapter({ axiosInstance: m1 as any });
+    expect(await a1.get<number>('http://example.com/a')).toBe(1);
+    const m2 = { request: vi.fn(async () => ({ data: 2, status: 200 })) };
+    const a2 = new AxiosHttpClientAdapter({ instance: m2 as any });
+    expect(await a2.get<number>('http://example.com/b')).toBe(2);
+  });
+
+  it('uses default timeout and empty base headers when no config', async () => {
+    const mockAxios = { request: vi.fn(async () => ({ data: 'ok', status: 200 })) };
+    const adapter = new AxiosHttpClientAdapter(mockAxios as any);
+    await adapter.request({ method: 'GET', url: 'http://example.com/d' });
+    const cfg = (mockAxios.request as any).mock.calls[0][0];
+    expect(cfg.timeout).toBe(5000);
+    expect(cfg.maxRedirects).toBe(5);
+  });
+
+  it('preserves provided correlation id header', async () => {
+    const mockAxios = { request: vi.fn(async () => ({ data: 'ok', status: 200 })) };
+    const adapter = new AxiosHttpClientAdapter(mockAxios as any, { baseHeaders: {} });
+    await adapter.request({
+      method: 'GET',
+      url: 'http://example.com/c',
+      headers: { 'X-Correlation-Id': 'cid-1' },
+    });
+    const cfg = (mockAxios.request as any).mock.calls[0][0];
+    expect(cfg.headers['X-Correlation-Id']).toBe('cid-1');
+    expect(cfg.headers['x-correlation-id']).toBeUndefined();
+  });
+
+  it('maps axios error without response to HttpError 503', async () => {
+    const mockAxios = {
+      request: vi.fn(async () => {
+        const err: any = new Error('boom');
+        err.isAxiosError = true;
+        throw err;
+      }),
+    };
+    const adapter = new AxiosHttpClientAdapter(mockAxios as any);
+    const err = await adapter.get('http://example.com/ax').catch((e) => e) as any;
+    expect(err).toBeInstanceOf(HttpError);
+    expect(err.status).toBe(503);
+  });
+
+  it('maps generic Error to HttpError 500', async () => {
+    const mockAxios = {
+      request: vi.fn(async () => {
+        throw new Error('something else');
+      }),
+    };
+    const adapter = new AxiosHttpClientAdapter(mockAxios as any);
+    const err = await adapter.get('http://example.com/ge').catch((e) => e) as any;
+    expect(err).toBeInstanceOf(HttpError);
+    expect(err.status).toBe(500);
+  });
+
+  it('maps non-Error thrown value to HttpError 500', async () => {
+    const mockAxios = {
+      request: vi.fn(async () => {
+        throw 'string failure';
+      }),
+    };
+    const adapter = new AxiosHttpClientAdapter(mockAxios as any);
+    const err = await adapter.get('http://example.com/ne').catch((e) => e) as any;
+    expect(err).toBeInstanceOf(HttpError);
+    expect(err.status).toBe(500);
+  });
+
+  it('maps network-ish Error message to HttpError 503', async () => {
+    const mockAxios = {
+      request: vi.fn(async () => {
+        throw new Error('network down');
+      }),
+    };
+    const adapter = new AxiosHttpClientAdapter(mockAxios as any);
+    const err = await adapter.get('http://example.com/net').catch((e) => e) as any;
+    expect(err).toBeInstanceOf(HttpError);
+    expect(err.status).toBe(503);
   });
 });

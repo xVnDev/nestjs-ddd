@@ -31,7 +31,7 @@ export class AxiosHttpClientAdapter implements HttpClientPort {
   private readonly config: Partial<HttpConfig>;
 
   constructor(
-    axiosOrOptions?: AxiosLike | { axios?: AxiosLike; axiosInstance?: AxiosLike; config?: Partial<HttpConfig> },
+    axiosOrOptions?: AxiosLike | { axios?: AxiosLike; axiosInstance?: AxiosLike; instance?: AxiosLike; config?: Partial<HttpConfig> },
     config?: Partial<HttpConfig>,
   ) {
     if (isAxiosInstance(axiosOrOptions)) {
@@ -132,9 +132,6 @@ export class AxiosHttpClientAdapter implements HttpClientPort {
       if (axios.isAxiosError(error)) {
         return new HttpError(503, 'Network error');
       }
-    }
-    if (ae?.code === 'ECONNABORTED' || /timeout/i.test(ae?.message ?? '')) {
-      return new HttpError(408, 'Request timed out');
     }
     if (error instanceof Error) {
       if (/network/i.test(error.message)) {

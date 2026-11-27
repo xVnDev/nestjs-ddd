@@ -8,7 +8,10 @@ const queueInstances: Array<{
   add: ReturnType<typeof vi.fn>;
   close: ReturnType<typeof vi.fn>;
 }> = [];
-const workerInstances: Array<{ close: ReturnType<typeof vi.fn> }> = [];
+const workerInstances: Array<{
+  close: ReturnType<typeof vi.fn>;
+  on: ReturnType<typeof vi.fn>;
+}> = [];
 
 vi.mock('bullmq', () => {
   const Queue = vi.fn(function () {

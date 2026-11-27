@@ -20,6 +20,7 @@ const TOKENS = [
   'MAIL',
   'REPOSITORY_PORT',
   'HTTP_CLIENT_PORT',
+  'CIRCUIT_BREAKER_PORT',
 ] as const;
 
 function walk(dir: string): string[] {
@@ -101,12 +102,12 @@ function countExportedInterfaces(source: string): number {
 }
 
 describe('port conformance', () => {
-  it('exports all ten tokens', () => {
+  it('exports all eleven tokens', () => {
     for (const name of TOKENS) {
       expect((ports as Record<string, unknown>)[name]).toBeDefined();
     }
     const values = TOKENS.map((n) => (ports as Record<string, unknown>)[n]);
-    expect(new Set(values).size).toBe(10);
+    expect(new Set(values).size).toBe(11);
   });
 
   it('port layer is import-pure', () => {
@@ -117,13 +118,13 @@ describe('port conformance', () => {
     expect(offenders).toEqual([]);
   });
 
-  it('has one interface per token (10 total)', () => {
+  it('has one interface per token (11 total)', () => {
     const files = walk(PORTS_DIR).filter((f) => f.endsWith('.port.ts'));
     const total = files.reduce(
       (acc, f) => acc + countExportedInterfaces(readFileSync(f, 'utf8')),
       0,
     );
-    expect(total).toBe(10);
+    expect(total).toBe(11);
   });
 
   it('detects a forbidden import via a stubbed file reader', () => {

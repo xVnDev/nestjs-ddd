@@ -6,6 +6,7 @@ import type { Clock } from '../../ports/clock.port.js';
 import type { CachePort } from '../../ports/cache.port.js';
 
 import { cloneDeep } from 'es-toolkit';
+import { isFunction, isNotNil, isPlainObject } from 'es-toolkit/predicate';
 
 interface StoredEntry {
   value: unknown;
@@ -24,15 +25,15 @@ function toMillis(now: Date | number): number {
 
 function isClock(value: unknown): value is Clock | { now(): Date | number } {
   return (
+    isNotNil(value) &&
     typeof value === 'object' &&
-    value !== null &&
-    typeof (value as { now?: unknown }).now === 'function'
+    isFunction((value as { now?: unknown }).now)
   );
 }
 
 function isOptions(value: unknown): value is InMemoryCacheOptions {
-  if (typeof value !== 'object' || value === null) return false;
-  const v = value as Record<string, unknown>;
+  if (!isPlainObject(value)) return false;
+  const v = value;
   return (
     'defaultTtlSeconds' in v ||
     'namespace' in v ||

@@ -8,6 +8,7 @@ import {
   ENCRYPTION_SERVICE,
   ID_GENERATOR,
   MAIL,
+  MAIL_STATUS_STORE,
   PASSWORD_HASHER,
   REPOSITORY_PORT,
   QUEUE,
@@ -26,10 +27,11 @@ describe('port tokens', () => {
       CACHE_PORT,
       QUEUE,
       MAIL,
+      MAIL_STATUS_STORE,
       REPOSITORY_PORT,
     ];
-    expect(tokens).toHaveLength(9);
-    expect(new Set(tokens).size).toBe(9);
+    expect(tokens).toHaveLength(10);
+    expect(new Set(tokens).size).toBe(10);
     for (const token of tokens) {
       expect(typeof token).toBe('symbol');
     }
@@ -44,6 +46,7 @@ describe('port tokens', () => {
     expect(Symbol.keyFor(CACHE_PORT)).toBe('CACHE_PORT');
     expect(Symbol.keyFor(QUEUE)).toBe('QUEUE');
     expect(Symbol.keyFor(MAIL)).toBe('MAIL');
+    expect(Symbol.keyFor(MAIL_STATUS_STORE)).toBe('MAIL_STATUS_STORE');
     expect(Symbol.keyFor(REPOSITORY_PORT)).toBe('REPOSITORY_PORT');
   });
 

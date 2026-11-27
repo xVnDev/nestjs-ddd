@@ -8,7 +8,10 @@ const queueInstances: Array<{
   add: ReturnType<typeof vi.fn>;
   close: ReturnType<typeof vi.fn>;
 }> = [];
-const workerInstances: Array<{ close: ReturnType<typeof vi.fn> }> = [];
+const workerInstances: Array<{
+  close: ReturnType<typeof vi.fn>;
+  on: ReturnType<typeof vi.fn>;
+}> = [];
 
 vi.mock('bullmq', () => {
   const Queue = vi.fn(function () {
@@ -20,7 +23,7 @@ vi.mock('bullmq', () => {
     return instance;
   });
   const Worker = vi.fn(function () {
-    const instance = { close: vi.fn(async () => undefined) };
+    const instance = { close: vi.fn(async () => undefined), on: vi.fn() };
     workerInstances.push(instance);
     return instance;
   });
@@ -100,5 +103,37 @@ describe('BullmqQueueAdapter', () => {
       redisUrl: 'redis://localhost:6379',
     });
     expect(adapter).toBeDefined();
+  });
+
+  it('ignores unknown constructor args', () => {
+    const adapter = new BullmqQueueAdapter(42 as any, { foo: 'bar' } as any);
+    expect(adapter).toBeDefined();
+  });
+
+  it('registers abandonment callback when handler exists before worker', () => {
+    const adapter = new BullmqQueueAdapter();
+    const handler = vi.fn(async () => undefined);
+    const abandon = vi.fn();
+    adapter.registerAbandonmentHandler('jobs', abandon);
+    void adapter.registerWorker('jobs', handler);
+    const worker = workerInstances[0];
+    expect(worker.on).toHaveBeenCalledWith('failed', expect.any(Function));
+    const callback = worker.on.mock.calls[0][1];
+    callback({ data: 'payload', attemptsMade: 3, opts: { attempts: 3 } });
+    expect(abandon).toHaveBeenCalledWith('payload');
+  });
+
+  it('registers abandonment callback when worker exists before handler', () => {
+    const adapter = new BullmqQueueAdapter();
+    const handler = vi.fn(async () => undefined);
+    void adapter.registerWorker('jobs', handler);
+    const abandon = vi.fn();
+    adapter.registerAbandonmentHandler('jobs', abandon);
+    const worker = workerInstances[0];
+    expect(worker.on).toHaveBeenCalledWith('failed', expect.any(Function));
+    const callback = worker.on.mock.calls[0][1];
+    callback({ data: 'payload', attemptsMade: 1, opts: { attempts: 3 } });
+    callback({ data: 'payload', attemptsMade: 3, opts: { attempts: 3 } });
+    expect(abandon).toHaveBeenCalledWith('payload');
   });
 });

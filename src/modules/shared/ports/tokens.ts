@@ -13,6 +13,7 @@ import type { Clock } from './clock.port.js';
 import type { CachePort } from './cache.port.js';
 import type { Queue } from './queue.port.js';
 import type { Mail } from './mail.port.js';
+import type { MailStatusStore } from '../../mail/domain/ports/mail-status-store.port.js';
 import type { RepositoryPort } from './repository.port.js';
 
 /**
@@ -61,6 +62,11 @@ export const MAIL: PortToken<Mail> = Symbol.for('MAIL') as PortToken<Mail>;
 
 /** Backwards-compatible alias for the mail port token. */
 export const MAIL_PORT: PortToken<Mail> = MAIL;
+
+/** Mail status store port token. */
+export const MAIL_STATUS_STORE: PortToken<MailStatusStore> = Symbol.for(
+  'MAIL_STATUS_STORE',
+) as PortToken<MailStatusStore>;
 
 /** Repository port token. */
 export const REPOSITORY_PORT: PortToken<RepositoryPort<any>> = Symbol.for(

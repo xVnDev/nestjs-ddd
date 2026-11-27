@@ -10,9 +10,10 @@ import { I18nService } from 'nestjs-i18n';
 import type { TemplateRenderer } from '../domain/ports/template-renderer.port.js';
 
 function resolveDefaultLocale(input: unknown): string {
-  if (typeof input === 'string') return input;
+  if (typeof input === 'string') return input || 'en';
   if (input && typeof input === 'object' && 'defaultLocale' in input) {
-    return String((input as { defaultLocale: unknown }).defaultLocale || 'en');
+    const value = (input as { defaultLocale?: unknown }).defaultLocale;
+    return typeof value === 'string' && value ? value : 'en';
   }
   return 'en';
 }

@@ -40,12 +40,14 @@ describe('mail-i18n (e2e)', () => {
     const mail = app.get(MAIL) as any;
     await producer.enqueueMail({
       to: 'to@example.com',
+      subject: 'welcome',
       template: 'welcome',
       locale: 'en',
       context: { name: 'Ada', appName: 'App' },
     });
     await producer.enqueueMail({
       to: 'to@example.com',
+      subject: 'welcome',
       template: 'welcome',
       locale: 'fr',
       context: { name: 'Ada', appName: 'App' },

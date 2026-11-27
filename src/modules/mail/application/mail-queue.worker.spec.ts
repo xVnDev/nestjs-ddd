@@ -32,4 +32,29 @@ describe('MailQueueWorker', () => {
       expect.objectContaining({ to: 'to@example.com', subject: 'hi' }),
     );
   });
+
+  it('renders before sending when a renderer is provided', async () => {
+    let handler: ((payload: unknown) => void | Promise<void>) | undefined;
+    const queue = {
+      enqueue: vi.fn(),
+      registerWorker: vi.fn((name, h) => {
+        handler = h;
+      }),
+      close: vi.fn(),
+    };
+    const mail = { send: vi.fn(async () => undefined) };
+    const renderer = {
+      render: vi.fn(async () => ({ subject: 'rendered', body: 'body' })),
+    };
+    const worker = new MailQueueWorker(queue as any, mail as any, renderer as any);
+    worker.onModuleInit();
+    await handler?.({
+      id: '1',
+      message: { to: 'to@example.com', subject: 'hi', template: 'welcome', locale: 'fr', context: { name: 'Ada' } },
+    });
+    expect(renderer.render).toHaveBeenCalled();
+    expect(mail.send).toHaveBeenCalledWith(
+      expect.objectContaining({ subject: 'rendered', text: 'body' }),
+    );
+  });
 });

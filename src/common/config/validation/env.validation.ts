@@ -29,6 +29,19 @@ export const envSchema = Joi.object({
 
   CACHE_REDIS_URL: Joi.string().uri().allow('').optional(),
   CACHE_TTL_SECONDS: Joi.number().integer().min(1).optional(),
+
+  HTTP_TIMEOUT_MS: Joi.number().integer().min(1).optional(),
+  HTTP_MAX_REDIRECTS: Joi.number().integer().min(0).optional(),
+  HTTP_RETRY_ATTEMPTS: Joi.number().integer().min(0).optional(),
+
+  THROTTLE_TTL_MS: Joi.number().integer().min(1).optional(),
+  THROTTLE_LIMIT: Joi.number().integer().min(1).optional(),
+
+  IDEMPOTENCY_TTL_SECONDS: Joi.number().integer().min(1).optional(),
+
+  BREAKER_FAILURE_THRESHOLD: Joi.number().integer().min(1).optional(),
+  BREAKER_RESET_TIMEOUT_MS: Joi.number().integer().min(1).optional(),
+  BREAKER_HALF_OPEN_MAX_CALLS: Joi.number().integer().min(1).optional(),
 });
 
 /** Typed environment values produced by {@link validateEnv}. */
@@ -49,6 +62,10 @@ export interface Env {
   DATABASE_POOL_SIZE?: number;
   CACHE_REDIS_URL?: string;
   CACHE_TTL_SECONDS?: number;
+
+  HTTP_TIMEOUT_MS?: number;
+  HTTP_MAX_REDIRECTS?: number;
+  HTTP_RETRY_ATTEMPTS?: number;
 
   QUEUE_REDIS_URL?: string;
   QUEUE_PREFIX?: string;

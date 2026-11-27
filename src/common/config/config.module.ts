@@ -7,6 +7,7 @@ import { ConfigModule as NestConfigModule } from '@nestjs/config';
 import { envSchema, validateEnv } from './validation/env.validation.js';
 import { appConfig } from './app.config.js';
 import { cacheConfig } from './cache.config.js';
+import { mailConfig } from './mail.config.js';
 import { queueConfig } from './queue.config.js';
 import { observeConfig } from './observe.config.js';
 import { validationPipeConfig } from './validation-pipe.config.js';
@@ -23,6 +24,7 @@ import { databaseConfig } from './database.config.js';
       load: [
         appConfig,
         cacheConfig,
+        mailConfig,
         queueConfig,
         observeConfig,
         validationPipeConfig,

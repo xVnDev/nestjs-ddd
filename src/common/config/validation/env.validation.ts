@@ -10,6 +10,11 @@ export const envSchema = Joi.object({
   NODE_ENV: Joi.string().valid('development', 'test', 'production').required(),
 
   MAIL_HOST: Joi.string().allow('').optional(),
+  MAIL_FROM: Joi.string().email().allow('').optional(),
+  MAIL_SMTP_URL: Joi.string().uri().allow('').optional(),
+  MAIL_SMTP_HOST: Joi.string().allow('').optional(),
+  MAIL_SMTP_PORT: Joi.number().integer().min(1).max(65535).optional(),
+  MAIL_DEFAULT_LOCALE: Joi.string().allow('').optional(),
   REDIS_URL: Joi.string().allow('').optional(),
   JWT_PRIVATE_KEY_PATH: Joi.string().allow('').optional(),
   JWT_PUBLIC_KEY_PATH: Joi.string().allow('').optional(),
@@ -31,6 +36,11 @@ export interface Env {
   PORT: number;
   NODE_ENV: 'development' | 'test' | 'production';
   MAIL_HOST?: string;
+  MAIL_FROM?: string;
+  MAIL_SMTP_URL?: string;
+  MAIL_SMTP_HOST?: string;
+  MAIL_SMTP_PORT?: number;
+  MAIL_DEFAULT_LOCALE?: string;
   REDIS_URL?: string;
   JWT_PRIVATE_KEY_PATH?: string;
   JWT_PUBLIC_KEY_PATH?: string;

@@ -17,6 +17,9 @@ export const envSchema = Joi.object({
   DATABASE_URL: Joi.string().uri().required(),
   DATABASE_SSL: Joi.string().allow('').optional(),
   DATABASE_POOL_SIZE: Joi.number().integer().min(1).optional(),
+
+  CACHE_REDIS_URL: Joi.string().uri().allow('').optional(),
+  CACHE_TTL_SECONDS: Joi.number().integer().min(1).optional(),
 });
 
 /** Typed environment values produced by {@link validateEnv}. */
@@ -30,6 +33,8 @@ export interface Env {
   DATABASE_URL: string;
   DATABASE_SSL?: string;
   DATABASE_POOL_SIZE?: number;
+  CACHE_REDIS_URL?: string;
+  CACHE_TTL_SECONDS?: number;
 }
 
 /**

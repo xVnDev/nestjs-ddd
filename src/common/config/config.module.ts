@@ -6,6 +6,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule as NestConfigModule } from '@nestjs/config';
 import { envSchema, validateEnv } from './validation/env.validation.js';
 import { appConfig } from './app.config.js';
+import { cacheConfig } from './cache.config.js';
 import { observeConfig } from './observe.config.js';
 import { validationPipeConfig } from './validation-pipe.config.js';
 import { databaseConfig } from './database.config.js';
@@ -18,7 +19,7 @@ import { databaseConfig } from './database.config.js';
       validate: validateEnv,
       envFilePath: '.env',
       expandVariables: true,
-      load: [appConfig, observeConfig, validationPipeConfig, databaseConfig],
+      load: [appConfig, cacheConfig, observeConfig, validationPipeConfig, databaseConfig],
       cache: true,
     }),
   ],

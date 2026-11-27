@@ -2,10 +2,11 @@
  * @file Mail template render service.
  */
 
+import { Inject, Optional } from '@nestjs/common';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import Handlebars from 'handlebars';
-import type { I18nService } from 'nestjs-i18n';
+import { I18nService } from 'nestjs-i18n';
 import type { TemplateRenderer } from '../domain/ports/template-renderer.port.js';
 
 function resolveDefaultLocale(input: unknown): string {
@@ -20,7 +21,9 @@ export class MailTemplateRenderService implements TemplateRenderer {
   private readonly defaultLocale: string;
 
   constructor(
+    @Inject(I18nService)
     private readonly i18n: I18nService | { translate: (key: string, options?: any) => any },
+    @Optional()
     defaultLocaleOrConfig: string | { defaultLocale?: string } = 'en',
   ) {
     this.defaultLocale = resolveDefaultLocale(defaultLocaleOrConfig);
@@ -51,7 +54,7 @@ export class MailTemplateRenderService implements TemplateRenderer {
     try {
       const translated = await (this.i18n as any).translate(
         `mail.${key}.subject`,
-        { lang: resolvedLocale, args: context },
+        { lang: resolvedLocale },
       );
       subject = typeof translated === 'string' ? translated : String(translated);
     } catch {

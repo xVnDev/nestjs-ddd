@@ -21,9 +21,10 @@ export class MailQueueWorker implements OnModuleInit {
     const handler: QueueHandler = async (payload: unknown) => {
       const job = payload as SendMailJob;
       const locale = job.message.locale ?? 'en';
-      if (this.renderer) {
+      const template = job.message.template ?? job.message.templateKey;
+      if (this.renderer && template) {
         const rendered = await this.renderer.render(
-          job.message.template ?? job.message.templateKey ?? 'welcome',
+          template,
           locale,
           job.message.context ?? {},
         );

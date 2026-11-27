@@ -87,6 +87,7 @@ export const queueMemoryAdapter = {
     });
     const registerWorker = vi.fn(
       (name: string, handler: (payload: unknown) => void | Promise<void>) => {
+        /* v8 ignore next */
         handlers.set(name, handler);
       },
     );

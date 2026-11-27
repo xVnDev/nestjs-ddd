@@ -20,6 +20,7 @@ import { definePortConformance } from '../../testing/conformance.js';
 import type { PortAdapterEntry } from '../../testing/conformance.js';
 import type { QueuePort } from '../../ports/queue.port.js';
 import { BullmqQueueAdapter } from './bullmq-queue.adapter.js';
+import { InMemoryQueueAdapter } from './in-memory-queue.adapter.js';
 
 export type QueueConformanceFactory = () => QueuePort | Promise<QueuePort>;
 
@@ -60,10 +61,14 @@ export const runQueueConformance = defineQueueConformance;
 export const queueConformanceSpec = defineQueueConformance;
 export const queueConformance = defineQueueConformance;
 
-// Wire the suite to the BullMQ adapter for unit execution.
+// Wire the suite to both adapters for unit execution.
 defineQueueConformance([
   {
     name: 'BullMQ',
     create: () => new BullmqQueueAdapter(),
+  },
+  {
+    name: 'InMemory',
+    create: () => new InMemoryQueueAdapter(),
   },
 ]);

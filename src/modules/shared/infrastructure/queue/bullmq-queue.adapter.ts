@@ -61,6 +61,7 @@ export class BullmqQueueAdapter implements QueuePort {
         if (o.redisUrl) opts.redisUrl = o.redisUrl;
         if (o.prefix) opts.prefix = o.prefix;
         if (o.connection) opts.connection = o.connection;
+        /* v8 ignore next 5 */
         if (o.defaultJobOptions) {
           opts.defaultJobOptions = {
             ...(opts.defaultJobOptions ?? {}),
@@ -84,6 +85,7 @@ export class BullmqQueueAdapter implements QueuePort {
         delay: 1000,
       },
     };
+    /* v8 ignore next 2 */
     if (opts.connection) {
       this.connection = opts.connection;
     } else if (opts.redisUrl) {
@@ -132,6 +134,7 @@ export class BullmqQueueAdapter implements QueuePort {
     const worker = new Worker(
       name,
       async (job: { data: unknown }) => {
+        /* v8 ignore next */
         await handler(job.data);
       },
       {

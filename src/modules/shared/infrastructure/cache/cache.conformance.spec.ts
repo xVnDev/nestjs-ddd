@@ -8,6 +8,7 @@ import { definePortConformance } from '../../testing/conformance.js';
 import type { PortAdapterEntry } from '../../testing/conformance.js';
 import type { CachePort } from '../../ports/cache.port.js';
 import { KeyvRedisCacheAdapter } from './keyv-redis-cache.adapter.js';
+import { InMemoryCacheAdapter } from './in-memory-cache.adapter.js';
 
 export type CacheConformanceFactory = () => CachePort | Promise<CachePort>;
 
@@ -66,10 +67,14 @@ export const runCacheConformance = defineCacheConformance;
 export const cacheConformanceSpec = defineCacheConformance;
 export const cacheConformance = defineCacheConformance;
 
-// Wire the suite to the Keyv adapter (in-memory store) for unit execution.
+// Wire the suite to both adapters for unit execution.
 defineCacheConformance([
   {
     name: 'Keyv',
     create: () => new KeyvRedisCacheAdapter(new Keyv(), 1, 'nestjs-ddd'),
+  },
+  {
+    name: 'InMemory',
+    create: () => new InMemoryCacheAdapter(1, 'nestjs-ddd'),
   },
 ]);

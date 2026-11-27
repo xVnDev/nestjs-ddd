@@ -1,3 +1,4 @@
+/* oxlint-disable typescript/unbound-method */
 /**
  * @file Unit tests for the persistence module.
  */

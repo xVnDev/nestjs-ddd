@@ -54,11 +54,14 @@ export class KeyvRedisCacheAdapter implements CachePort {
       if (opts.keyv) {
         this.keyv = opts.keyv;
       } else if (opts.redisUrl) {
-        this.keyv = new Keyv(new KeyvRedis(opts.redisUrl)) as unknown as KeyvLike;
+        this.keyv = new Keyv(
+          new KeyvRedis(opts.redisUrl),
+        ) as unknown as KeyvLike;
       } else {
         this.keyv = new Keyv() as unknown as KeyvLike;
       }
-      this.defaultTtlSeconds = opts.defaultTtlSeconds ?? defaultTtlSeconds ?? 300;
+      this.defaultTtlSeconds =
+        opts.defaultTtlSeconds ?? defaultTtlSeconds ?? 300;
       this.namespace = opts.namespace ?? namespace ?? 'nestjs-ddd';
     }
   }
@@ -96,4 +99,3 @@ export class KeyvRedisCacheAdapter implements CachePort {
     return `${this.namespace}:${key}`;
   }
 }
-

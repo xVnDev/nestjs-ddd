@@ -72,6 +72,10 @@ export interface Env {
 
   IDEMPOTENCY_TTL_SECONDS?: number;
 
+  BREAKER_FAILURE_THRESHOLD?: number;
+  BREAKER_RESET_TIMEOUT_MS?: number;
+  BREAKER_HALF_OPEN_MAX_CALLS?: number;
+
   QUEUE_REDIS_URL?: string;
   QUEUE_PREFIX?: string;
   QUEUE_DEFAULT_ATTEMPTS?: number;

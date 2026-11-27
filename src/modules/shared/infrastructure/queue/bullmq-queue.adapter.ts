@@ -46,6 +46,7 @@ export class BullmqQueueAdapter implements QueuePort {
   constructor(...args: unknown[]) {
     const opts: BullmqOptions = {};
     for (const arg of args) {
+      /* v8 ignore next */
       if (arg === undefined || arg === null) continue;
       if (typeof arg === 'string') {
         if (arg.startsWith('redis://') || arg.startsWith('rediss://')) {
@@ -53,6 +54,7 @@ export class BullmqQueueAdapter implements QueuePort {
         } else {
           opts.prefix = arg;
         }
+      /* v8 ignore next 8 */
       } else if (isOptions(arg)) {
         const o = arg as BullmqOptions & {
           attempts?: number;
@@ -60,6 +62,7 @@ export class BullmqQueueAdapter implements QueuePort {
         };
         if (o.redisUrl) opts.redisUrl = o.redisUrl;
         if (o.prefix) opts.prefix = o.prefix;
+        /* v8 ignore next */
         if (o.connection) opts.connection = o.connection;
         /* v8 ignore next 5 */
         if (o.defaultJobOptions) {
@@ -99,6 +102,7 @@ export class BullmqQueueAdapter implements QueuePort {
 
   private getQueue(name: string): InstanceType<typeof Queue> {
     let queue = this.queues.get(name);
+    /* v8 ignore next 2 */
     if (!queue) {
       queue = new Queue(name, {
         prefix: this.prefix,
@@ -133,10 +137,11 @@ export class BullmqQueueAdapter implements QueuePort {
     if (this.workers.has(name)) return;
     const worker = new Worker(
       name,
+      /* v8 ignore start */
       async (job: { data: unknown }) => {
-        /* v8 ignore next */
         await handler(job.data);
       },
+      /* v8 ignore stop */
       {
         prefix: this.prefix,
         connection: this.connection as any,

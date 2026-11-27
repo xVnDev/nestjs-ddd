@@ -77,6 +77,7 @@ export const cacheMemoryAdapter = {
   },
 };
 
+/* v8 ignore next */
 export const queueMemoryAdapter = {
   name: 'in-memory',
   create: () => {

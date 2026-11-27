@@ -121,9 +121,9 @@ Status legend: ⬜ Planned · 🚧 In progress · ✅ Done · ⏸ Blocked · ❌
 | `P03-01` | P03 · Data & Infrastructure | 1 | `feat(db): register TypeORM PostgreSQL async config` | ✅ Done |
 | `P03-02` | P03 · Data & Infrastructure | 1 | `feat(db): add soft-delete base entity and repository port` | ✅ Done |
 | `P03-03` | P03 · Data & Infrastructure | 1 | `feat(db): generate initial migration and add migration CI check` | ✅ Done |
-| `P03-04` | P03 · Data & Infrastructure | 2 | `feat(cache): add Keyv Redis adapter with boilerplate namespace` | ⬜ Planned |
-| `P03-05` | P03 · Data & Infrastructure | 2 | `feat(cache): add in-memory cache fallback adapter and conformance spec` | ⬜ Planned |
-| `P03-06` | P03 · Data & Infrastructure | 2 | `feat(queue): add BullMQ adapter, in-memory fallback and queue port conformance` | ⬜ Planned |
+| `P03-04` | P03 · Data & Infrastructure | 2 | `feat(cache): add Keyv Redis adapter with boilerplate namespace` | ✅ Done |
+| `P03-05` | P03 · Data & Infrastructure | 2 | `feat(cache): add in-memory cache fallback adapter and conformance spec` | ✅ Done |
+| `P03-06` | P03 · Data & Infrastructure | 2 | `feat(queue): add BullMQ adapter, in-memory fallback and queue port conformance` | ✅ Done |
 | `P03-07` | P03 · Data & Infrastructure | 3 | `feat(mail): define mail port, transport adapter and named queue producer/worker` | ⬜ Planned |
 | `P03-08` | P03 · Data & Infrastructure | 3 | `feat(mail): add i18n Handlebars templates and render service` | ⬜ Planned |
 | `P03-09` | P03 · Data & Infrastructure | 3 | `feat(mail): add send-status tracking and queue abandonment hooks` | ⬜ Planned |

@@ -37,7 +37,9 @@ describe('cacheConfig', () => {
     process.env.CACHE_TTL_SECONDS = '120';
     process.env.NODE_ENV = 'test';
     const moduleRef = await Test.createTestingModule({
-      imports: [NestConfigModule.forRoot({ load: [cacheConfig], isGlobal: true })],
+      imports: [
+        NestConfigModule.forRoot({ load: [cacheConfig], isGlobal: true }),
+      ],
     }).compile();
     const configService = moduleRef.get(ConfigService);
     expect(configService.get('cache.namespace')).toBe('nestjs-ddd');

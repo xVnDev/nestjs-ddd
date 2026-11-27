@@ -30,11 +30,11 @@ export class SmtpMailAdapter implements MailPort {
           config?: MailConfig;
           from?: string;
         } = {},
-    configOrTransport?: MailConfig | TransportLike | SendMailFn,
-    config?: MailConfig,
+    configOrTransport?: Partial<MailConfig> | TransportLike | SendMailFn,
+    config?: Partial<MailConfig>,
   ) {
     let transport: TransportLike | SendMailFn | undefined;
-    let cfg: MailConfig | undefined;
+    let cfg: Partial<MailConfig> | undefined;
 
     if (
       transportOrOptions &&

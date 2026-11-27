@@ -9,7 +9,7 @@ import { InMemoryMailAdapter } from './in-memory-mail.adapter.js';
 
 const smtpTransport = { sendMail: vi.fn(async () => ({})) };
 
-definePortConformance('Mail', [
+definePortConformance<import('../../shared/ports/mail.port.js').MailPort>('Mail', [
   {
     name: 'smtp (mocked transport)',
     create: () => new SmtpMailAdapter(smtpTransport, { from: 'from@example.com' }),

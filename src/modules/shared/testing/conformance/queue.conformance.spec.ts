@@ -1,3 +1,4 @@
+/* oxlint-disable typescript/unbound-method */
 import { expect, vi } from 'vitest';
 import { definePortConformance } from '../conformance.js';
 import { queueMemoryAdapter } from '../fixtures/memory-adapters.js';

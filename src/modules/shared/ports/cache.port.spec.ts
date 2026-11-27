@@ -1,3 +1,4 @@
+/* oxlint-disable typescript/no-redundant-type-constituents */
 /**
  * @file Cache port spec.
  */
@@ -15,9 +16,7 @@ describe('cache port', () => {
   });
 
   it('CachePort has typed get/set/delete/has', () => {
-    expectTypeOf<CachePort['get']>().returns.toEqualTypeOf<
-      Promise<unknown | null>
-    >();
+    expectTypeOf<CachePort['get']>().returns.toEqualTypeOf<Promise<unknown>>();
     expectTypeOf<CachePort['set']>().returns.toEqualTypeOf<Promise<void>>();
     expectTypeOf<CachePort['delete']>().returns.toEqualTypeOf<Promise<void>>();
     expectTypeOf<CachePort['has']>().returns.toEqualTypeOf<Promise<boolean>>();

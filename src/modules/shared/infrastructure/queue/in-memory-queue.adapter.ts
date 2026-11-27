@@ -4,6 +4,7 @@
 
 import type { Clock } from '../../ports/clock.port.js';
 import type { QueuePort, QueueJobOptions, QueueHandler } from '../../ports/queue.port.js';
+import { isFunction, isNotNil, isPlainObject } from 'es-toolkit/predicate';
 
 interface InMemoryQueueOptions {
   clock?: Clock | { now(): Date | number };
@@ -15,16 +16,15 @@ interface InMemoryQueueOptions {
 
 function isClock(value: unknown): value is Clock | { now(): Date | number } {
   return (
+    isNotNil(value) &&
     typeof value === 'object' &&
-    value !== null &&
-    typeof (value as { now?: unknown }).now === 'function'
+    isFunction((value as { now?: unknown }).now)
   );
 }
 
 function isOptions(value: unknown): value is InMemoryQueueOptions {
   return (
-    typeof value === 'object' &&
-    value !== null &&
+    isPlainObject(value) &&
     ('clock' in value || 'defaultJobOptions' in value || 'attempts' in value)
   );
 }

@@ -5,6 +5,7 @@
 import { Queue, Worker } from 'bullmq';
 import IORedis from 'ioredis';
 import type { QueuePort, QueueJobOptions } from '../../ports/queue.port.js';
+import { isPlainObject } from 'es-toolkit/predicate';
 
 interface BullmqOptions {
   redisUrl?: string;
@@ -20,8 +21,7 @@ interface BullmqOptions {
 
 function isOptions(value: unknown): value is BullmqOptions {
   return (
-    typeof value === 'object' &&
-    value !== null &&
+    isPlainObject(value) &&
     ('redisUrl' in value ||
       'prefix' in value ||
       'defaultJobOptions' in value ||

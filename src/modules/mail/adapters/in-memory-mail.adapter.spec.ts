@@ -15,4 +15,10 @@ describe('InMemoryMailAdapter', () => {
     expect(adapter.sent()[0].subject).toBe('subject');
     expect(vi.isMockFunction(adapter.send)).toBe(true);
   });
+
+  it('exposes messages alias', async () => {
+    const adapter = new InMemoryMailAdapter();
+    await adapter.send({ to: 'to@example.com', subject: 'subject', text: 'body' });
+    expect(adapter.messages).toHaveLength(1);
+  });
 });

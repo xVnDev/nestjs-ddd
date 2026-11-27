@@ -38,3 +38,15 @@ definePortConformance<import('../domain/ports/mail-status-store.port.js').MailSt
     expect(await getAdapter().listByStatus(MailSendStatus.SENT)).toContain('job-2');
   });
 });
+
+describe('TypeOrmMailStatusStoreAdapter EntityManager source', () => {
+  it('uses an entity manager repository', async () => {
+    const repo = createRepo();
+    const entityManager = { getRepository: vi.fn(() => repo) };
+    const adapter = new TypeOrmMailStatusStoreAdapter(entityManager as any, 'MailSendStatus');
+    await adapter.set('job-em', MailSendStatus.QUEUED);
+    expect(await adapter.get('job-em')).toBe(MailSendStatus.QUEUED);
+    await adapter.set('job-em-2', MailSendStatus.SENT);
+    expect(await adapter.listByStatus(MailSendStatus.SENT)).toContain('job-em-2');
+  });
+});

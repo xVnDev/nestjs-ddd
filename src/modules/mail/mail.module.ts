@@ -4,6 +4,7 @@
 
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { QueueModule } from '../shared/infrastructure/queue/queue.module.js';
 import { MAIL } from '../shared/ports/tokens.js';
 import {
   mailConfig,
@@ -12,11 +13,13 @@ import {
 import type { MailConfig as MailConfigType } from '../../common/config/mail.config.js';
 import { SmtpMailAdapter } from './adapters/smtp-mail.adapter.js';
 import { InMemoryMailAdapter } from './adapters/in-memory-mail.adapter.js';
+import { MailQueueProducer } from './application/mail-queue.producer.js';
 import nodemailer from 'nodemailer';
 
 @Module({
-  imports: [ConfigModule.forFeature(mailConfig)],
+  imports: [ConfigModule.forFeature(mailConfig), QueueModule],
   providers: [
+    MailQueueProducer,
     {
       provide: MAIL,
       useFactory: (cfg: MailConfigType) => {
@@ -34,6 +37,6 @@ import nodemailer from 'nodemailer';
       inject: [MAIL_CONFIG],
     },
   ],
-  exports: [MAIL],
+  exports: [MAIL, MailQueueProducer],
 })
 export class MailModule {}

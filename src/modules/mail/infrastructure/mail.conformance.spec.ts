@@ -21,16 +21,20 @@ definePortConformance<MailPort>('Mail', [
   },
 ], (getAdapter) => {
   it('send resolves', async () => {
-    await getAdapter().send({ to: 'to@example.com', subject: 'hi', text: 'body' });
+    await expect(
+      getAdapter().send({ to: 'to@example.com', subject: 'hi', text: 'body' }),
+    ).resolves.toBeUndefined();
   });
 
   it('passes locale through', async () => {
-    await getAdapter().send({
-      to: 'to@example.com',
-      subject: 'hi',
-      text: 'body',
-      locale: 'fr',
-    });
+    await expect(
+      getAdapter().send({
+        to: 'to@example.com',
+        subject: 'hi',
+        text: 'body',
+        locale: 'fr',
+      }),
+    ).resolves.toBeUndefined();
   });
 
   it('propagates transport errors', async () => {

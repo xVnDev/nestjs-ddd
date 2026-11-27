@@ -2,6 +2,7 @@
  * @file Resilient HTTP client adapter wrapping HttpClientPort with a circuit breaker.
  */
 
+import { HttpClientAdapterBase } from '../http/http-client.base.js';
 import type {
   HttpClientPort,
   HttpRequestOptions,
@@ -17,7 +18,7 @@ function originOf(url: string): string {
   }
 }
 
-export class ResilientHttpClientAdapter implements HttpClientPort {
+export class ResilientHttpClientAdapter extends HttpClientAdapterBase {
   private readonly httpClient: HttpClientPort;
   private readonly breaker: CircuitBreakerPort;
 
@@ -32,6 +33,7 @@ export class ResilientHttpClientAdapter implements HttpClientPort {
         },
     breaker?: CircuitBreakerPort,
   ) {
+    super();
     if (
       httpClientOrOptions &&
       typeof (httpClientOrOptions as HttpClientPort).request === 'function'
@@ -67,22 +69,5 @@ export class ResilientHttpClientAdapter implements HttpClientPort {
       }
       throw error;
     }
-  }
-
-  /** {@inheritDoc HttpClientPort.get} */
-  async get<T>(
-    url: string,
-    options?: Omit<HttpRequestOptions, 'method' | 'url'>,
-  ): Promise<T> {
-    return this.request<T>({ method: 'GET', url, ...options });
-  }
-
-  /** {@inheritDoc HttpClientPort.post} */
-  async post<T>(
-    url: string,
-    body?: unknown,
-    options?: Omit<HttpRequestOptions, 'method' | 'url' | 'body'>,
-  ): Promise<T> {
-    return this.request<T>({ method: 'POST', url, body, ...options });
   }
 }

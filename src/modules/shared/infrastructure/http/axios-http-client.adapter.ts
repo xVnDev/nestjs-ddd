@@ -5,10 +5,8 @@
 import { randomUUID } from 'node:crypto';
 import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
 import type { HttpConfig } from '../../../../common/config/http.config.js';
-import type {
-  HttpClientPort,
-  HttpRequestOptions,
-} from '../../ports/http-client.port.js';
+import { HttpClientAdapterBase } from './http-client.base.js';
+import type { HttpRequestOptions } from '../../ports/http-client.port.js';
 import { HttpError } from '../../domain/http-error.js';
 
 type AxiosLike =
@@ -30,7 +28,7 @@ function toConfig(cfg: unknown): Partial<HttpConfig> {
 /**
  * Axios-backed HTTP client adapter.
  */
-export class AxiosHttpClientAdapter implements HttpClientPort {
+export class AxiosHttpClientAdapter extends HttpClientAdapterBase {
   private readonly axios: AxiosLike;
   private readonly config: Partial<HttpConfig>;
 
@@ -45,6 +43,7 @@ export class AxiosHttpClientAdapter implements HttpClientPort {
         },
     config?: Partial<HttpConfig>,
   ) {
+    super();
     if (isAxiosInstance(axiosOrOptions)) {
       this.axios = axiosOrOptions;
       this.config = toConfig(config);
@@ -104,23 +103,6 @@ export class AxiosHttpClientAdapter implements HttpClientPort {
     } catch (error) {
       throw this.mapError(error);
     }
-  }
-
-  /** {@inheritDoc HttpClientPort.get} */
-  async get<T>(
-    url: string,
-    options?: Omit<HttpRequestOptions, 'method' | 'url'>,
-  ): Promise<T> {
-    return this.request<T>({ method: 'GET', url, ...options });
-  }
-
-  /** {@inheritDoc HttpClientPort.post} */
-  async post<T>(
-    url: string,
-    body?: unknown,
-    options?: Omit<HttpRequestOptions, 'method' | 'url' | 'body'>,
-  ): Promise<T> {
-    return this.request<T>({ method: 'POST', url, body, ...options });
   }
 
   private mapError(error: unknown): HttpError {

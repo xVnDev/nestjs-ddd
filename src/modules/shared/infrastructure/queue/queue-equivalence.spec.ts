@@ -35,8 +35,8 @@ describe('queue equivalence', () => {
 
     const bullmqWorker = vi.fn(async () => undefined);
     const memoryWorker = vi.fn(async () => undefined);
-    bullmq.registerWorker('jobs', bullmqWorker);
-    memory.registerWorker('jobs', memoryWorker);
+    void bullmq.registerWorker('jobs', bullmqWorker);
+    void memory.registerWorker('jobs', memoryWorker);
 
     await bullmq.close();
     await memory.close();

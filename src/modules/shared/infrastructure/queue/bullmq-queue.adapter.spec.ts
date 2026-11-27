@@ -70,7 +70,7 @@ describe('BullmqQueueAdapter', () => {
   it('registers a worker', () => {
     const adapter = new BullmqQueueAdapter();
     const handler = vi.fn(async () => undefined);
-    adapter.registerWorker('jobs', handler);
+    void adapter.registerWorker('jobs', handler);
     expect(Worker).toHaveBeenCalled();
     expect(workerInstances).toHaveLength(1);
   });
@@ -78,14 +78,14 @@ describe('BullmqQueueAdapter', () => {
   it('does not register duplicate workers', () => {
     const adapter = new BullmqQueueAdapter();
     const handler = vi.fn(async () => undefined);
-    adapter.registerWorker('jobs', handler);
-    adapter.registerWorker('jobs', handler);
+    void adapter.registerWorker('jobs', handler);
+    void adapter.registerWorker('jobs', handler);
     expect(workerInstances).toHaveLength(1);
   });
 
   it('close drains workers and queues', async () => {
     const adapter = new BullmqQueueAdapter();
-    adapter.registerWorker('jobs', vi.fn(async () => undefined));
+    void adapter.registerWorker('jobs', vi.fn(async () => undefined));
     await adapter.enqueue('jobs', 1);
     await adapter.close();
     expect(workerInstances[0].close).toHaveBeenCalled();

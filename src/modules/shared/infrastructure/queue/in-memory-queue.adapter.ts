@@ -164,6 +164,6 @@ export class InMemoryQueueAdapter implements QueuePort {
 
   /** {@inheritDoc QueuePort.close} */
   async close(): Promise<void> {
-    await Promise.all([...this.processingPromises.values()]);
+    await Promise.all(this.processingPromises.values());
   }
 }

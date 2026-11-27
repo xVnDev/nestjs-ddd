@@ -67,12 +67,12 @@ export class BullmqQueueAdapter implements QueuePort {
         /* v8 ignore next 5 */
         if (o.defaultJobOptions) {
           opts.defaultJobOptions = {
-            ...(opts.defaultJobOptions ?? {}),
+            ...opts.defaultJobOptions,
             ...o.defaultJobOptions,
           };
         } else if (o.attempts !== undefined || o.backoff) {
           opts.defaultJobOptions = {
-            ...(opts.defaultJobOptions ?? {}),
+            ...opts.defaultJobOptions,
             ...(o.attempts !== undefined ? { attempts: o.attempts } : {}),
             ...(o.backoff ? { backoff: o.backoff } : {}),
           };

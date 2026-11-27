@@ -36,7 +36,7 @@ describe('queue-memory (e2e)', () => {
   it('boots with the memory adapter and delivers a job to a worker', async () => {
     const queue = app.get(QUEUE) as QueuePort;
     const handler = vi.fn(async () => undefined);
-    queue.registerWorker('jobs', handler);
+    void queue.registerWorker('jobs', handler);
     await queue.enqueue('jobs', { payload: 'value' });
     await new Promise((resolve) => setTimeout(resolve, 50));
     expect(handler).toHaveBeenCalledWith({ payload: 'value' });

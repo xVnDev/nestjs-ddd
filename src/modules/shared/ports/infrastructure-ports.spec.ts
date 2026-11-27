@@ -18,6 +18,16 @@ describe('infrastructure ports', () => {
     expectTypeOf<Queue['enqueue']>().returns.toEqualTypeOf<Promise<void>>();
   });
 
+  it('Queue.registerWorker returns void or promise', () => {
+    expectTypeOf<Queue['registerWorker']>().returns.toEqualTypeOf<
+      void | Promise<void>
+    >();
+  });
+
+  it('Queue.close returns void promise', () => {
+    expectTypeOf<Queue['close']>().returns.toEqualTypeOf<Promise<void>>();
+  });
+
   it('Mail.send returns void promise', () => {
     expectTypeOf<Mail['send']>().returns.toEqualTypeOf<Promise<void>>();
   });
@@ -29,7 +39,11 @@ describe('infrastructure ports', () => {
       delete: vi.fn(async () => undefined),
       has: vi.fn(async () => false),
     };
-    const queue: Queue = { enqueue: vi.fn(async () => undefined) };
+    const queue: Queue = {
+      enqueue: vi.fn(async () => undefined),
+      registerWorker: vi.fn(() => undefined),
+      close: vi.fn(async () => undefined),
+    };
     const mail: Mail = { send: vi.fn(async () => undefined) };
     expect(cache).toBeDefined();
     expect(queue).toBeDefined();

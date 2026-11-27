@@ -16,7 +16,7 @@ import { CacheModule } from './modules/shared/infrastructure/cache/cache.module.
 import { QueueModule } from './modules/shared/infrastructure/queue/queue.module.js';
 import { HttpClientModule } from './modules/shared/infrastructure/http/http-client.module.js';
 import { ThrottlerModule } from './modules/shared/infrastructure/throttler/throttler.module.js';
-
+import { ResilienceModule } from './modules/shared/infrastructure/resilience/resilience.module.js';
 import { LoggerModule } from './common/logger/logger.module.js';
 import { observeConfig } from './common/config/observe.config.js';
 
@@ -30,6 +30,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     QueueModule,
     HttpClientModule,
     ThrottlerModule,
+    ResilienceModule,
     LoggerModule,
     // Distributed tracing, auto-correlated logs, request/job metrics, error
     // telemetry, alarms, and more — out of the box. Sign up at https://observe.nestjs.com,

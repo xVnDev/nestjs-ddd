@@ -35,7 +35,7 @@ jobs:
       NODE_ENV: test
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/nestjs_ddd
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
           node-version: 'lts/*'

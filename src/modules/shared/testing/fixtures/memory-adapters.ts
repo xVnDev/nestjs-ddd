@@ -4,7 +4,7 @@
 
 import { vi } from 'vitest';
 import type {
-  Cache,
+  CachePort as Cache,
   Clock,
   EncryptionService,
   IdGenerator,
@@ -66,10 +66,13 @@ export const cacheMemoryAdapter = {
     const set = async <T>(key: string, value: T): Promise<void> => {
       store.set(key, value);
     };
-    const del = vi.fn(async (key: string): Promise<void> => {
+    const deleteFn = vi.fn(async (key: string): Promise<void> => {
       store.delete(key);
     });
-    const adapter: Cache = { get, set, del };
+    const has = vi.fn(async (key: string): Promise<boolean> =>
+      store.has(key),
+    );
+    const adapter: Cache = { get, set, delete: deleteFn, has };
     return adapter;
   },
 };

@@ -3,7 +3,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import {
-  CACHE,
+  CACHE_PORT,
   CLOCK,
   ENCRYPTION_SERVICE,
   ID_GENERATOR,
@@ -23,7 +23,7 @@ describe('port tokens', () => {
       ENCRYPTION_SERVICE,
       ID_GENERATOR,
       CLOCK,
-      CACHE,
+      CACHE_PORT,
       QUEUE,
       MAIL,
       REPOSITORY_PORT,
@@ -41,7 +41,7 @@ describe('port tokens', () => {
     expect(Symbol.keyFor(ENCRYPTION_SERVICE)).toBe('ENCRYPTION_SERVICE');
     expect(Symbol.keyFor(ID_GENERATOR)).toBe('ID_GENERATOR');
     expect(Symbol.keyFor(CLOCK)).toBe('CLOCK');
-    expect(Symbol.keyFor(CACHE)).toBe('CACHE');
+    expect(Symbol.keyFor(CACHE_PORT)).toBe('CACHE_PORT');
     expect(Symbol.keyFor(QUEUE)).toBe('QUEUE');
     expect(Symbol.keyFor(MAIL)).toBe('MAIL');
     expect(Symbol.keyFor(REPOSITORY_PORT)).toBe('REPOSITORY_PORT');

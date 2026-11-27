@@ -1,10 +1,18 @@
 /**
  * @file Cache port.
  */
-export interface Cache {
+
+/**
+ * Narrow cache port over serialisable values.
+ *
+ * Implementations must be swappable behind the {@link CACHE_PORT} token.
+ */
+export interface CachePort {
   get<T>(key: string): Promise<T | null>;
   set<T>(key: string, value: T, ttlSeconds?: number): Promise<void>;
-  del(key: string): Promise<void>;
+  delete(key: string): Promise<void>;
+  has(key: string): Promise<boolean>;
 }
 
-export type CachePort = Cache;
+/** Backwards-compatible alias for the cache port. */
+export type Cache = CachePort;

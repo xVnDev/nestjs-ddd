@@ -67,6 +67,9 @@ export interface Env {
   HTTP_MAX_REDIRECTS?: number;
   HTTP_RETRY_ATTEMPTS?: number;
 
+  THROTTLE_TTL_MS?: number;
+  THROTTLE_LIMIT?: number;
+
   QUEUE_REDIS_URL?: string;
   QUEUE_PREFIX?: string;
   QUEUE_DEFAULT_ATTEMPTS?: number;

@@ -26,7 +26,7 @@ export class MailQueueWorker implements OnModuleInit {
   constructor(
     @Inject(QUEUE) private readonly queue: QueuePort,
     @Inject(MAIL) private readonly mail: MailPort,
-    @Optional() rendererOrStore?: unknown,
+    @Inject(MailTemplateRenderService) @Optional() rendererOrStore?: unknown,
     @Inject(MAIL_STATUS_STORE) @Optional() statusStoreOrTracker?: unknown,
   ) {
     // Allow callers to pass the status store in the renderer slot.

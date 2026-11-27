@@ -16,22 +16,35 @@ export type SendMailJob = {
   message: MailMessage;
 };
 
-function isStatusStore(value: unknown): value is { set: (id: string, status: MailSendStatus) => any } {
+function isStatusStore(
+  value: unknown,
+): value is { set: (id: string, status: MailSendStatus) => any } {
   return !!value && typeof (value as { set?: unknown }).set === 'function';
 }
 
 @Injectable()
 export class MailQueueProducer {
-  private readonly statusStore?: { set: (id: string, status: MailSendStatus) => any };
+  private readonly statusStore?: {
+    set: (id: string, status: MailSendStatus) => any;
+  };
 
   constructor(
     @Inject(QUEUE) private readonly queue: QueuePort,
     @Inject(MAIL_STATUS_STORE) @Optional() statusStoreOrTracker?: unknown,
   ) {
     if (isStatusStore(statusStoreOrTracker)) {
-      this.statusStore = statusStoreOrTracker as { set: (id: string, status: MailSendStatus) => any };
-    } else if (statusStoreOrTracker && typeof (statusStoreOrTracker as { store?: unknown }).store !== 'undefined') {
-      const store = (statusStoreOrTracker as { store: { set: (id: string, status: MailSendStatus) => any } }).store;
+      this.statusStore = statusStoreOrTracker as {
+        set: (id: string, status: MailSendStatus) => any;
+      };
+    } else if (
+      statusStoreOrTracker &&
+      typeof (statusStoreOrTracker as { store?: unknown }).store !== 'undefined'
+    ) {
+      const store = (
+        statusStoreOrTracker as {
+          store: { set: (id: string, status: MailSendStatus) => any };
+        }
+      ).store;
       if (isStatusStore(store)) this.statusStore = store;
     }
   }

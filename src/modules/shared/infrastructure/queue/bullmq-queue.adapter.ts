@@ -36,7 +36,10 @@ function isOptions(value: unknown): value is BullmqOptions {
 export class BullmqQueueAdapter implements QueuePort {
   private readonly queues = new Map<string, InstanceType<typeof Queue>>();
   private readonly workers = new Map<string, any>();
-  private readonly abandonmentHandlers = new Map<string, (payload: unknown) => void | Promise<void>>();
+  private readonly abandonmentHandlers = new Map<
+    string,
+    (payload: unknown) => void | Promise<void>
+  >();
   private readonly prefix: string;
   private readonly defaultJobOptions: {
     attempts: number;

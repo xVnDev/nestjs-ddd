@@ -10,18 +10,31 @@ import type { SendMailJob } from './mail-queue.producer.js';
 import { MailTemplateRenderService } from './mail-template-render.service.js';
 import { MailSendStatus } from '../domain/mail-send-status.js';
 
-function isRenderer(value: unknown): value is { render: (...args: any[]) => any } {
-  return !!value && typeof (value as { render?: unknown }).render === 'function';
+function isRenderer(
+  value: unknown,
+): value is { render: (...args: any[]) => any } {
+  return (
+    !!value && typeof (value as { render?: unknown }).render === 'function'
+  );
 }
 
-function isStatusStore(value: unknown): value is { set: (...args: any[]) => any; get?: (...args: any[]) => any } {
-  return !!value && typeof (value as { set?: unknown }).set === 'function' && !isRenderer(value);
+function isStatusStore(
+  value: unknown,
+): value is { set: (...args: any[]) => any; get?: (...args: any[]) => any } {
+  return (
+    !!value &&
+    typeof (value as { set?: unknown }).set === 'function' &&
+    !isRenderer(value)
+  );
 }
 
 @Injectable()
 export class MailQueueWorker implements OnModuleInit {
   private readonly renderer?: MailTemplateRenderService;
-  private readonly statusStore?: { set: (id: string, status: MailSendStatus) => any; get?: (id: string) => any };
+  private readonly statusStore?: {
+    set: (id: string, status: MailSendStatus) => any;
+    get?: (id: string) => any;
+  };
 
   constructor(
     @Inject(QUEUE) private readonly queue: QueuePort,
@@ -33,15 +46,27 @@ export class MailQueueWorker implements OnModuleInit {
     if (isRenderer(rendererOrStore)) {
       this.renderer = rendererOrStore as MailTemplateRenderService;
     } else if (isStatusStore(rendererOrStore)) {
-      this.statusStore = rendererOrStore as { set: (id: string, status: MailSendStatus) => any; get?: (id: string) => any };
+      this.statusStore = rendererOrStore as {
+        set: (id: string, status: MailSendStatus) => any;
+        get?: (id: string) => any;
+      };
     }
 
     if (isStatusStore(statusStoreOrTracker)) {
-      this.statusStore = statusStoreOrTracker as { set: (id: string, status: MailSendStatus) => any; get?: (id: string) => any };
-    } else if (statusStoreOrTracker && typeof (statusStoreOrTracker as { store?: unknown }).store !== 'undefined') {
+      this.statusStore = statusStoreOrTracker as {
+        set: (id: string, status: MailSendStatus) => any;
+        get?: (id: string) => any;
+      };
+    } else if (
+      statusStoreOrTracker &&
+      typeof (statusStoreOrTracker as { store?: unknown }).store !== 'undefined'
+    ) {
       const store = (statusStoreOrTracker as { store: unknown }).store;
       if (isStatusStore(store)) {
-        this.statusStore = store as { set: (id: string, status: MailSendStatus) => any; get?: (id: string) => any };
+        this.statusStore = store as {
+          set: (id: string, status: MailSendStatus) => any;
+          get?: (id: string) => any;
+        };
       }
     }
   }
@@ -91,7 +116,7 @@ export class MailQueueWorker implements OnModuleInit {
           throw error;
         }
       }
-    }
+    };
     void this.queue.registerWorker('mail', handler);
   }
 }

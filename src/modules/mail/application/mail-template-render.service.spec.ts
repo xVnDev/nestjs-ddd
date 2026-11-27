@@ -13,8 +13,14 @@ describe('MailTemplateRenderService', () => {
       ),
     };
     const service = new MailTemplateRenderService(i18n as any, 'en');
-    const en = await service.render('welcome', 'en', { name: 'Ada', appName: 'App' });
-    const fr = await service.render('welcome', 'fr', { name: 'Ada', appName: 'App' });
+    const en = await service.render('welcome', 'en', {
+      name: 'Ada',
+      appName: 'App',
+    });
+    const fr = await service.render('welcome', 'fr', {
+      name: 'Ada',
+      appName: 'App',
+    });
     expect(en.subject).toBe('Welcome Ada');
     expect(fr.subject).toBe('Bienvenue Ada');
     expect(en.body).toContain('Ada');
@@ -26,7 +32,10 @@ describe('MailTemplateRenderService', () => {
       translate: vi.fn(async () => 'Welcome {{name}}'),
     };
     const service = new MailTemplateRenderService(i18n as any, 'en');
-    const result = await service.render('welcome', 'zz', { name: 'Ada', appName: 'App' });
+    const result = await service.render('welcome', 'zz', {
+      name: 'Ada',
+      appName: 'App',
+    });
     expect(result.body).toContain('Welcome');
   });
 
@@ -36,8 +45,13 @@ describe('MailTemplateRenderService', () => {
         opts?.lang === 'fr' ? 'Bonjour {{name}}' : 'Welcome {{name}}',
       ),
     };
-    const service = new MailTemplateRenderService(i18n as any, { defaultLocale: 'fr' });
-    const result = await service.render('welcome', 'zz', { name: 'Ada', appName: 'App' });
+    const service = new MailTemplateRenderService(i18n as any, {
+      defaultLocale: 'fr',
+    });
+    const result = await service.render('welcome', 'zz', {
+      name: 'Ada',
+      appName: 'App',
+    });
     expect(result.subject).toBe('Bonjour Ada');
   });
 
@@ -48,7 +62,10 @@ describe('MailTemplateRenderService', () => {
       }),
     };
     const service = new MailTemplateRenderService(i18n as any, 'en');
-    const result = await service.render('welcome', 'en', { name: 'Ada', appName: 'App' });
+    const result = await service.render('welcome', 'en', {
+      name: 'Ada',
+      appName: 'App',
+    });
     expect(result.subject).toBe('welcome');
   });
 
@@ -57,7 +74,10 @@ describe('MailTemplateRenderService', () => {
       translate: vi.fn(async () => 42),
     };
     const service = new MailTemplateRenderService(i18n as any, 'en');
-    const result = await service.render('welcome', 'en', { name: 'Ada', appName: 'App' });
+    const result = await service.render('welcome', 'en', {
+      name: 'Ada',
+      appName: 'App',
+    });
     expect(result.subject).toBe('42');
   });
 
@@ -66,7 +86,10 @@ describe('MailTemplateRenderService', () => {
       translate: vi.fn(async () => 'Welcome {{name}}'),
     };
     const service = new MailTemplateRenderService(i18n as any, {} as any);
-    const result = await service.render('welcome', 'zz', { name: 'Ada', appName: 'App' });
+    const result = await service.render('welcome', 'zz', {
+      name: 'Ada',
+      appName: 'App',
+    });
     expect(result.body).toContain('Welcome');
   });
 
@@ -74,8 +97,14 @@ describe('MailTemplateRenderService', () => {
     const i18n = {
       translate: vi.fn(async () => 'Welcome {{name}}'),
     };
-    const service = new MailTemplateRenderService(i18n as any, { defaultLocale: '' } as any);
-    const result = await service.render('welcome', 'zz', { name: 'Ada', appName: 'App' });
+    const service = new MailTemplateRenderService(
+      i18n as any,
+      { defaultLocale: '' } as any,
+    );
+    const result = await service.render('welcome', 'zz', {
+      name: 'Ada',
+      appName: 'App',
+    });
     expect(result.body).toContain('Welcome');
   });
 });

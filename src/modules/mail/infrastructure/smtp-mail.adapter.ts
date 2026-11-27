@@ -26,11 +26,11 @@ export class SmtpMailAdapter implements MailPort {
       | TransportLike
       | SendMailFn
       | {
-      transport?: TransportLike | SendMailFn;
-      mailer?: TransportLike | SendMailFn;
-      config?: Partial<MailConfig>;
-      from?: string;
-    } = {},
+          transport?: TransportLike | SendMailFn;
+          mailer?: TransportLike | SendMailFn;
+          config?: Partial<MailConfig>;
+          from?: string;
+        } = {},
     configOrTransport?: Partial<MailConfig> | TransportLike | SendMailFn,
     config?: Partial<MailConfig>,
   ) {
@@ -45,12 +45,20 @@ export class SmtpMailAdapter implements MailPort {
     ) {
       // first arg is a transport
       transport = transportOrOptions as TransportLike | SendMailFn;
-      if (configOrTransport && typeof configOrTransport === 'object' && 'from' in (configOrTransport as object)) {
+      if (
+        configOrTransport &&
+        typeof configOrTransport === 'object' &&
+        'from' in (configOrTransport as object)
+      ) {
         cfg = configOrTransport as Partial<MailConfig>;
       }
     } else if (typeof transportOrOptions === 'function') {
       transport = transportOrOptions as SendMailFn;
-      if (configOrTransport && typeof configOrTransport === 'object' && 'from' in (configOrTransport as object)) {
+      if (
+        configOrTransport &&
+        typeof configOrTransport === 'object' &&
+        'from' in (configOrTransport as object)
+      ) {
         cfg = configOrTransport as Partial<MailConfig>;
       }
     } else {
@@ -62,7 +70,8 @@ export class SmtpMailAdapter implements MailPort {
       };
       transport = opts.transport ?? opts.mailer;
       cfg = opts.config ?? config;
-      if (opts.from) cfg = { ...(cfg ?? ({} as Partial<MailConfig>)), from: opts.from };
+      if (opts.from)
+        cfg = { ...(cfg ?? ({} as Partial<MailConfig>)), from: opts.from };
     }
 
     if (typeof transport === 'function') {

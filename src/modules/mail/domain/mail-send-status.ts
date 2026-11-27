@@ -12,7 +12,10 @@ export enum MailSendStatus {
 }
 
 const ALLOWED: Record<MailSendStatus, MailSendStatus[]> = {
-  [MailSendStatus.QUEUED]: [MailSendStatus.PROCESSING, MailSendStatus.ABANDONED],
+  [MailSendStatus.QUEUED]: [
+    MailSendStatus.PROCESSING,
+    MailSendStatus.ABANDONED,
+  ],
   [MailSendStatus.PROCESSING]: [
     MailSendStatus.SENT,
     MailSendStatus.FAILED,
@@ -29,6 +32,9 @@ const ALLOWED: Record<MailSendStatus, MailSendStatus[]> = {
 /**
  * Returns true when a transition is allowed.
  */
-export function canTransition(from: MailSendStatus, to: MailSendStatus): boolean {
+export function canTransition(
+  from: MailSendStatus,
+  to: MailSendStatus,
+): boolean {
   return ALLOWED[from]?.includes(to) ?? false;
 }

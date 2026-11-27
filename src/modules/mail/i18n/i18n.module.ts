@@ -6,10 +6,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { I18nModule, I18nJsonLoader } from 'nestjs-i18n';
 import { join } from 'node:path';
-import {
-  i18nConfig,
-  I18N_CONFIG,
-} from '../../../common/config/i18n.config.js';
+import { i18nConfig, I18N_CONFIG } from '../../../common/config/i18n.config.js';
 import type { I18nConfig as I18nConfigType } from '../../../common/config/i18n.config.js';
 
 @Module({

@@ -7,7 +7,9 @@ export interface TemplateRenderer {
     key: string,
     locale: string,
     context?: Record<string, unknown>,
-  ): Promise<{ subject: string; body: string }> | { subject: string; body: string };
+  ):
+    | Promise<{ subject: string; body: string }>
+    | { subject: string; body: string };
 }
 
 export type TemplateRendererPort = TemplateRenderer;

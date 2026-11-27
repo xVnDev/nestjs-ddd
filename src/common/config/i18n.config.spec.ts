@@ -25,7 +25,9 @@ describe('i18nConfig', () => {
   it('is injectable via as Provider', async () => {
     process.env.NODE_ENV = 'test';
     const moduleRef = await Test.createTestingModule({
-      imports: [NestConfigModule.forRoot({ load: [i18nConfig], isGlobal: true })],
+      imports: [
+        NestConfigModule.forRoot({ load: [i18nConfig], isGlobal: true }),
+      ],
     }).compile();
     const configService = moduleRef.get(ConfigService);
     expect(configService.get('i18n.defaultLocale')).toBeDefined();

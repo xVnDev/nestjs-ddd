@@ -18,7 +18,11 @@ describe('InMemoryMailAdapter', () => {
 
   it('exposes messages alias', async () => {
     const adapter = new InMemoryMailAdapter();
-    await adapter.send({ to: 'to@example.com', subject: 'subject', text: 'body' });
+    await adapter.send({
+      to: 'to@example.com',
+      subject: 'subject',
+      text: 'body',
+    });
     expect(adapter.messages).toHaveLength(1);
   });
 });

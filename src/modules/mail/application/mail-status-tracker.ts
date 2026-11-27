@@ -21,7 +21,9 @@ export class MailStatusTracker {
     const current = await this.store.get(jobId);
     const from = current ?? MailSendStatus.QUEUED;
     if (!canTransition(from, MailSendStatus.PROCESSING)) {
-      throw new Error(`Illegal transition ${from} -> ${MailSendStatus.PROCESSING}`);
+      throw new Error(
+        `Illegal transition ${from} -> ${MailSendStatus.PROCESSING}`,
+      );
     }
     await this.store.set(jobId, MailSendStatus.PROCESSING);
   }

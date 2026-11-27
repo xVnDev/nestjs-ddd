@@ -17,7 +17,10 @@ export class MailAbandonmentHook implements OnModuleInit {
   ) {}
 
   onModuleInit(): void {
-    if (this.queue && typeof this.queue.registerAbandonmentHandler === 'function') {
+    if (
+      this.queue &&
+      typeof this.queue.registerAbandonmentHandler === 'function'
+    ) {
       this.queue.registerAbandonmentHandler('mail', (payload: unknown) => {
         void this.handle(payload);
       });

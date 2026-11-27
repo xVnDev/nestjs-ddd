@@ -1,6 +1,6 @@
 # P03 · Step 3 — Async Mail Delivery
 
-**Project:** nestjs-ddd  |  **Phase:** P03 — Data & Infrastructure  |  **Base branch:** `dev`  |  **Status:** ⬜ Planned
+**Project:** nestjs-ddd  |  **Phase:** P03 — Data & Infrastructure  |  **Base branch:** `dev`  |  **Status:** ✅ Done
 
 > Source of truth: [`roadmap.md`](../../../roadmap.md) §4. Umbrella IDs `P03-07`, `P03-08`, `P03-09` stay in the roadmap; this file lists the final atomic split (`P03-07a` … `P03-09e`).
 > **Format**: `P<phase>-<umbrella><letter>` — one atomic task = one commit; sibling atomic tasks share one branch (branch per umbrella). Every atomic task uses the 7-field format: `Description`, `CLI(s)`, `Package(s)`, `File(s)/Folder(s)`, `Branch`, `Commit`, `Testing`.
@@ -202,13 +202,13 @@ Define a narrow MAIL port with SMTP and in-memory transport adapters proven by o
 
 ## Phase Gate (end of step)
 
-- [ ] Full unit tests + coverage thresholds pass.
-- [ ] MAIL port conformance spec passes unchanged for the SMTP adapter (mocked transport) **and** the in-memory fallback.
-- [ ] E2E verifies enqueue → worker → localised render → transport → status with only in-memory adapters, and abandonment for a permanently failing job.
-- [ ] Both MAIL and MAIL_STATUS_STORE ports have one conformance spec each, run against every adapter.
-- [ ] Templates localised for all configured locales; no PII/secrets in templates, logs or OpenAPI examples.
-- [ ] Typed config validated; lint/format/typecheck clean; security audit & version sync pass.
-- [ ] Each atomic commit pushed on its shared branch; PR merged into `dev` in this exact order:
+- [x] Full unit tests + coverage thresholds pass.
+- [x] MAIL port conformance spec passes unchanged for the SMTP adapter (mocked transport) **and** the in-memory fallback.
+- [x] E2E verifies enqueue → worker → localised render → transport → status with only in-memory adapters, and abandonment for a permanently failing job.
+- [x] Both MAIL and MAIL_STATUS_STORE ports have one conformance spec each, run against every adapter.
+- [x] Templates localised for all configured locales; no PII/secrets in templates, logs or OpenAPI examples.
+- [x] Typed config validated; lint/format/typecheck clean; security audit & version sync pass.
+- [x] Each atomic commit pushed on its shared branch; PR merged into `dev` in this exact order:
   `P03-07a` → `P03-07b` → `P03-07c` → `P03-07d` → `P03-07e` → `P03-07f` → `P03-08a` → `P03-08b` → `P03-08c` → `P03-08d` → `P03-09a` → `P03-09b` → `P03-09c` → `P03-09d` → `P03-09e`.
-- [ ] Status for umbrella IDs `P03-07`, `P03-08`, `P03-09` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
-- [ ] Re-check the P03 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting the next step.
+- [x] Status for umbrella IDs `P03-07`, `P03-08`, `P03-09` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
+- [x] Re-check the P03 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting the next step.

@@ -28,7 +28,10 @@ describe('MailQueueWorker', () => {
     const mail = { send: vi.fn(async () => undefined) };
     const worker = new MailQueueWorker(queue as any, mail as any);
     worker.onModuleInit();
-    await handler?.({ id: '1', message: { to: 'to@example.com', subject: 'hi' } });
+    await handler?.({
+      id: '1',
+      message: { to: 'to@example.com', subject: 'hi' },
+    });
     expect(mail.send).toHaveBeenCalledWith(
       expect.objectContaining({ to: 'to@example.com', subject: 'hi' }),
     );
@@ -47,11 +50,21 @@ describe('MailQueueWorker', () => {
     const renderer = {
       render: vi.fn(async () => ({ subject: 'rendered', body: 'body' })),
     };
-    const worker = new MailQueueWorker(queue as any, mail as any, renderer as any);
+    const worker = new MailQueueWorker(
+      queue as any,
+      mail as any,
+      renderer as any,
+    );
     worker.onModuleInit();
     await handler?.({
       id: '1',
-      message: { to: 'to@example.com', subject: 'hi', template: 'welcome', locale: 'fr', context: { name: 'Ada' } },
+      message: {
+        to: 'to@example.com',
+        subject: 'hi',
+        template: 'welcome',
+        locale: 'fr',
+        context: { name: 'Ada' },
+      },
     });
     expect(renderer.render).toHaveBeenCalled();
     expect(mail.send).toHaveBeenCalledWith(
@@ -69,14 +82,31 @@ describe('MailQueueWorker', () => {
       close: vi.fn(),
     };
     const mail = { send: vi.fn(async () => undefined) };
-    const renderer = { render: vi.fn(async () => ({ subject: 'rendered', body: 'body' })) };
+    const renderer = {
+      render: vi.fn(async () => ({ subject: 'rendered', body: 'body' })),
+    };
     const set = vi.fn(async () => undefined);
-    const store = { set, get: vi.fn(async () => null), listByStatus: vi.fn(async () => []) };
-    const worker = new MailQueueWorker(queue as any, mail as any, renderer as any, store as any);
+    const store = {
+      set,
+      get: vi.fn(async () => null),
+      listByStatus: vi.fn(async () => []),
+    };
+    const worker = new MailQueueWorker(
+      queue as any,
+      mail as any,
+      renderer as any,
+      store as any,
+    );
     worker.onModuleInit();
     await handler?.({
       id: '1',
-      message: { to: 'to@example.com', subject: 'hi', template: 'welcome', locale: 'fr', context: { name: 'Ada' } },
+      message: {
+        to: 'to@example.com',
+        subject: 'hi',
+        template: 'welcome',
+        locale: 'fr',
+        context: { name: 'Ada' },
+      },
     });
     expect(set).toHaveBeenCalledWith('1', MailSendStatus.PROCESSING);
     expect(set).toHaveBeenCalledWith('1', MailSendStatus.SENT);
@@ -91,13 +121,26 @@ describe('MailQueueWorker', () => {
       }),
       close: vi.fn(),
     };
-    const mail = { send: vi.fn(async () => {
-      throw new Error('boom');
-    }) };
-    const renderer = { render: vi.fn(async () => ({ subject: 'rendered', body: 'body' })) };
+    const mail = {
+      send: vi.fn(async () => {
+        throw new Error('boom');
+      }),
+    };
+    const renderer = {
+      render: vi.fn(async () => ({ subject: 'rendered', body: 'body' })),
+    };
     const set = vi.fn(async () => undefined);
-    const store = { set, get: vi.fn(async () => null), listByStatus: vi.fn(async () => []) };
-    const worker = new MailQueueWorker(queue as any, mail as any, renderer as any, store as any);
+    const store = {
+      set,
+      get: vi.fn(async () => null),
+      listByStatus: vi.fn(async () => []),
+    };
+    const worker = new MailQueueWorker(
+      queue as any,
+      mail as any,
+      renderer as any,
+      store as any,
+    );
     worker.onModuleInit();
     await expect(
       handler?.({
@@ -119,10 +162,17 @@ describe('MailQueueWorker', () => {
     };
     const mail = { send: vi.fn(async () => undefined) };
     const set = vi.fn(async () => undefined);
-    const store = { set, get: vi.fn(async () => null), listByStatus: vi.fn(async () => []) };
+    const store = {
+      set,
+      get: vi.fn(async () => null),
+      listByStatus: vi.fn(async () => []),
+    };
     const worker = new MailQueueWorker(queue as any, mail as any, store as any);
     worker.onModuleInit();
-    await handler?.({ id: '2', message: { to: 'to@example.com', subject: 'hi' } });
+    await handler?.({
+      id: '2',
+      message: { to: 'to@example.com', subject: 'hi' },
+    });
     expect(set).toHaveBeenCalledWith('2', MailSendStatus.PROCESSING);
     expect(set).toHaveBeenCalledWith('2', MailSendStatus.SENT);
   });
@@ -136,33 +186,59 @@ describe('MailQueueWorker', () => {
       }),
       close: vi.fn(),
     };
-    const mail = { send: vi.fn(async () => {
-      throw new Error('boom');
-    }) };
+    const mail = {
+      send: vi.fn(async () => {
+        throw new Error('boom');
+      }),
+    };
     const set = vi.fn(async () => undefined);
-    const store = { set, get: vi.fn(async () => null), listByStatus: vi.fn(async () => []) };
+    const store = {
+      set,
+      get: vi.fn(async () => null),
+      listByStatus: vi.fn(async () => []),
+    };
     const worker = new MailQueueWorker(queue as any, mail as any, store as any);
     worker.onModuleInit();
-    await expect(handler?.({ id: '3', message: { to: 'to@example.com', subject: 'hi' } })).rejects.toThrow('boom');
+    await expect(
+      handler?.({ id: '3', message: { to: 'to@example.com', subject: 'hi' } }),
+    ).rejects.toThrow('boom');
     expect(set).toHaveBeenCalledWith('3', MailSendStatus.FAILED);
   });
 
   it('supports a tracker-like status store wrapper', () => {
     const queue = { enqueue: vi.fn(), registerWorker: vi.fn(), close: vi.fn() };
     const mail = { send: vi.fn(async () => undefined) };
-    const renderer = { render: vi.fn(async () => ({ subject: 'rendered', body: 'body' })) };
+    const renderer = {
+      render: vi.fn(async () => ({ subject: 'rendered', body: 'body' })),
+    };
     const set = vi.fn(async () => undefined);
-    const store = { set, get: vi.fn(async () => null), listByStatus: vi.fn(async () => []) };
+    const store = {
+      set,
+      get: vi.fn(async () => null),
+      listByStatus: vi.fn(async () => []),
+    };
     const tracker = { store };
-    const worker = new MailQueueWorker(queue as any, mail as any, renderer as any, tracker as any);
+    const worker = new MailQueueWorker(
+      queue as any,
+      mail as any,
+      renderer as any,
+      tracker as any,
+    );
     expect((worker as any).statusStore).toBeDefined();
   });
 
   it('ignores an invalid status store wrapper', () => {
     const queue = { enqueue: vi.fn(), registerWorker: vi.fn(), close: vi.fn() };
     const mail = { send: vi.fn(async () => undefined) };
-    const renderer = { render: vi.fn(async () => ({ subject: 'rendered', body: 'body' })) };
-    const worker = new MailQueueWorker(queue as any, mail as any, renderer as any, { store: 'invalid' } as any);
+    const renderer = {
+      render: vi.fn(async () => ({ subject: 'rendered', body: 'body' })),
+    };
+    const worker = new MailQueueWorker(
+      queue as any,
+      mail as any,
+      renderer as any,
+      { store: 'invalid' } as any,
+    );
     expect(worker).toBeDefined();
   });
 
@@ -175,14 +251,25 @@ describe('MailQueueWorker', () => {
       }),
       close: vi.fn(),
     };
-    const mail = { send: vi.fn(async () => {
-      throw new Error('boom');
-    }) };
-    const renderer = { render: vi.fn(async () => ({ subject: 'rendered', body: 'body' })) };
-    const worker = new MailQueueWorker(queue as any, mail as any, renderer as any);
+    const mail = {
+      send: vi.fn(async () => {
+        throw new Error('boom');
+      }),
+    };
+    const renderer = {
+      render: vi.fn(async () => ({ subject: 'rendered', body: 'body' })),
+    };
+    const worker = new MailQueueWorker(
+      queue as any,
+      mail as any,
+      renderer as any,
+    );
     worker.onModuleInit();
     await expect(
-      handler?.({ id: '4', message: { to: 'to@example.com', subject: 'hi', template: 'welcome' } }),
+      handler?.({
+        id: '4',
+        message: { to: 'to@example.com', subject: 'hi', template: 'welcome' },
+      }),
     ).rejects.toThrow('boom');
   });
 
@@ -195,11 +282,15 @@ describe('MailQueueWorker', () => {
       }),
       close: vi.fn(),
     };
-    const mail = { send: vi.fn(async () => {
-      throw new Error('boom');
-    }) };
+    const mail = {
+      send: vi.fn(async () => {
+        throw new Error('boom');
+      }),
+    };
     const worker = new MailQueueWorker(queue as any, mail as any);
     worker.onModuleInit();
-    await expect(handler?.({ id: '5', message: { to: 'to@example.com', subject: 'hi' } })).rejects.toThrow('boom');
+    await expect(
+      handler?.({ id: '5', message: { to: 'to@example.com', subject: 'hi' } }),
+    ).rejects.toThrow('boom');
   });
 });

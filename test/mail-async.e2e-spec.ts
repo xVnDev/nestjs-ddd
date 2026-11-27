@@ -39,9 +39,16 @@ describe('mail-async (e2e)', () => {
   it('delivers one message to the in-memory outbox', async () => {
     const producer = app.get(MailQueueProducer);
     const mail = app.get(MAIL) as MailPort & { sent(): any[] };
-    await producer.enqueueMail({ to: 'to@example.com', subject: 'hi', text: 'body' });
+    await producer.enqueueMail({
+      to: 'to@example.com',
+      subject: 'hi',
+      text: 'body',
+    });
     await new Promise((resolve) => setTimeout(resolve, 100));
     expect(mail.sent()).toHaveLength(1);
-    expect(mail.sent()[0]).toMatchObject({ to: 'to@example.com', subject: 'hi' });
+    expect(mail.sent()[0]).toMatchObject({
+      to: 'to@example.com',
+      subject: 'hi',
+    });
   });
 });

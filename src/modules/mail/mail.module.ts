@@ -6,10 +6,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { QueueModule } from '../shared/infrastructure/queue/queue.module.js';
 import { MAIL, MAIL_STATUS_STORE } from '../shared/ports/tokens.js';
-import {
-  mailConfig,
-  MAIL_CONFIG,
-} from '../../common/config/mail.config.js';
+import { mailConfig, MAIL_CONFIG } from '../../common/config/mail.config.js';
 import type { MailConfig as MailConfigType } from '../../common/config/mail.config.js';
 import { SmtpMailAdapter } from './infrastructure/smtp-mail.adapter.js';
 import { InMemoryMailAdapter } from './infrastructure/in-memory-mail.adapter.js';

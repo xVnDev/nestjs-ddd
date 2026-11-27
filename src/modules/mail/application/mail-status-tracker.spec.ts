@@ -39,7 +39,9 @@ describe('MailStatusTracker', () => {
   });
 
   it('throws on illegal transitions', async () => {
-    const storeMap = new Map<string, MailSendStatus>([['job-3', MailSendStatus.SENT]]);
+    const storeMap = new Map<string, MailSendStatus>([
+      ['job-3', MailSendStatus.SENT],
+    ]);
     const set = vi.fn(async (jobId: string, status: MailSendStatus) => {
       storeMap.set(jobId, status);
     });

@@ -8,7 +8,9 @@ import { SmtpMailAdapter } from './smtp-mail.adapter.js';
 describe('SmtpMailAdapter', () => {
   it('calls the transport with envelope fields', async () => {
     const transport = { sendMail: vi.fn(async () => ({})) };
-    const adapter = new SmtpMailAdapter(transport, { from: 'from@example.com' });
+    const adapter = new SmtpMailAdapter(transport, {
+      from: 'from@example.com',
+    });
     await adapter.send({
       to: 'to@example.com',
       subject: 'subject',
@@ -31,7 +33,9 @@ describe('SmtpMailAdapter', () => {
         throw new Error('boom');
       }),
     };
-    const adapter = new SmtpMailAdapter(transport, { from: 'from@example.com' });
+    const adapter = new SmtpMailAdapter(transport, {
+      from: 'from@example.com',
+    });
     await expect(
       adapter.send({ to: 'to@example.com', subject: 'subject', text: 'body' }),
     ).rejects.toThrow('boom');
@@ -39,40 +43,71 @@ describe('SmtpMailAdapter', () => {
 
   it('supports a function transport', async () => {
     const transport = vi.fn(async () => ({}));
-    const adapter = new SmtpMailAdapter(transport, { from: 'from@example.com' });
-    await adapter.send({ to: 'to@example.com', subject: 'subject', text: 'body' });
+    const adapter = new SmtpMailAdapter(transport, {
+      from: 'from@example.com',
+    });
+    await adapter.send({
+      to: 'to@example.com',
+      subject: 'subject',
+      text: 'body',
+    });
     expect(transport).toHaveBeenCalledWith(
-      expect.objectContaining({ from: 'from@example.com', to: 'to@example.com' }),
+      expect.objectContaining({
+        from: 'from@example.com',
+        to: 'to@example.com',
+      }),
     );
   });
 
   it('supports a function transport without config', async () => {
     const transport = vi.fn(async () => ({}));
     const adapter = new SmtpMailAdapter(transport);
-    await adapter.send({ to: 'to@example.com', subject: 'subject', text: 'body' });
+    await adapter.send({
+      to: 'to@example.com',
+      subject: 'subject',
+      text: 'body',
+    });
     expect(transport).toHaveBeenCalled();
   });
 
   it('supports an options object with transport and config', async () => {
     const transport = { sendMail: vi.fn(async () => ({})) };
-    const adapter = new SmtpMailAdapter(
-      { transport, config: { from: 'cfg@example.com' } },
-    );
-    await adapter.send({ to: 'to@example.com', subject: 'subject', text: 'body' });
+    const adapter = new SmtpMailAdapter({
+      transport,
+      config: { from: 'cfg@example.com' },
+    });
+    await adapter.send({
+      to: 'to@example.com',
+      subject: 'subject',
+      text: 'body',
+    });
     expect(transport.sendMail).toHaveBeenCalled();
   });
 
   it('supports an options object with mailer and from', async () => {
     const transport = { sendMail: vi.fn(async () => ({})) };
-    const adapter = new SmtpMailAdapter({ mailer: transport, from: 'from@example.com' });
-    await adapter.send({ to: 'to@example.com', subject: 'subject', text: 'body' });
+    const adapter = new SmtpMailAdapter({
+      mailer: transport,
+      from: 'from@example.com',
+    });
+    await adapter.send({
+      to: 'to@example.com',
+      subject: 'subject',
+      text: 'body',
+    });
     expect(transport.sendMail).toHaveBeenCalled();
   });
 
   it('supports a transport exposing send instead of sendMail', async () => {
     const transport = { send: vi.fn(async () => ({})) };
-    const adapter = new SmtpMailAdapter(transport as any, { from: 'from@example.com' });
-    await adapter.send({ to: 'to@example.com', subject: 'subject', text: 'body' });
+    const adapter = new SmtpMailAdapter(transport as any, {
+      from: 'from@example.com',
+    });
+    await adapter.send({
+      to: 'to@example.com',
+      subject: 'subject',
+      text: 'body',
+    });
     expect(transport.send).toHaveBeenCalled();
   });
 
@@ -84,9 +119,13 @@ describe('SmtpMailAdapter', () => {
   });
 
   it('falls back to nodemailer with host/port config', async () => {
-    const adapter = new SmtpMailAdapter(
-      { config: { smtpHost: 'localhost', smtpPort: 1025, from: 'from@example.com' } },
-    );
+    const adapter = new SmtpMailAdapter({
+      config: {
+        smtpHost: 'localhost',
+        smtpPort: 1025,
+        from: 'from@example.com',
+      },
+    });
     expect(adapter).toBeDefined();
   });
 
@@ -113,8 +152,14 @@ describe('SmtpMailAdapter', () => {
 
   it('handles configOrTransport without from', async () => {
     const transport = { sendMail: vi.fn(async () => ({})) };
-    const adapter = new SmtpMailAdapter(transport, { smtpHost: 'localhost' } as any);
-    await adapter.send({ to: 'to@example.com', subject: 'subject', text: 'body' });
+    const adapter = new SmtpMailAdapter(transport, {
+      smtpHost: 'localhost',
+    } as any);
+    await adapter.send({
+      to: 'to@example.com',
+      subject: 'subject',
+      text: 'body',
+    });
     expect(transport.sendMail).toHaveBeenCalled();
   });
 });

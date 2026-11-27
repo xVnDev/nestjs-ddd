@@ -11,6 +11,8 @@ describe('InMemoryMailStatusStoreAdapter', () => {
     const adapter = new InMemoryMailStatusStoreAdapter();
     await adapter.set('job-1', MailSendStatus.QUEUED);
     expect(await adapter.get('job-1')).toBe(MailSendStatus.QUEUED);
-    expect(await adapter.listByStatus(MailSendStatus.QUEUED)).toEqual(['job-1']);
+    expect(await adapter.listByStatus(MailSendStatus.QUEUED)).toEqual([
+      'job-1',
+    ]);
   });
 });

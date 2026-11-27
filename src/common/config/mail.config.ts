@@ -37,8 +37,7 @@ export const mailConfig = registerAs<MailConfig>('mail', () => {
   const smtpPort =
     Number.isFinite(parsedPort) && parsedPort > 0 ? parsedPort : undefined;
   const defaultLocale = env.MAIL_DEFAULT_LOCALE || 'en';
-  const provider =
-    smtpUrl || smtpHost ? 'smtp' : 'memory';
+  const provider = smtpUrl || smtpHost ? 'smtp' : 'memory';
   return {
     from,
     provider,

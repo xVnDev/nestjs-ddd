@@ -23,7 +23,8 @@ export class MailTemplateRenderService implements TemplateRenderer {
 
   constructor(
     @Inject(I18nService)
-    private readonly i18n: I18nService | { translate: (key: string, options?: any) => any },
+    private readonly i18n:
+      I18nService | { translate: (key: string, options?: any) => any },
     @Optional()
     defaultLocaleOrConfig: string | { defaultLocale?: string } = 'en',
   ) {
@@ -57,7 +58,8 @@ export class MailTemplateRenderService implements TemplateRenderer {
         `mail.${key}.subject`,
         { lang: resolvedLocale },
       );
-      subject = typeof translated === 'string' ? translated : String(translated);
+      subject =
+        typeof translated === 'string' ? translated : String(translated);
     } catch {
       subject = key;
     }

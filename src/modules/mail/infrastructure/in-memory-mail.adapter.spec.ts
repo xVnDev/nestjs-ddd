@@ -18,7 +18,11 @@ describe('InMemoryMailAdapter', () => {
 
   it('exposes delivered messages via the messages getter', async () => {
     const adapter = new InMemoryMailAdapter();
-    await adapter.send({ to: 'to@example.com', subject: 'subject', text: 'body' });
+    await adapter.send({
+      to: 'to@example.com',
+      subject: 'subject',
+      text: 'body',
+    });
     expect(adapter.messages).toHaveLength(1);
     expect(adapter.messages[0].subject).toBe('subject');
   });
@@ -26,7 +30,11 @@ describe('InMemoryMailAdapter', () => {
   it('keeps multiple messages in insertion order', async () => {
     const adapter = new InMemoryMailAdapter();
     await adapter.send({ to: 'a@example.com', subject: 'first', text: 'body' });
-    await adapter.send({ to: 'b@example.com', subject: 'second', text: 'body' });
+    await adapter.send({
+      to: 'b@example.com',
+      subject: 'second',
+      text: 'body',
+    });
     expect(adapter.sent().map((m) => m.subject)).toEqual(['first', 'second']);
   });
 });

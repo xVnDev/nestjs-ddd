@@ -17,14 +17,26 @@ describe('MailSendStatus', () => {
   });
 
   it('allows legal transitions', () => {
-    expect(canTransition(MailSendStatus.QUEUED, MailSendStatus.PROCESSING)).toBe(true);
-    expect(canTransition(MailSendStatus.PROCESSING, MailSendStatus.SENT)).toBe(true);
-    expect(canTransition(MailSendStatus.PROCESSING, MailSendStatus.FAILED)).toBe(true);
-    expect(canTransition(MailSendStatus.PROCESSING, MailSendStatus.ABANDONED)).toBe(true);
+    expect(
+      canTransition(MailSendStatus.QUEUED, MailSendStatus.PROCESSING),
+    ).toBe(true);
+    expect(canTransition(MailSendStatus.PROCESSING, MailSendStatus.SENT)).toBe(
+      true,
+    );
+    expect(
+      canTransition(MailSendStatus.PROCESSING, MailSendStatus.FAILED),
+    ).toBe(true);
+    expect(
+      canTransition(MailSendStatus.PROCESSING, MailSendStatus.ABANDONED),
+    ).toBe(true);
   });
 
   it('rejects illegal transitions', () => {
-    expect(canTransition(MailSendStatus.SENT, MailSendStatus.PROCESSING)).toBe(false);
-    expect(canTransition(MailSendStatus.ABANDONED, MailSendStatus.QUEUED)).toBe(false);
+    expect(canTransition(MailSendStatus.SENT, MailSendStatus.PROCESSING)).toBe(
+      false,
+    );
+    expect(canTransition(MailSendStatus.ABANDONED, MailSendStatus.QUEUED)).toBe(
+      false,
+    );
   });
 });

@@ -59,6 +59,9 @@ export const QUEUE: PortToken<Queue> = Symbol.for('QUEUE') as PortToken<Queue>;
 /** Mail delivery port token. */
 export const MAIL: PortToken<Mail> = Symbol.for('MAIL') as PortToken<Mail>;
 
+/** Backwards-compatible alias for the mail port token. */
+export const MAIL_PORT: PortToken<Mail> = MAIL;
+
 /** Repository port token. */
 export const REPOSITORY_PORT: PortToken<RepositoryPort<any>> = Symbol.for(
   'REPOSITORY_PORT',

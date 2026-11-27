@@ -8,8 +8,8 @@ export type MailMessage = {
   to: string;
   /** Optional sender address; transports fall back to config. */
   from?: string;
-  /** Rendered subject. */
-  subject: string;
+  /** Rendered subject. Optional for template-driven messages resolved by the worker. */
+  subject?: string;
   /** Rendered plain-text body. */
   text?: string;
   /** Rendered HTML body. */

@@ -14,6 +14,10 @@ export const envSchema = Joi.object({
   JWT_PRIVATE_KEY_PATH: Joi.string().allow('').optional(),
   JWT_PUBLIC_KEY_PATH: Joi.string().allow('').optional(),
 
+  QUEUE_REDIS_URL: Joi.string().uri().allow('').optional(),
+  QUEUE_PREFIX: Joi.string().allow('').optional(),
+  QUEUE_DEFAULT_ATTEMPTS: Joi.number().integer().min(1).optional(),
+
   DATABASE_URL: Joi.string().uri().required(),
   DATABASE_SSL: Joi.string().allow('').optional(),
   DATABASE_POOL_SIZE: Joi.number().integer().min(1).optional(),
@@ -35,6 +39,10 @@ export interface Env {
   DATABASE_POOL_SIZE?: number;
   CACHE_REDIS_URL?: string;
   CACHE_TTL_SECONDS?: number;
+
+  QUEUE_REDIS_URL?: string;
+  QUEUE_PREFIX?: string;
+  QUEUE_DEFAULT_ATTEMPTS?: number;
 }
 
 /**

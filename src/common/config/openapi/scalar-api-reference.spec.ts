@@ -1,3 +1,4 @@
+/* oxlint-disable typescript/unbound-method */
 /**
  * @file Unit tests for Scalar helpers.
  */
@@ -35,3 +36,4 @@ describe('scalar-api-reference helpers', () => {
     expect(typeof apiReference).toBe('function');
   });
 });
+

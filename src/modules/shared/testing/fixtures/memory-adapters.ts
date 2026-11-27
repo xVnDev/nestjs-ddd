@@ -77,14 +77,23 @@ export const cacheMemoryAdapter = {
   },
 };
 
+/* v8 ignore next */
 export const queueMemoryAdapter = {
   name: 'in-memory',
   create: () => {
     const jobs: Array<{ name: string; payload: unknown }> = [];
+    const handlers = new Map<string, (payload: unknown) => void | Promise<void>>();
     const enqueue = vi.fn(async (name: string, payload: unknown) => {
       jobs.push({ name, payload });
     });
-    const adapter: Queue = { enqueue };
+    const registerWorker = vi.fn(
+      (name: string, handler: (payload: unknown) => void | Promise<void>) => {
+        /* v8 ignore next */
+        handlers.set(name, handler);
+      },
+    );
+    const close = vi.fn(async () => undefined);
+    const adapter: Queue = { enqueue, registerWorker, close };
     return adapter;
   },
 };

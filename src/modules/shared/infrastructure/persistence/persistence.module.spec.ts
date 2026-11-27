@@ -1,3 +1,4 @@
+/* oxlint-disable typescript/unbound-method */
 /**
  * @file Unit tests for the persistence module.
  */
@@ -64,3 +65,4 @@ describe('PersistenceModule', () => {
     expect(options.inject.length).toBeGreaterThan(0);
   });
 });
+

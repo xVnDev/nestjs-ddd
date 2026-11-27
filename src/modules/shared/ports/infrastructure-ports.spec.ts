@@ -1,3 +1,4 @@
+/* oxlint-disable typescript/no-redundant-type-constituents */
 /**
  * @file Infrastructure port spec.
  */
@@ -7,7 +8,7 @@ import type { Cache, Mail, Queue } from './index.js';
 describe('infrastructure ports', () => {
   it('Cache has typed get/set/delete/has', () => {
     expectTypeOf<Cache['get']>().returns.toEqualTypeOf<
-      Promise<unknown | null>
+      Promise<unknown>
     >();
     expectTypeOf<Cache['set']>().returns.toEqualTypeOf<Promise<void>>();
     expectTypeOf<Cache['delete']>().returns.toEqualTypeOf<Promise<void>>();
@@ -16,6 +17,16 @@ describe('infrastructure ports', () => {
 
   it('Queue.enqueue returns void promise', () => {
     expectTypeOf<Queue['enqueue']>().returns.toEqualTypeOf<Promise<void>>();
+  });
+
+  it('Queue.registerWorker returns void or promise', () => {
+    expectTypeOf<Queue['registerWorker']>().returns.toEqualTypeOf<
+      void | Promise<void>
+    >();
+  });
+
+  it('Queue.close returns void promise', () => {
+    expectTypeOf<Queue['close']>().returns.toEqualTypeOf<Promise<void>>();
   });
 
   it('Mail.send returns void promise', () => {
@@ -29,10 +40,15 @@ describe('infrastructure ports', () => {
       delete: vi.fn(async () => undefined),
       has: vi.fn(async () => false),
     };
-    const queue: Queue = { enqueue: vi.fn(async () => undefined) };
+    const queue: Queue = {
+      enqueue: vi.fn(async () => undefined),
+      registerWorker: vi.fn(() => undefined),
+      close: vi.fn(async () => undefined),
+    };
     const mail: Mail = { send: vi.fn(async () => undefined) };
     expect(cache).toBeDefined();
     expect(queue).toBeDefined();
     expect(mail).toBeDefined();
   });
 });
+

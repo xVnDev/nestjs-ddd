@@ -15,13 +15,16 @@ import { SmtpMailAdapter } from './infrastructure/smtp-mail.adapter.js';
 import { InMemoryMailAdapter } from './infrastructure/in-memory-mail.adapter.js';
 import { MailQueueProducer } from './application/mail-queue.producer.js';
 import { MailQueueWorker } from './application/mail-queue.worker.js';
+import { MailTemplateRenderService } from './application/mail-template-render.service.js';
+import { MailI18nModule } from './i18n/i18n.module.js';
 import nodemailer from 'nodemailer';
 
 @Module({
-  imports: [ConfigModule.forFeature(mailConfig), QueueModule],
+  imports: [ConfigModule.forFeature(mailConfig), QueueModule, MailI18nModule],
   providers: [
     MailQueueProducer,
     MailQueueWorker,
+    MailTemplateRenderService,
     {
       provide: MAIL,
       useFactory: (cfg: MailConfigType) => {

@@ -11,6 +11,7 @@ type SendMailFn = (mail: Record<string, unknown>) => Promise<unknown>;
 
 interface TransportLike {
   sendMail?: SendMailFn;
+  send?: SendMailFn;
 }
 
 /**
@@ -68,6 +69,8 @@ export class SmtpMailAdapter implements MailPort {
       this.transport = transport as SendMailFn;
     } else if (transport && typeof transport.sendMail === 'function') {
       this.transport = transport.sendMail.bind(transport);
+    } else if (transport && typeof transport.send === 'function') {
+      this.transport = transport.send.bind(transport);
     } else {
       // fall back to a nodemailer transporter built from config
       // prettier-ignore

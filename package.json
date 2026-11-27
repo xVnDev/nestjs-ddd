@@ -46,6 +46,7 @@
     "@nestjs/swagger": "^12.1.2",
     "@nestjs/typeorm": "^12.0.3",
     "@scalar/nestjs-api-reference": "^1.2.41",
+    "bullmq": "^6.7.10",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
     "es-toolkit": "^1.53.1",
@@ -85,6 +86,9 @@
     },
     "typeorm": {
       "ioredis": "^6.1.0"
+    },
+    "testcontainers": {
+      "minimatch": "^11.0.9"
     }
   }
 }

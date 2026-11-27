@@ -127,10 +127,10 @@ Status legend: ⬜ Planned · 🚧 In progress · ✅ Done · ⏸ Blocked · ❌
 | `P03-07` | P03 · Data & Infrastructure | 3 | `feat(mail): define mail port, transport adapter and named queue producer/worker` | ✅ Done |
 | `P03-08` | P03 · Data & Infrastructure | 3 | `feat(mail): add i18n Handlebars templates and render service` | ✅ Done |
 | `P03-09` | P03 · Data & Infrastructure | 3 | `feat(mail): add send-status tracking and queue abandonment hooks` | ✅ Done |
-| `P03-10` | P03 · Data & Infrastructure | 4 | `feat(infra): add first-party HTTP client adapter for outbound calls` | ⬜ Planned |
-| `P03-11` | P03 · Data & Infrastructure | 4 | `feat(infra): add basic global throttler configuration` | ⬜ Planned |
-| `P03-12` | P03 · Data & Infrastructure | 4 | `feat(infra): add basic idempotency middleware` | ⬜ Planned |
-| `P03-13` | P03 · Data & Infrastructure | 4 | `feat(infra): add basic resilience/circuit-breaker configuration` | ⬜ Planned |
+| `P03-10` | P03 · Data & Infrastructure | 4 | `feat(infra): add first-party HTTP client adapter for outbound calls` | ✅ Done |
+| `P03-11` | P03 · Data & Infrastructure | 4 | `feat(infra): add basic global throttler configuration` | ✅ Done |
+| `P03-12` | P03 · Data & Infrastructure | 4 | `feat(infra): add basic idempotency middleware` | ✅ Done |
+| `P03-13` | P03 · Data & Infrastructure | 4 | `feat(infra): add basic resilience/circuit-breaker configuration` | ✅ Done |
 | `P04-01` | P04 · Identity Domain | 1 | `feat(user): model User aggregate with sub identity value object` | ⬜ Planned |
 | `P04-02` | P04 · Identity Domain | 1 | `feat(user): add Argon2id password hasher adapter plus conformance spec` | ⬜ Planned |
 | `P04-03` | P04 · Identity Domain | 1 | `feat(user): add user repository port, TypeORM adapter and conformance spec` | ⬜ Planned |

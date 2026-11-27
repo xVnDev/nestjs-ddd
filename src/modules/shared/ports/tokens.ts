@@ -15,6 +15,8 @@ import type { Queue } from './queue.port.js';
 import type { Mail } from './mail.port.js';
 import type { MailStatusStore } from '../../mail/domain/ports/mail-status-store.port.js';
 import type { RepositoryPort } from './repository.port.js';
+import type { HttpClientPort } from './http-client.port.js';
+import type { CircuitBreakerPort } from './circuit-breaker.port.js';
 
 /**
  * Branded helper that binds an injection token to its port interface.
@@ -72,3 +74,13 @@ export const MAIL_STATUS_STORE: PortToken<MailStatusStore> = Symbol.for(
 export const REPOSITORY_PORT: PortToken<RepositoryPort<any>> = Symbol.for(
   'REPOSITORY_PORT',
 ) as PortToken<RepositoryPort<any>>;
+
+/** HTTP client port token. */
+export const HTTP_CLIENT_PORT: PortToken<HttpClientPort> = Symbol.for(
+  'HTTP_CLIENT_PORT',
+) as PortToken<HttpClientPort>;
+
+/** Circuit breaker port token. */
+export const CIRCUIT_BREAKER_PORT: PortToken<CircuitBreakerPort> = Symbol.for(
+  'CIRCUIT_BREAKER_PORT',
+) as PortToken<CircuitBreakerPort>;

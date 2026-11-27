@@ -1,3 +1,4 @@
+/* oxlint-disable typescript/unbound-method */
 /**
  * @file Unit tests for the in-memory repository adapter.
  */
@@ -112,3 +113,4 @@ describe('InMemoryRepositoryAdapter', () => {
     expect(new Date(saved.deletedAt).getTime()).toBe(when.getTime());
   });
 });
+

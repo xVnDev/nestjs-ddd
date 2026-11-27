@@ -1,3 +1,4 @@
+/* oxlint-disable typescript/no-redundant-type-constituents */
 /**
  * @file Infrastructure port spec.
  */
@@ -7,7 +8,7 @@ import type { Cache, Mail, Queue } from './index.js';
 describe('infrastructure ports', () => {
   it('Cache has typed get/set/delete/has', () => {
     expectTypeOf<Cache['get']>().returns.toEqualTypeOf<
-      Promise<unknown | null>
+      Promise<unknown>
     >();
     expectTypeOf<Cache['set']>().returns.toEqualTypeOf<Promise<void>>();
     expectTypeOf<Cache['delete']>().returns.toEqualTypeOf<Promise<void>>();
@@ -50,3 +51,4 @@ describe('infrastructure ports', () => {
     expect(mail).toBeDefined();
   });
 });
+

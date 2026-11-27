@@ -7,9 +7,7 @@ import type { Cache, Mail, Queue } from './index.js';
 
 describe('infrastructure ports', () => {
   it('Cache has typed get/set/delete/has', () => {
-    expectTypeOf<Cache['get']>().returns.toEqualTypeOf<
-      Promise<unknown>
-    >();
+    expectTypeOf<Cache['get']>().returns.toEqualTypeOf<Promise<unknown>>();
     expectTypeOf<Cache['set']>().returns.toEqualTypeOf<Promise<void>>();
     expectTypeOf<Cache['delete']>().returns.toEqualTypeOf<Promise<void>>();
     expectTypeOf<Cache['has']>().returns.toEqualTypeOf<Promise<boolean>>();
@@ -20,9 +18,9 @@ describe('infrastructure ports', () => {
   });
 
   it('Queue.registerWorker returns void or promise', () => {
-    expectTypeOf<Queue['registerWorker']>().returns.toEqualTypeOf<
-      void | Promise<void>
-    >();
+    expectTypeOf<
+      Queue['registerWorker']
+    >().returns.toEqualTypeOf<void | Promise<void>>();
   });
 
   it('Queue.close returns void promise', () => {
@@ -51,4 +49,3 @@ describe('infrastructure ports', () => {
     expect(mail).toBeDefined();
   });
 });
-

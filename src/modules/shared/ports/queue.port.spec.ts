@@ -16,9 +16,9 @@ describe('queue port', () => {
 
   it('QueuePort has typed enqueue/registerWorker/close', () => {
     expectTypeOf<QueuePort['enqueue']>().returns.toEqualTypeOf<Promise<void>>();
-    expectTypeOf<QueuePort['registerWorker']>().returns.toEqualTypeOf<
-      void | Promise<void>
-    >();
+    expectTypeOf<
+      QueuePort['registerWorker']
+    >().returns.toEqualTypeOf<void | Promise<void>>();
     expectTypeOf<QueuePort['close']>().returns.toEqualTypeOf<Promise<void>>();
   });
 

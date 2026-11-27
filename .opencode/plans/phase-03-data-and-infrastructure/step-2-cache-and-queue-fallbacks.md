@@ -1,6 +1,6 @@
 # P03 · Step 2 — Cache & Queue with Fallbacks
 
-**Project:** nestjs-ddd  |  **Phase:** P03 — Data & Infrastructure  |  **Base branch:** `dev`  |  **Status:** ⬜ Planned
+**Project:** nestjs-ddd  |  **Phase:** P03 — Data & Infrastructure  |  **Base branch:** `dev`  |  **Status:** ✅ Done
 
 > Source of truth: [`roadmap.md`](../../../roadmap.md) §4. Umbrella IDs `P03-04`, `P03-05`, `P03-06` stay in the roadmap; this file lists the final atomic split (`P03-04a` … `P03-06f`).
 > **Format**: `P<phase>-<umbrella><letter>` — one atomic task = one commit; sibling atomic tasks share one branch (branch per umbrella). Every atomic task uses the 7-field format: `Description`, `CLI(s)`, `Package(s)`, `File(s)/Folder(s)`, `Branch`, `Commit`, `Testing`.
@@ -166,13 +166,13 @@ Add a Keyv Redis cache adapter behind a narrow CACHE port with a `nestjs-ddd` na
 
 ## Phase Gate (end of step)
 
-- [ ] Full unit tests + coverage thresholds pass.
-- [ ] CACHE port conformance spec passes unchanged for the Keyv Redis adapter **and** the in-memory fallback.
-- [ ] QUEUE port conformance spec passes unchanged for the BullMQ adapter **and** the in-memory fallback.
-- [ ] E2E proves both memory-fallback boots work with zero external services; namespace `nestjs-ddd` and TTL/job options verified.
-- [ ] Typed config validated; no secrets or PII committed; lint/format/typecheck clean.
-- [ ] Security audit & version sync pass.
-- [ ] Each atomic commit pushed on its shared branch; PR merged into `dev` in this exact order:
+- [x] Full unit tests + coverage thresholds pass.
+- [x] CACHE port conformance spec passes unchanged for the Keyv Redis adapter **and** the in-memory fallback.
+- [x] QUEUE port conformance spec passes unchanged for the BullMQ adapter **and** the in-memory fallback.
+- [x] E2E proves both memory-fallback boots work with zero external services; namespace `nestjs-ddd` and TTL/job options verified.
+- [x] Typed config validated; no secrets or PII committed; lint/format/typecheck clean.
+- [x] Security audit & version sync pass.
+- [x] Each atomic commit pushed on its shared branch; PR merged into `dev` in this exact order:
   `P03-04a` → `P03-04b` → `P03-04c` → `P03-04d` → `P03-05a` → `P03-05b` → `P03-06a` → `P03-06b` → `P03-06c` → `P03-06d` → `P03-06e` → `P03-06f`.
-- [ ] Status for umbrella IDs `P03-04`, `P03-05`, `P03-06` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
-- [ ] Re-check the P03 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting the next step.
+- [x] Status for umbrella IDs `P03-04`, `P03-05`, `P03-06` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
+- [x] Re-check the P03 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting the next step.

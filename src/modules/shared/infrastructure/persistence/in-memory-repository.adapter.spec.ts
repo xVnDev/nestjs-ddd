@@ -113,4 +113,3 @@ describe('InMemoryRepositoryAdapter', () => {
     expect(new Date(saved.deletedAt).getTime()).toBe(when.getTime());
   });
 });
-

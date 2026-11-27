@@ -5,7 +5,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CACHE_PORT } from '../../ports/tokens.js';
-import { cacheConfig, CACHE_CONFIG } from '../../../../common/config/cache.config.js';
+import {
+  cacheConfig,
+  CACHE_CONFIG,
+} from '../../../../common/config/cache.config.js';
 import type { CacheConfig as CacheConfigType } from '../../../../common/config/cache.config.js';
 import { KeyvRedisCacheAdapter } from './keyv-redis-cache.adapter.js';
 import { InMemoryCacheAdapter } from './in-memory-cache.adapter.js';

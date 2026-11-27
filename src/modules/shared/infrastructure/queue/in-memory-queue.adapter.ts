@@ -3,7 +3,11 @@
  */
 
 import type { Clock } from '../../ports/clock.port.js';
-import type { QueuePort, QueueJobOptions, QueueHandler } from '../../ports/queue.port.js';
+import type {
+  QueuePort,
+  QueueJobOptions,
+  QueueHandler,
+} from '../../ports/queue.port.js';
 import { isFunction, isNotNil, isPlainObject } from 'es-toolkit/predicate';
 
 interface InMemoryQueueOptions {
@@ -44,7 +48,10 @@ export class InMemoryQueueAdapter implements QueuePort {
   private readonly processingPromises = new Map<string, Promise<void>>();
   private readonly clock: { now(): Date | number } | undefined;
   private readonly defaultAttempts: number;
-  private readonly defaultBackoff: { type: 'exponential' | 'fixed'; delay: number };
+  private readonly defaultBackoff: {
+    type: 'exponential' | 'fixed';
+    delay: number;
+  };
 
   constructor(...args: unknown[]) {
     /* v8 ignore start */
@@ -60,7 +67,7 @@ export class InMemoryQueueAdapter implements QueuePort {
       if (arg === undefined || arg === null) continue;
       if (isClock(arg)) {
         clock = arg as { now(): Date | number };
-      /* v8 ignore next 6 */
+        /* v8 ignore next 6 */
       } else if (isOptions(arg)) {
         const o = arg as InMemoryQueueOptions & {
           attempts?: number;

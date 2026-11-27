@@ -54,7 +54,7 @@ export class BullmqQueueAdapter implements QueuePort {
         } else {
           opts.prefix = arg;
         }
-      /* v8 ignore next 8 */
+        /* v8 ignore next 8 */
       } else if (isOptions(arg)) {
         const o = arg as BullmqOptions & {
           attempts?: number;

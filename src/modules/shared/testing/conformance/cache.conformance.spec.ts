@@ -15,4 +15,3 @@ definePortConformance('Cache', [cacheMemoryAdapter], (getAdapter) => {
     expect(vi.isMockFunction(adapter.delete)).toBe(true);
   });
 });
-

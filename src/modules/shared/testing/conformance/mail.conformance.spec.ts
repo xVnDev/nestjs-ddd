@@ -10,4 +10,3 @@ definePortConformance('Mail', [mailMemoryAdapter], (getAdapter) => {
     expect(vi.isMockFunction(adapter.send)).toBe(true);
   });
 });
-

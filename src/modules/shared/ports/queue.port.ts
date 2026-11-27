@@ -21,7 +21,11 @@ export type QueueHandler = (payload: unknown) => void | Promise<void>;
  * Implementations must be swappable behind the {@link QUEUE} token.
  */
 export interface QueuePort {
-  enqueue(name: string, payload: unknown, options?: QueueJobOptions): Promise<void>;
+  enqueue(
+    name: string,
+    payload: unknown,
+    options?: QueueJobOptions,
+  ): Promise<void>;
   registerWorker(name: string, handler: QueueHandler): void | Promise<void>;
   close(): Promise<void>;
 }

@@ -85,7 +85,10 @@ describe('BullmqQueueAdapter', () => {
 
   it('close drains workers and queues', async () => {
     const adapter = new BullmqQueueAdapter();
-    void adapter.registerWorker('jobs', vi.fn(async () => undefined));
+    void adapter.registerWorker(
+      'jobs',
+      vi.fn(async () => undefined),
+    );
     await adapter.enqueue('jobs', 1);
     await adapter.close();
     expect(workerInstances[0].close).toHaveBeenCalled();

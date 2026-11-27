@@ -27,7 +27,9 @@ describe('InMemoryQueueAdapter', () => {
     });
     const handler = vi.fn().mockRejectedValue(new Error('boom'));
     (adapter as any).workers.set('jobs', handler);
-    (adapter as any).queues.set('jobs', [{ payload: 'x', options: { attempts: 2 } }]);
+    (adapter as any).queues.set('jobs', [
+      { payload: 'x', options: { attempts: 2 } },
+    ]);
     await (adapter as any).runQueue('jobs');
     expect(handler).toHaveBeenCalledTimes(2);
     await adapter.close();
@@ -82,7 +84,10 @@ describe('InMemoryQueueAdapter', () => {
 
   it('supports default attempts/backoff flat options', async () => {
     vi.useFakeTimers();
-    const adapter = new InMemoryQueueAdapter({ attempts: 1, backoff: { type: 'fixed', delay: 1 } });
+    const adapter = new InMemoryQueueAdapter({
+      attempts: 1,
+      backoff: { type: 'fixed', delay: 1 },
+    });
     const handler = vi.fn(async () => undefined);
     adapter.registerWorker('jobs', handler);
     await adapter.enqueue('jobs', 'p');

@@ -41,7 +41,9 @@ describe('queueConfig', () => {
     process.env.QUEUE_DEFAULT_ATTEMPTS = '5';
     process.env.NODE_ENV = 'test';
     const moduleRef = await Test.createTestingModule({
-      imports: [NestConfigModule.forRoot({ load: [queueConfig], isGlobal: true })],
+      imports: [
+        NestConfigModule.forRoot({ load: [queueConfig], isGlobal: true }),
+      ],
     }).compile();
     const configService = moduleRef.get(ConfigService);
     expect(configService.get('queue.prefix')).toBe('my-prefix');

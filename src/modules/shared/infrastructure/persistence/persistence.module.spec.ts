@@ -65,4 +65,3 @@ describe('PersistenceModule', () => {
     expect(options.inject.length).toBeGreaterThan(0);
   });
 });
-

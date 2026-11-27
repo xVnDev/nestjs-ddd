@@ -16,9 +16,7 @@ describe('cache port', () => {
   });
 
   it('CachePort has typed get/set/delete/has', () => {
-    expectTypeOf<CachePort['get']>().returns.toEqualTypeOf<
-      Promise<unknown>
-    >();
+    expectTypeOf<CachePort['get']>().returns.toEqualTypeOf<Promise<unknown>>();
     expectTypeOf<CachePort['set']>().returns.toEqualTypeOf<Promise<void>>();
     expectTypeOf<CachePort['delete']>().returns.toEqualTypeOf<Promise<void>>();
     expectTypeOf<CachePort['has']>().returns.toEqualTypeOf<Promise<boolean>>();

@@ -10,4 +10,3 @@ definePortConformance('Queue', [queueMemoryAdapter], (getAdapter) => {
     expect(vi.isMockFunction(adapter.enqueue)).toBe(true);
   });
 });
-

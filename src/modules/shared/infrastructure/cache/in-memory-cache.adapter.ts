@@ -35,10 +35,7 @@ function isOptions(value: unknown): value is InMemoryCacheOptions {
   if (!isPlainObject(value)) return false;
   const v = value;
   return (
-    'defaultTtlSeconds' in v ||
-    'namespace' in v ||
-    'clock' in v ||
-    'ttl' in v
+    'defaultTtlSeconds' in v || 'namespace' in v || 'clock' in v || 'ttl' in v
   );
 }
 
@@ -67,7 +64,8 @@ export class InMemoryCacheAdapter implements CachePort {
         opts.clock = arg as InMemoryCacheOptions['clock'];
       } else if (isOptions(arg)) {
         const o = arg as InMemoryCacheOptions;
-        if (o.defaultTtlSeconds !== undefined) opts.defaultTtlSeconds = o.defaultTtlSeconds;
+        if (o.defaultTtlSeconds !== undefined)
+          opts.defaultTtlSeconds = o.defaultTtlSeconds;
         if (o.namespace !== undefined) opts.namespace = o.namespace;
         if (o.clock !== undefined) opts.clock = o.clock;
       }
@@ -75,7 +73,9 @@ export class InMemoryCacheAdapter implements CachePort {
 
     this.defaultTtlSeconds = opts.defaultTtlSeconds ?? 300;
     this.namespace = opts.namespace ?? 'nestjs-ddd';
-    this.clock = (opts.clock as { now(): Date | number }) ?? { now: () => new Date() };
+    this.clock = (opts.clock as { now(): Date | number }) ?? {
+      now: () => new Date(),
+    };
   }
 
   private now(): number {

@@ -36,4 +36,3 @@ describe('scalar-api-reference helpers', () => {
     expect(typeof apiReference).toBe('function');
   });
 });
-

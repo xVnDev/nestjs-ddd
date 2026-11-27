@@ -69,9 +69,7 @@ export const cacheMemoryAdapter = {
     const deleteFn = vi.fn(async (key: string): Promise<void> => {
       store.delete(key);
     });
-    const has = vi.fn(async (key: string): Promise<boolean> =>
-      store.has(key),
-    );
+    const has = vi.fn(async (key: string): Promise<boolean> => store.has(key));
     const adapter: Cache = { get, set, delete: deleteFn, has };
     return adapter;
   },
@@ -82,7 +80,10 @@ export const queueMemoryAdapter = {
   name: 'in-memory',
   create: () => {
     const jobs: Array<{ name: string; payload: unknown }> = [];
-    const handlers = new Map<string, (payload: unknown) => void | Promise<void>>();
+    const handlers = new Map<
+      string,
+      (payload: unknown) => void | Promise<void>
+    >();
     const enqueue = vi.fn(async (name: string, payload: unknown) => {
       jobs.push({ name, payload });
     });

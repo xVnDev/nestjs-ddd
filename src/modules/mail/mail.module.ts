@@ -11,8 +11,8 @@ import {
   MAIL_CONFIG,
 } from '../../common/config/mail.config.js';
 import type { MailConfig as MailConfigType } from '../../common/config/mail.config.js';
-import { SmtpMailAdapter } from './adapters/smtp-mail.adapter.js';
-import { InMemoryMailAdapter } from './adapters/in-memory-mail.adapter.js';
+import { SmtpMailAdapter } from './infrastructure/smtp-mail.adapter.js';
+import { InMemoryMailAdapter } from './infrastructure/in-memory-mail.adapter.js';
 import { MailQueueProducer } from './application/mail-queue.producer.js';
 import { MailQueueWorker } from './application/mail-queue.worker.js';
 import nodemailer from 'nodemailer';

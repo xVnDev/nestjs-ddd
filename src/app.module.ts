@@ -14,6 +14,7 @@ import { ConfigModule } from './common/config/config.module.js';
 import { PersistenceModule } from './modules/shared/infrastructure/persistence/persistence.module.js';
 import { CacheModule } from './modules/shared/infrastructure/cache/cache.module.js';
 import { QueueModule } from './modules/shared/infrastructure/queue/queue.module.js';
+import { HttpClientModule } from './modules/shared/infrastructure/http/http-client.module.js';
 import { LoggerModule } from './common/logger/logger.module.js';
 import { observeConfig } from './common/config/observe.config.js';
 
@@ -25,6 +26,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     PersistenceModule,
     CacheModule,
     QueueModule,
+    HttpClientModule,
     LoggerModule,
     // Distributed tracing, auto-correlated logs, request/job metrics, error
     // telemetry, alarms, and more — out of the box. Sign up at https://observe.nestjs.com,

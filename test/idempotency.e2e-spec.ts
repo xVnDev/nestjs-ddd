@@ -39,11 +39,15 @@ describe('idempotency (e2e)', () => {
     app = moduleRef.createNestApplication();
     (app as any).useBodyParser('json');
     (app as any).useBodyParser('urlencoded', { extended: true });
-    const { CACHE_PORT } = await import('../src/modules/shared/ports/tokens.js');
+    const { CACHE_PORT } =
+      await import('../src/modules/shared/ports/tokens.js');
     const cachePort = app.get(CACHE_PORT);
-    const configService = app.get((await import('@nestjs/config')).ConfigService);
+    const configService = app.get(
+      (await import('@nestjs/config')).ConfigService,
+    );
     const cfg = configService.get('idempotency');
-    const { IdempotencyMiddleware } = await import('../src/common/middleware/idempotency.middleware.js');
+    const { IdempotencyMiddleware } =
+      await import('../src/common/middleware/idempotency.middleware.js');
     const mw = new IdempotencyMiddleware(cachePort as any, cfg);
     app.use(mw.use.bind(mw));
     await app.init();

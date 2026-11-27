@@ -37,7 +37,9 @@ describe('resilienceConfig', () => {
     process.env.BREAKER_FAILURE_THRESHOLD = '5';
     process.env.NODE_ENV = 'test';
     const moduleRef = await Test.createTestingModule({
-      imports: [NestConfigModule.forRoot({ load: [resilienceConfig], isGlobal: true })],
+      imports: [
+        NestConfigModule.forRoot({ load: [resilienceConfig], isGlobal: true }),
+      ],
     }).compile();
     const configService = moduleRef.get(ConfigService);
     expect(configService.get('resilience.failureThreshold')).toBe(5);

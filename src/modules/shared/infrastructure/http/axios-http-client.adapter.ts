@@ -5,10 +5,14 @@
 import { randomUUID } from 'node:crypto';
 import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
 import type { HttpConfig } from '../../../../common/config/http.config.js';
-import type { HttpClientPort, HttpRequestOptions } from '../../ports/http-client.port.js';
+import type {
+  HttpClientPort,
+  HttpRequestOptions,
+} from '../../ports/http-client.port.js';
 import { HttpError } from '../../domain/http-error.js';
 
-type AxiosLike = AxiosInstance | { request: (config: any) => Promise<AxiosResponse> };
+type AxiosLike =
+  AxiosInstance | { request: (config: any) => Promise<AxiosResponse> };
 
 function isAxiosInstance(value: unknown): value is AxiosLike {
   return (
@@ -31,7 +35,14 @@ export class AxiosHttpClientAdapter implements HttpClientPort {
   private readonly config: Partial<HttpConfig>;
 
   constructor(
-    axiosOrOptions?: AxiosLike | { axios?: AxiosLike; axiosInstance?: AxiosLike; instance?: AxiosLike; config?: Partial<HttpConfig> },
+    axiosOrOptions?:
+      | AxiosLike
+      | {
+          axios?: AxiosLike;
+          axiosInstance?: AxiosLike;
+          instance?: AxiosLike;
+          config?: Partial<HttpConfig>;
+        },
     config?: Partial<HttpConfig>,
   ) {
     if (isAxiosInstance(axiosOrOptions)) {
@@ -44,7 +55,9 @@ export class AxiosHttpClientAdapter implements HttpClientPort {
         instance?: AxiosLike;
         config?: Partial<HttpConfig>;
       };
-      this.axios = (opts.axios ?? opts.axiosInstance ?? opts.instance) as AxiosLike;
+      this.axios = (opts.axios ??
+        opts.axiosInstance ??
+        opts.instance) as AxiosLike;
       this.config = toConfig(opts.config ?? config);
     } else {
       this.axios = axiosOrOptions as unknown as AxiosLike;
@@ -111,11 +124,13 @@ export class AxiosHttpClientAdapter implements HttpClientPort {
   }
 
   private mapError(error: unknown): HttpError {
-    const ae = error as {
-      response?: { status?: number; statusText?: string };
-      code?: string;
-      message?: string;
-    } | undefined;
+    const ae = error as
+      | {
+          response?: { status?: number; statusText?: string };
+          code?: string;
+          message?: string;
+        }
+      | undefined;
     if (ae?.response) {
       const status = ae.response.status ?? 0;
       const message = ae.response.statusText || 'HTTP request failed';

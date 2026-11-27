@@ -22,25 +22,28 @@ export interface ResilienceConfig {
  *
  * @returns The resilience config values derived from the environment.
  */
-export const resilienceConfig = registerAs<ResilienceConfig>('resilience', () => {
-  const env = process.env as unknown as Env;
-  const parsedThreshold = Number(env.BREAKER_FAILURE_THRESHOLD);
-  const parsedReset = Number(env.BREAKER_RESET_TIMEOUT_MS);
-  const parsedHalfOpen = Number(env.BREAKER_HALF_OPEN_MAX_CALLS);
-  return {
-    failureThreshold:
-      Number.isFinite(parsedThreshold) && parsedThreshold > 0
-        ? parsedThreshold
-        : 3,
-    resetTimeoutMs:
-      Number.isFinite(parsedReset) && parsedReset > 0 ? parsedReset : 30000,
-    halfOpenMaxCalls:
-      Number.isFinite(parsedHalfOpen) && parsedHalfOpen > 0
-        ? parsedHalfOpen
-        : 1,
-    enabled: true,
-  };
-});
+export const resilienceConfig = registerAs<ResilienceConfig>(
+  'resilience',
+  () => {
+    const env = process.env as unknown as Env;
+    const parsedThreshold = Number(env.BREAKER_FAILURE_THRESHOLD);
+    const parsedReset = Number(env.BREAKER_RESET_TIMEOUT_MS);
+    const parsedHalfOpen = Number(env.BREAKER_HALF_OPEN_MAX_CALLS);
+    return {
+      failureThreshold:
+        Number.isFinite(parsedThreshold) && parsedThreshold > 0
+          ? parsedThreshold
+          : 3,
+      resetTimeoutMs:
+        Number.isFinite(parsedReset) && parsedReset > 0 ? parsedReset : 30000,
+      halfOpenMaxCalls:
+        Number.isFinite(parsedHalfOpen) && parsedHalfOpen > 0
+          ? parsedHalfOpen
+          : 1,
+      enabled: true,
+    };
+  },
+);
 
 /** DI token under which the resilience config slice is registered. */
 export const RESILIENCE_CONFIG = resilienceConfig.KEY;

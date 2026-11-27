@@ -22,16 +22,19 @@ export interface IdempotencyConfig {
  *
  * @returns The idempotency config values derived from the environment.
  */
-export const idempotencyConfig = registerAs<IdempotencyConfig>('idempotency', () => {
-  const env = process.env as unknown as Env;
-  const parsedTtl = Number(env.IDEMPOTENCY_TTL_SECONDS);
-  return {
-    headerName: 'Idempotency-Key',
-    keyPrefix: 'nestjs-ddd:idem:',
-    ttlSeconds: Number.isFinite(parsedTtl) && parsedTtl > 0 ? parsedTtl : 300,
-    enabledRoutes: [],
-  };
-});
+export const idempotencyConfig = registerAs<IdempotencyConfig>(
+  'idempotency',
+  () => {
+    const env = process.env as unknown as Env;
+    const parsedTtl = Number(env.IDEMPOTENCY_TTL_SECONDS);
+    return {
+      headerName: 'Idempotency-Key',
+      keyPrefix: 'nestjs-ddd:idem:',
+      ttlSeconds: Number.isFinite(parsedTtl) && parsedTtl > 0 ? parsedTtl : 300,
+      enabledRoutes: [],
+    };
+  },
+);
 
 /** DI token under which the idempotency config slice is registered. */
 export const IDEMPOTENCY_CONFIG = idempotencyConfig.KEY;

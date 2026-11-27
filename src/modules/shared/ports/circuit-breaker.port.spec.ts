@@ -24,7 +24,14 @@ describe('circuit breaker port', () => {
 
   it('has no framework imports', () => {
     const source = readFileSync(
-      join(process.cwd(), 'src', 'modules', 'shared', 'ports', 'circuit-breaker.port.ts'),
+      join(
+        process.cwd(),
+        'src',
+        'modules',
+        'shared',
+        'ports',
+        'circuit-breaker.port.ts',
+      ),
       'utf8',
     );
     expect(source).not.toMatch(/@nestjs/);

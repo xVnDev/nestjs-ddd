@@ -31,7 +31,9 @@ describe('idempotencyConfig', () => {
     process.env.IDEMPOTENCY_TTL_SECONDS = '120';
     process.env.NODE_ENV = 'test';
     const moduleRef = await Test.createTestingModule({
-      imports: [NestConfigModule.forRoot({ load: [idempotencyConfig], isGlobal: true })],
+      imports: [
+        NestConfigModule.forRoot({ load: [idempotencyConfig], isGlobal: true }),
+      ],
     }).compile();
     const configService = moduleRef.get(ConfigService);
     expect(configService.get('idempotency.headerName')).toBe('Idempotency-Key');

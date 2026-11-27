@@ -25,8 +25,15 @@ export type HttpRequestOptions = {
 /** Narrow HTTP client port. */
 export interface HttpClientPort {
   request<T>(options: HttpRequestOptions): Promise<T>;
-  get<T>(url: string, options?: Omit<HttpRequestOptions, 'method' | 'url'>): Promise<T>;
-  post<T>(url: string, body?: unknown, options?: Omit<HttpRequestOptions, 'method' | 'url' | 'body'>): Promise<T>;
+  get<T>(
+    url: string,
+    options?: Omit<HttpRequestOptions, 'method' | 'url'>,
+  ): Promise<T>;
+  post<T>(
+    url: string,
+    body?: unknown,
+    options?: Omit<HttpRequestOptions, 'method' | 'url' | 'body'>,
+  ): Promise<T>;
 }
 
 export type { HttpError as HttpErrorType };

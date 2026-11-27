@@ -38,7 +38,9 @@ describe('httpConfig', () => {
     process.env.HTTP_TIMEOUT_MS = '1000';
     process.env.NODE_ENV = 'test';
     const moduleRef = await Test.createTestingModule({
-      imports: [NestConfigModule.forRoot({ load: [httpConfig], isGlobal: true })],
+      imports: [
+        NestConfigModule.forRoot({ load: [httpConfig], isGlobal: true }),
+      ],
     }).compile();
     const configService = moduleRef.get(ConfigService);
     expect(configService.get('http.timeoutMs')).toBe(1000);

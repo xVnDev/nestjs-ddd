@@ -1,6 +1,6 @@
 # P03 · Step 4 — Platform Clients & Basic Controls
 
-**Project:** nestjs-ddd  |  **Phase:** P03 — Data & Infrastructure  |  **Base branch:** `dev`  |  **Status:** ⬜ Planned
+**Project:** nestjs-ddd  |  **Phase:** P03 — Data & Infrastructure  |  **Base branch:** `dev`  |  **Status:** ✅ Done
 
 > Source of truth: [`roadmap.md`](../../../roadmap.md) §4. Umbrella IDs `P03-10`, `P03-11`, `P03-12`, `P03-13` stay in the roadmap; this file lists the final atomic split (`P03-10a` … `P03-13c`).
 > **Format**: `P<phase>-<umbrella><letter>` — one atomic task = one commit; sibling atomic tasks share one branch (branch per umbrella). Every atomic task uses the 7-field format: `Description`, `CLI(s)`, `Package(s)`, `File(s)/Folder(s)`, `Branch`, `Commit`, `Testing`.
@@ -178,12 +178,12 @@ Add a first-party HTTP client adapter behind a narrow port with safe error mappi
 
 ## Phase Gate (end of step)
 
-- [ ] Full unit tests + coverage thresholds pass.
-- [ ] E2E proves 429 after the configured limit, idempotent replay, body-change invalidation and TTL expiry; both with in-memory fallbacks.
-- [ ] HTTP_CLIENT and CIRCUIT_BREAKER ports each have one conformance spec run against every adapter; no sensitive data in mapped errors or logs.
-- [ ] CACHE port is reused for idempotency (no duplicate store port); no business rules in config; P09-02 can swap the breaker via token rebind.
-- [ ] Typed config validated; lint/format/typecheck clean; security audit & version sync pass.
-- [ ] Each atomic commit pushed on its shared branch; PR merged into `dev` in this exact order:
+- [x] Full unit tests + coverage thresholds pass.
+- [x] E2E proves 429 after the configured limit, idempotent replay, body-change invalidation and TTL expiry; both with in-memory fallbacks.
+- [x] HTTP_CLIENT and CIRCUIT_BREAKER ports each have one conformance spec run against every adapter; no sensitive data in mapped errors or logs.
+- [x] CACHE port is reused for idempotency (no duplicate store port); no business rules in config; P09-02 can swap the breaker via token rebind.
+- [x] Typed config validated; lint/format/typecheck clean; security audit & version sync pass.
+- [x] Each atomic commit pushed on its shared branch; PR merged into `dev` in this exact order:
   `P03-10a` → `P03-10b` → `P03-10c` → `P03-10d` → `P03-11a` → `P03-11b` → `P03-11c` → `P03-12a` → `P03-12b` → `P03-12c` → `P03-13a` → `P03-13b` → `P03-13c`.
-- [ ] Status for umbrella IDs `P03-10`, `P03-11`, `P03-12`, `P03-13` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
-- [ ] Re-check the P03 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting the next step.
+- [x] Status for umbrella IDs `P03-10`, `P03-11`, `P03-12`, `P03-13` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
+- [x] Re-check the P03 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting the next step.

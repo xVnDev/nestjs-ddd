@@ -2,7 +2,10 @@
  * @file In-process circuit breaker adapter implementing CircuitBreakerPort.
  */
 
-import type { CircuitBreakerPort, CircuitState } from '../../ports/circuit-breaker.port.js';
+import type {
+  CircuitBreakerPort,
+  CircuitState,
+} from '../../ports/circuit-breaker.port.js';
 import type { ResilienceConfig } from '../../../../common/config/resilience.config.js';
 
 interface BreakerState {
@@ -17,7 +20,11 @@ function toMillis(value: Date | number): number {
 }
 
 function parseClock(value: unknown): { now(): number } {
-  if (value && typeof value === 'object' && typeof (value as { now?: unknown }).now === 'function') {
+  if (
+    value &&
+    typeof value === 'object' &&
+    typeof (value as { now?: unknown }).now === 'function'
+  ) {
     const v = value as { now: () => Date | number };
     return { now: () => toMillis(v.now()) };
   }
@@ -46,20 +53,28 @@ function parseConfig(args: unknown[]): {
 
   if (first && typeof first === 'object') {
     const o = first as Record<string, unknown>;
-    if (typeof o.failureThreshold === 'number') failureThreshold = o.failureThreshold;
+    if (typeof o.failureThreshold === 'number')
+      failureThreshold = o.failureThreshold;
     if (typeof o.resetTimeoutMs === 'number') resetTimeoutMs = o.resetTimeoutMs;
-    if (typeof o.halfOpenMaxCalls === 'number') halfOpenMaxCalls = o.halfOpenMaxCalls;
+    if (typeof o.halfOpenMaxCalls === 'number')
+      halfOpenMaxCalls = o.halfOpenMaxCalls;
     if (o.config && typeof o.config === 'object') {
       const c = o.config as Partial<ResilienceConfig>;
-      if (typeof c.failureThreshold === 'number') failureThreshold = c.failureThreshold;
-      if (typeof c.resetTimeoutMs === 'number') resetTimeoutMs = c.resetTimeoutMs;
-      if (typeof c.halfOpenMaxCalls === 'number') halfOpenMaxCalls = c.halfOpenMaxCalls;
+      if (typeof c.failureThreshold === 'number')
+        failureThreshold = c.failureThreshold;
+      if (typeof c.resetTimeoutMs === 'number')
+        resetTimeoutMs = c.resetTimeoutMs;
+      if (typeof c.halfOpenMaxCalls === 'number')
+        halfOpenMaxCalls = c.halfOpenMaxCalls;
     }
     if (o.resilience && typeof o.resilience === 'object') {
       const c = o.resilience as Partial<ResilienceConfig>;
-      if (typeof c.failureThreshold === 'number') failureThreshold = c.failureThreshold;
-      if (typeof c.resetTimeoutMs === 'number') resetTimeoutMs = c.resetTimeoutMs;
-      if (typeof c.halfOpenMaxCalls === 'number') halfOpenMaxCalls = c.halfOpenMaxCalls;
+      if (typeof c.failureThreshold === 'number')
+        failureThreshold = c.failureThreshold;
+      if (typeof c.resetTimeoutMs === 'number')
+        resetTimeoutMs = c.resetTimeoutMs;
+      if (typeof c.halfOpenMaxCalls === 'number')
+        halfOpenMaxCalls = c.halfOpenMaxCalls;
     }
     if (o.clock !== undefined) clock = parseClock(o.clock);
     if (args[1] !== undefined) clock = parseClock(args[1]);
@@ -115,7 +130,10 @@ export class InProcessCircuitBreakerAdapter implements CircuitBreakerPort {
     if (rec.state === 'OPEN') {
       throw new Error('Circuit breaker is OPEN');
     }
-    if (rec.state === 'HALF_OPEN' && rec.halfOpenCalls >= this.halfOpenMaxCalls) {
+    if (
+      rec.state === 'HALF_OPEN' &&
+      rec.halfOpenCalls >= this.halfOpenMaxCalls
+    ) {
       throw new Error('Circuit breaker is OPEN');
     }
     if (rec.state === 'HALF_OPEN') {

@@ -35,7 +35,9 @@ describe('throttlerConfig', () => {
     process.env.THROTTLE_LIMIT = '5';
     process.env.NODE_ENV = 'test';
     const moduleRef = await Test.createTestingModule({
-      imports: [NestConfigModule.forRoot({ load: [throttlerConfig], isGlobal: true })],
+      imports: [
+        NestConfigModule.forRoot({ load: [throttlerConfig], isGlobal: true }),
+      ],
     }).compile();
     const configService = moduleRef.get(ConfigService);
     expect(configService.get('throttler.ttlMs')).toBe(1000);

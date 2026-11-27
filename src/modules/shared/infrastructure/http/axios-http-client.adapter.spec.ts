@@ -9,7 +9,11 @@ import { HttpError } from '../../domain/http-error.js';
 describe('AxiosHttpClientAdapter', () => {
   it('performs request with method/url/timeout/headers/correlation id', async () => {
     const mockAxios = {
-      request: vi.fn(async () => ({ data: { ok: true }, status: 200, headers: {} })),
+      request: vi.fn(async () => ({
+        data: { ok: true },
+        status: 200,
+        headers: {},
+      })),
     };
     const adapter = new AxiosHttpClientAdapter(mockAxios as any, {
       timeoutMs: 1234,
@@ -36,15 +40,21 @@ describe('AxiosHttpClientAdapter', () => {
   });
 
   it('get wrapper calls request', async () => {
-    const mockAxios = { request: vi.fn(async () => ({ data: 42, status: 200 })) };
+    const mockAxios = {
+      request: vi.fn(async () => ({ data: 42, status: 200 })),
+    };
     const adapter = new AxiosHttpClientAdapter(mockAxios as any);
     expect(await adapter.get<number>('http://example.com/g')).toBe(42);
   });
 
   it('post wrapper sends body', async () => {
-    const mockAxios = { request: vi.fn(async () => ({ data: 'created', status: 201 })) };
+    const mockAxios = {
+      request: vi.fn(async () => ({ data: 'created', status: 201 })),
+    };
     const adapter = new AxiosHttpClientAdapter(mockAxios as any);
-    expect(await adapter.post<string>('http://example.com/p', { a: 1 })).toBe('created');
+    expect(await adapter.post<string>('http://example.com/p', { a: 1 })).toBe(
+      'created',
+    );
     const cfg = (mockAxios.request as any).mock.calls[0][0];
     expect(cfg.data).toEqual({ a: 1 });
   });
@@ -61,7 +71,9 @@ describe('AxiosHttpClientAdapter', () => {
     // make axios.isAxiosError return true
     const adapter = new AxiosHttpClientAdapter(mockAxios as any);
     // monkey: axios import; rely on err having response and code not timeout
-    await expect(adapter.get('http://example.com/s')).rejects.toBeInstanceOf(HttpError);
+    await expect(adapter.get('http://example.com/s')).rejects.toBeInstanceOf(
+      HttpError,
+    );
   });
 
   it('maps status error with missing statusText to fallback message', async () => {
@@ -73,7 +85,9 @@ describe('AxiosHttpClientAdapter', () => {
       }),
     };
     const adapter = new AxiosHttpClientAdapter(mockAxios as any);
-    const err = await adapter.get('http://example.com/s2').catch((e) => e) as any;
+    const err = (await adapter
+      .get('http://example.com/s2')
+      .catch((e) => e)) as any;
     expect(err).toBeInstanceOf(HttpError);
     expect(err.status).toBe(404);
     expect(err.message).toBe('HTTP request failed');
@@ -86,7 +100,9 @@ describe('AxiosHttpClientAdapter', () => {
       }),
     };
     const adapter = new AxiosHttpClientAdapter(mockAxios as any);
-    const err = await adapter.get('http://example.com/tr').catch((e) => e) as any;
+    const err = (await adapter
+      .get('http://example.com/tr')
+      .catch((e) => e)) as any;
     expect(err).toBeInstanceOf(HttpError);
     expect(err.status).toBe(408);
   });
@@ -100,7 +116,9 @@ describe('AxiosHttpClientAdapter', () => {
       }),
     };
     const adapter = new AxiosHttpClientAdapter(mockAxios as any);
-    const err = await adapter.get('http://example.com/t').catch((e) => e) as any;
+    const err = (await adapter
+      .get('http://example.com/t')
+      .catch((e) => e)) as any;
     expect(err).toBeInstanceOf(HttpError);
     expect(err.status).toBe(408);
   });
@@ -112,19 +130,29 @@ describe('AxiosHttpClientAdapter', () => {
       }),
     };
     const adapter = new AxiosHttpClientAdapter(mockAxios as any);
-    const err = await adapter.get('http://example.com/n').catch((e) => e) as any;
+    const err = (await adapter
+      .get('http://example.com/n')
+      .catch((e) => e)) as any;
     expect(err).toBeInstanceOf(HttpError);
     expect(err.status).toBe(503);
   });
 
   it('supports options-object constructor', async () => {
-    const mockAxios = { request: vi.fn(async () => ({ data: 7, status: 200 })) };
-    const adapter = new AxiosHttpClientAdapter({ axios: mockAxios as any, config: { timeoutMs: 9 } });
+    const mockAxios = {
+      request: vi.fn(async () => ({ data: 7, status: 200 })),
+    };
+    const adapter = new AxiosHttpClientAdapter({
+      axios: mockAxios as any,
+      config: { timeoutMs: 9 },
+    });
     expect(await adapter.get<number>('http://example.com/o')).toBe(7);
   });
 
   it('handles non-object first constructor argument (else branch)', () => {
-    const adapter = new AxiosHttpClientAdapter(undefined as any, { timeoutMs: 3 } as any);
+    const adapter = new AxiosHttpClientAdapter(
+      undefined as any,
+      { timeoutMs: 3 } as any,
+    );
     expect(adapter).toBeInstanceOf(AxiosHttpClientAdapter);
   });
 
@@ -138,7 +166,9 @@ describe('AxiosHttpClientAdapter', () => {
   });
 
   it('uses default timeout and empty base headers when no config', async () => {
-    const mockAxios = { request: vi.fn(async () => ({ data: 'ok', status: 200 })) };
+    const mockAxios = {
+      request: vi.fn(async () => ({ data: 'ok', status: 200 })),
+    };
     const adapter = new AxiosHttpClientAdapter(mockAxios as any);
     await adapter.request({ method: 'GET', url: 'http://example.com/d' });
     const cfg = (mockAxios.request as any).mock.calls[0][0];
@@ -147,8 +177,12 @@ describe('AxiosHttpClientAdapter', () => {
   });
 
   it('preserves provided correlation id header', async () => {
-    const mockAxios = { request: vi.fn(async () => ({ data: 'ok', status: 200 })) };
-    const adapter = new AxiosHttpClientAdapter(mockAxios as any, { baseHeaders: {} });
+    const mockAxios = {
+      request: vi.fn(async () => ({ data: 'ok', status: 200 })),
+    };
+    const adapter = new AxiosHttpClientAdapter(mockAxios as any, {
+      baseHeaders: {},
+    });
     await adapter.request({
       method: 'GET',
       url: 'http://example.com/c',
@@ -168,7 +202,9 @@ describe('AxiosHttpClientAdapter', () => {
       }),
     };
     const adapter = new AxiosHttpClientAdapter(mockAxios as any);
-    const err = await adapter.get('http://example.com/ax').catch((e) => e) as any;
+    const err = (await adapter
+      .get('http://example.com/ax')
+      .catch((e) => e)) as any;
     expect(err).toBeInstanceOf(HttpError);
     expect(err.status).toBe(503);
   });
@@ -180,7 +216,9 @@ describe('AxiosHttpClientAdapter', () => {
       }),
     };
     const adapter = new AxiosHttpClientAdapter(mockAxios as any);
-    const err = await adapter.get('http://example.com/ge').catch((e) => e) as any;
+    const err = (await adapter
+      .get('http://example.com/ge')
+      .catch((e) => e)) as any;
     expect(err).toBeInstanceOf(HttpError);
     expect(err.status).toBe(500);
   });
@@ -192,7 +230,9 @@ describe('AxiosHttpClientAdapter', () => {
       }),
     };
     const adapter = new AxiosHttpClientAdapter(mockAxios as any);
-    const err = await adapter.get('http://example.com/ne').catch((e) => e) as any;
+    const err = (await adapter
+      .get('http://example.com/ne')
+      .catch((e) => e)) as any;
     expect(err).toBeInstanceOf(HttpError);
     expect(err.status).toBe(500);
   });
@@ -204,7 +244,9 @@ describe('AxiosHttpClientAdapter', () => {
       }),
     };
     const adapter = new AxiosHttpClientAdapter(mockAxios as any);
-    const err = await adapter.get('http://example.com/net').catch((e) => e) as any;
+    const err = (await adapter
+      .get('http://example.com/net')
+      .catch((e) => e)) as any;
     expect(err).toBeInstanceOf(HttpError);
     expect(err.status).toBe(503);
   });

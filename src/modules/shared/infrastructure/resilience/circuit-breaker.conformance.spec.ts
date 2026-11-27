@@ -28,15 +28,19 @@ const adapters: ReadonlyArray<PortAdapterEntry<CircuitBreakerPort>> = [
   },
 ];
 
-definePortConformance<CircuitBreakerPort>('CircuitBreaker', adapters, (getAdapter) => {
-  it('executes operation and returns result', async () => {
-    const breaker = getAdapter();
-    const result = await breaker.execute('k', async () => 42);
-    expect(result).toBe(42);
-  });
+definePortConformance<CircuitBreakerPort>(
+  'CircuitBreaker',
+  adapters,
+  (getAdapter) => {
+    it('executes operation and returns result', async () => {
+      const breaker = getAdapter();
+      const result = await breaker.execute('k', async () => 42);
+      expect(result).toBe(42);
+    });
 
-  it('state returns a string', () => {
-    const breaker = getAdapter();
-    expect(typeof breaker.state('k')).toBe('string');
-  });
-});
+    it('state returns a string', () => {
+      const breaker = getAdapter();
+      expect(typeof breaker.state('k')).toBe('string');
+    });
+  },
+);

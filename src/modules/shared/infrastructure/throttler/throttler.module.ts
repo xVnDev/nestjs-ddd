@@ -5,7 +5,10 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
-import { ThrottlerGuard, ThrottlerModule as NestThrottlerModule } from '@nestjs/throttler';
+import {
+  ThrottlerGuard,
+  ThrottlerModule as NestThrottlerModule,
+} from '@nestjs/throttler';
 import {
   throttlerConfig,
   THROTTLER_CONFIG,

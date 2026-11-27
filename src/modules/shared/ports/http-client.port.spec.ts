@@ -26,7 +26,14 @@ describe('http client port', () => {
 
   it('has no axios imports', () => {
     const source = readFileSync(
-      join(process.cwd(), 'src', 'modules', 'shared', 'ports', 'http-client.port.ts'),
+      join(
+        process.cwd(),
+        'src',
+        'modules',
+        'shared',
+        'ports',
+        'http-client.port.ts',
+      ),
       'utf8',
     );
     expect(source).not.toMatch(/axios/i);

@@ -26,7 +26,10 @@ function createMockAxios() {
         err.response = { status: 404, statusText: 'Not Found' };
         throw err;
       }
-      return { data: { ok: true, method: cfg.method, url: cfg.url }, status: 200 };
+      return {
+        data: { ok: true, method: cfg.method, url: cfg.url },
+        status: 200,
+      };
     }),
   };
 }
@@ -34,13 +37,14 @@ function createMockAxios() {
 const adapters: ReadonlyArray<PortAdapterEntry<HttpClientPort>> = [
   {
     name: 'Axios',
-    create: () => new AxiosHttpClientAdapter(createMockAxios() as any, {
-      timeoutMs: 1000,
-      maxRedirects: 0,
-      retryAttempts: 0,
-      baseHeaders: {},
-      userAgent: 'test',
-    }),
+    create: () =>
+      new AxiosHttpClientAdapter(createMockAxios() as any, {
+        timeoutMs: 1000,
+        maxRedirects: 0,
+        retryAttempts: 0,
+        baseHeaders: {},
+        userAgent: 'test',
+      }),
   },
 ];
 
@@ -53,22 +57,31 @@ definePortConformance<HttpClientPort>('HttpClient', adapters, (getAdapter) => {
 
   it('POST returns data', async () => {
     const client = getAdapter();
-    const result = await client.post<{ ok: boolean }>('http://example.com/post', { a: 1 });
+    const result = await client.post<{ ok: boolean }>(
+      'http://example.com/post',
+      { a: 1 },
+    );
     expect(result.ok).toBe(true);
   });
 
   it('request maps timeout to HttpError', async () => {
     const client = getAdapter();
-    await expect(client.get('http://example.com/timeout')).rejects.toBeInstanceOf(HttpError);
+    await expect(
+      client.get('http://example.com/timeout'),
+    ).rejects.toBeInstanceOf(HttpError);
   });
 
   it('request maps non-2xx to HttpError', async () => {
     const client = getAdapter();
-    await expect(client.get('http://example.com/status')).rejects.toBeInstanceOf(HttpError);
+    await expect(
+      client.get('http://example.com/status'),
+    ).rejects.toBeInstanceOf(HttpError);
   });
 
   it('request maps network failure to HttpError', async () => {
     const client = getAdapter();
-    await expect(client.get('http://example.com/network')).rejects.toBeInstanceOf(HttpError);
+    await expect(
+      client.get('http://example.com/network'),
+    ).rejects.toBeInstanceOf(HttpError);
   });
 });

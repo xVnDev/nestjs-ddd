@@ -10,7 +10,7 @@ import type { EncryptionService } from './encryption-service.port.js';
 import type { TokenIssuer } from './token-issuer.port.js';
 import type { IdGenerator } from './id-generator.port.js';
 import type { Clock } from './clock.port.js';
-import type { Cache } from './cache.port.js';
+import type { CachePort } from './cache.port.js';
 import type { Queue } from './queue.port.js';
 import type { Mail } from './mail.port.js';
 import type { RepositoryPort } from './repository.port.js';
@@ -46,7 +46,12 @@ export const ID_GENERATOR: PortToken<IdGenerator> = Symbol.for(
 export const CLOCK: PortToken<Clock> = Symbol.for('CLOCK') as PortToken<Clock>;
 
 /** Cache port token. */
-export const CACHE: PortToken<Cache> = Symbol.for('CACHE') as PortToken<Cache>;
+export const CACHE_PORT: PortToken<CachePort> = Symbol.for(
+  'CACHE_PORT',
+) as PortToken<CachePort>;
+
+/** Backwards-compatible alias for the cache port token. */
+export const CACHE: PortToken<CachePort> = CACHE_PORT;
 
 /** Queue port token. */
 export const QUEUE: PortToken<Queue> = Symbol.for('QUEUE') as PortToken<Queue>;

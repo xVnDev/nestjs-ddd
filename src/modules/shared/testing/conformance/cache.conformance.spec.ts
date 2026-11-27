@@ -3,12 +3,14 @@ import { definePortConformance } from '../conformance.js';
 import { cacheMemoryAdapter } from '../fixtures/memory-adapters.js';
 
 definePortConformance('Cache', [cacheMemoryAdapter], (getAdapter) => {
-  it('set then get then del', async () => {
+  it('set then get then delete', async () => {
     const adapter = getAdapter();
     await adapter.set('k', 'v');
     expect(await adapter.get('k')).toBe('v');
-    await adapter.del('k');
+    expect(await adapter.has('k')).toBe(true);
+    await adapter.delete('k');
     expect(await adapter.get('k')).toBeNull();
-    expect(vi.isMockFunction(adapter.del)).toBe(true);
+    expect(await adapter.has('k')).toBe(false);
+    expect(vi.isMockFunction(adapter.delete)).toBe(true);
   });
 });

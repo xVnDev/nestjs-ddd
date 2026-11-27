@@ -15,7 +15,7 @@ const TOKENS = [
   'ENCRYPTION_SERVICE',
   'ID_GENERATOR',
   'CLOCK',
-  'CACHE',
+  'CACHE_PORT',
   'QUEUE',
   'MAIL',
   'REPOSITORY_PORT',

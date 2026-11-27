@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^10.6.0",
+    "@keyv/redis": "^6.1.0",
     "@nestjs/common": "^12.0.1",
     "@nestjs/config": "^12.1.1",
     "@nestjs/core": "^12.0.1",
@@ -47,7 +48,9 @@
     "@scalar/nestjs-api-reference": "^1.2.41",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
+    "ioredis": "^6.1.0",
     "joi": "^18.3.2",
+    "keyv": "^6.1.0",
     "pg": "^8.23.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",

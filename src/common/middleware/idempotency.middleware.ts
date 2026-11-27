@@ -49,7 +49,7 @@ export class IdempotencyMiddleware {
 
     const cached = await this.cache.get<IdempotencyCachedResponse>(cacheKey);
     if (cached) {
-      res.status(cached.status).send(cached.body);
+      res.status(cached.status).json(cached.body);
       return;
     }
 

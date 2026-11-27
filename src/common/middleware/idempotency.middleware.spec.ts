@@ -33,6 +33,7 @@ describe('IdempotencyMiddleware', () => {
       statusCode: 200,
       status: vi.fn().mockReturnThis(),
       send: vi.fn((body: any) => body),
+      json: vi.fn((body: any) => body),
     };
     const next = vi.fn();
     await mw.use(req, res, next);
@@ -51,12 +52,13 @@ describe('IdempotencyMiddleware', () => {
       statusCode: 200,
       status: vi.fn().mockReturnThis(),
       send: vi.fn((body: any) => body),
+      json: vi.fn((body: any) => body),
     };
     const next2 = vi.fn();
     await mw.use(req, res2, next2);
     expect(next2).not.toHaveBeenCalled();
     expect(res2.status).toHaveBeenCalledWith(200);
-    expect(res2.send).toHaveBeenCalledWith({ ok: true });
+    expect(res2.json).toHaveBeenCalledWith({ ok: true });
   });
 
   it('different body produces different fingerprint', async () => {
@@ -74,14 +76,14 @@ describe('IdempotencyMiddleware', () => {
     });
     const req1: any = { method: 'POST', originalUrl: '/x', url: '/x', path: '/x', body: { a: 1 }, headers: { 'idempotency-key': 'k' } };
     const req2: any = { method: 'POST', originalUrl: '/x', url: '/x', path: '/x', body: { a: 2 }, headers: { 'idempotency-key': 'k' } };
-    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b) };
+    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b), json: vi.fn((b: any) => b) };
     await mw.use(req1, res, vi.fn());
     res.send({ ok: true });
     const key1 = (cache.set as any).mock.calls[0][0];
     // reset set mock
     (cache.set as any).mockClear();
     (cache.get as any).mockResolvedValue(null);
-    const res2: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b) };
+    const res2: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b), json: vi.fn((b: any) => b) };
     await mw.use(req2, res2, vi.fn());
     res2.send({ ok: true });
     const key2 = (cache.set as any).mock.calls[0][0];
@@ -108,7 +110,7 @@ describe('IdempotencyMiddleware', () => {
       path: '/x',
       headers: { 'idempotency-key': 'k1' },
     };
-    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b) };
+    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b), json: vi.fn((b: any) => b) };
     const next = vi.fn();
     await mw.use(req, res, next);
     res.send({ ok: true });
@@ -137,7 +139,7 @@ describe('IdempotencyMiddleware', () => {
       body: { a: 1 },
       headers: {},
     };
-    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b) };
+    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b), json: vi.fn((b: any) => b) };
     const next = vi.fn();
     await mw.use(req, res, next);
     expect(next).toHaveBeenCalled();
@@ -165,7 +167,7 @@ describe('IdempotencyMiddleware', () => {
       body: { a: 1 },
       headers: { 'idempotency-key': 'k1' },
     };
-    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b) };
+    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b), json: vi.fn((b: any) => b) };
     const next = vi.fn();
     await mw.use(req, res, next);
     expect(next).toHaveBeenCalled();
@@ -193,7 +195,7 @@ describe('IdempotencyMiddleware', () => {
       body: { a: 1 },
       headers: { 'idempotency-key': 'k1' },
     };
-    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b) };
+    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b), json: vi.fn((b: any) => b) };
     const next = vi.fn();
     await mw.use(req, res, next);
     expect(next).toHaveBeenCalled();
@@ -220,7 +222,7 @@ describe('IdempotencyMiddleware', () => {
       body: { a: 1 },
       headers: { 'idempotency-key': 'k1' },
     };
-    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b) };
+    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b), json: vi.fn((b: any) => b) };
     const next = vi.fn();
     await mw.use(req, res, next);
     expect(next).toHaveBeenCalled();
@@ -248,7 +250,7 @@ describe('IdempotencyMiddleware', () => {
       body: { a: 1 },
       headers: { 'Idempotency-Key': 'k1' },
     };
-    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b) };
+    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b), json: vi.fn((b: any) => b) };
     const next = vi.fn();
     await mw.use(req, res, next);
     expect(next).toHaveBeenCalled();
@@ -275,7 +277,7 @@ describe('IdempotencyMiddleware', () => {
       body: { a: 1 },
       headers: { 'idempotency-key': 'k1' },
     };
-    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b) };
+    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b), json: vi.fn((b: any) => b) };
     const next = vi.fn();
     await mw.use(req, res, next);
     expect(next).toHaveBeenCalled();
@@ -302,12 +304,12 @@ describe('IdempotencyMiddleware', () => {
       body: { a: 1 },
       headers: { 'idempotency-key': 'k1' },
     };
-    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b) };
+    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b), json: vi.fn((b: any) => b) };
     const next = vi.fn();
     await mw.use(req, res, next);
     expect(next).not.toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(201);
-    expect(res.send).toHaveBeenCalledWith({ ok: true });
+    expect(res.json).toHaveBeenCalledWith({ ok: true });
   });
 
   it('caches parsed JSON when body is a JSON string', async () => {
@@ -331,7 +333,7 @@ describe('IdempotencyMiddleware', () => {
       body: { a: 1 },
       headers: { 'idempotency-key': 'k1' },
     };
-    const res: any = { statusCode: 201, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b) };
+    const res: any = { statusCode: 201, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b), json: vi.fn((b: any) => b) };
     const next = vi.fn();
     await mw.use(req, res, next);
     res.send('{"ok":true}');
@@ -362,7 +364,7 @@ describe('IdempotencyMiddleware', () => {
       body: { a: 1 },
       headers: { 'idempotency-key': 'k1' },
     };
-    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b) };
+    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b), json: vi.fn((b: any) => b) };
     const next = vi.fn();
     await mw.use(req, res, next);
     res.send('not-json');
@@ -395,7 +397,8 @@ describe('IdempotencyMiddleware', () => {
       headers: { 'idempotency-key': 'k1' },
     };
     const sendMock = vi.fn((b: any) => b);
-    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: sendMock };
+    const jsonMock = vi.fn((b: any) => b);
+    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: sendMock, json: jsonMock };
     const next = vi.fn();
     await mw.use(req, res, next);
     const ret = res.send({ ok: true });
@@ -425,7 +428,7 @@ describe('IdempotencyMiddleware', () => {
       body: { a: 1 },
       headers: { 'idempotency-key': 'k1' },
     };
-    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b) };
+    const res: any = { statusCode: 200, status: vi.fn().mockReturnThis(), send: vi.fn((b: any) => b), json: vi.fn((b: any) => b) };
     const next = vi.fn();
     await mw.use(req, res, next);
     res.send({ ok: true });

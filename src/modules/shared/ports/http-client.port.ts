@@ -9,7 +9,7 @@ export { HTTP_CLIENT_PORT };
 export { HttpError } from '../domain/http-error.js';
 
 /** Options for an HTTP request. */
-export interface HttpRequestOptions {
+export type HttpRequestOptions = {
   /** HTTP method. */
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   /** Request URL. */
@@ -20,7 +20,7 @@ export interface HttpRequestOptions {
   headers?: Record<string, string>;
   /** Optional timeout override in milliseconds. */
   timeoutMs?: number;
-}
+};
 
 /** Narrow HTTP client port. */
 export interface HttpClientPort {

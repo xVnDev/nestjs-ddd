@@ -27,6 +27,10 @@ export interface QueuePort {
     options?: QueueJobOptions,
   ): Promise<void>;
   registerWorker(name: string, handler: QueueHandler): void | Promise<void>;
+  registerAbandonmentHandler?(
+    name: string,
+    handler: (payload: unknown) => void | Promise<void>,
+  ): void;
   close(): Promise<void>;
 }
 

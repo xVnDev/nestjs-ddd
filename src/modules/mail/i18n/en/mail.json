@@ -1,0 +1,5 @@
+{
+  "welcome": { "subject": "Welcome {{name}}" },
+  "verify-email": { "subject": "Verify your email" },
+  "forgot-password": { "subject": "Reset your password" }
+}

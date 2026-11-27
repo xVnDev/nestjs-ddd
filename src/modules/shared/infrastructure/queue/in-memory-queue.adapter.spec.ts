@@ -115,4 +115,19 @@ describe('InMemoryQueueAdapter', () => {
     await (adapter as any).runQueue('empty');
     expect(true).toBe(true);
   });
+
+  it('calls the abandonment handler after exhausted retries', async () => {
+    vi.useFakeTimers();
+    const adapter = new InMemoryQueueAdapter({
+      defaultJobOptions: { attempts: 1, backoff: { type: 'fixed', delay: 1 } },
+    });
+    const handler = vi.fn().mockRejectedValue(new Error('boom'));
+    const abandon = vi.fn();
+    adapter.registerAbandonmentHandler('jobs', abandon);
+    adapter.registerWorker('jobs', handler);
+    await adapter.enqueue('jobs', 'payload');
+    await vi.runAllTimersAsync();
+    await adapter.close();
+    expect(abandon).toHaveBeenCalledWith('payload');
+  });
 });

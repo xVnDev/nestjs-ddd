@@ -44,6 +44,10 @@ interface Job {
 export class InMemoryQueueAdapter implements QueuePort {
   private readonly queues = new Map<string, Job[]>();
   private readonly workers = new Map<string, QueueHandler>();
+  private readonly abandonmentHandlers = new Map<
+    string,
+    (payload: unknown) => void | Promise<void>
+  >();
   private readonly processing = new Map<string, boolean>();
   private readonly processingPromises = new Map<string, Promise<void>>();
   private readonly clock: { now(): Date | number } | undefined;
@@ -134,7 +138,12 @@ export class InMemoryQueueAdapter implements QueuePort {
             }
           }
         }
-        void lastError;
+        if (lastError !== undefined) {
+          const abandonmentHandler = this.abandonmentHandlers.get(name);
+          if (abandonmentHandler) {
+            void abandonmentHandler(job.payload);
+          }
+        }
       }
       this.processing.set(name, false);
       this.processingPromises.delete(name);
@@ -167,6 +176,14 @@ export class InMemoryQueueAdapter implements QueuePort {
     if (this.queues.has(name) && (this.queues.get(name)?.length ?? 0) > 0) {
       void this.runQueue(name);
     }
+  }
+
+  /** Registers an abandonment handler for a named queue. */
+  registerAbandonmentHandler(
+    name: string,
+    handler: (payload: unknown) => void | Promise<void>,
+  ): void {
+    this.abandonmentHandlers.set(name, handler);
   }
 
   /** {@inheritDoc QueuePort.close} */

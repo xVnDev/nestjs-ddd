@@ -36,6 +36,7 @@ function isOptions(value: unknown): value is BullmqOptions {
 export class BullmqQueueAdapter implements QueuePort {
   private readonly queues = new Map<string, InstanceType<typeof Queue>>();
   private readonly workers = new Map<string, any>();
+  private readonly abandonmentHandlers = new Map<string, (payload: unknown) => void | Promise<void>>();
   private readonly prefix: string;
   private readonly defaultJobOptions: {
     attempts: number;
@@ -149,6 +150,30 @@ export class BullmqQueueAdapter implements QueuePort {
       },
     );
     this.workers.set(name, worker);
+    const abandonmentHandler = this.abandonmentHandlers.get(name);
+    if (abandonmentHandler) {
+      worker.on('failed', (job: any) => {
+        if (job && job.attemptsMade >= (job.opts?.attempts ?? 1)) {
+          void abandonmentHandler(job.data);
+        }
+      });
+    }
+  }
+
+  /** Registers an abandonment handler for a named queue. */
+  registerAbandonmentHandler(
+    name: string,
+    handler: (payload: unknown) => void | Promise<void>,
+  ): void {
+    this.abandonmentHandlers.set(name, handler);
+    const worker = this.workers.get(name);
+    if (worker) {
+      worker.on('failed', (job: any) => {
+        if (job && job.attemptsMade >= (job.opts?.attempts ?? 1)) {
+          void handler(job.data);
+        }
+      });
+    }
   }
 
   /** {@inheritDoc QueuePort.close} */

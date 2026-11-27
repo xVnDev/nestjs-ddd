@@ -124,9 +124,9 @@ Status legend: ⬜ Planned · 🚧 In progress · ✅ Done · ⏸ Blocked · ❌
 | `P03-04` | P03 · Data & Infrastructure | 2 | `feat(cache): add Keyv Redis adapter with boilerplate namespace` | ✅ Done |
 | `P03-05` | P03 · Data & Infrastructure | 2 | `feat(cache): add in-memory cache fallback adapter and conformance spec` | ✅ Done |
 | `P03-06` | P03 · Data & Infrastructure | 2 | `feat(queue): add BullMQ adapter, in-memory fallback and queue port conformance` | ✅ Done |
-| `P03-07` | P03 · Data & Infrastructure | 3 | `feat(mail): define mail port, transport adapter and named queue producer/worker` | ⬜ Planned |
-| `P03-08` | P03 · Data & Infrastructure | 3 | `feat(mail): add i18n Handlebars templates and render service` | ⬜ Planned |
-| `P03-09` | P03 · Data & Infrastructure | 3 | `feat(mail): add send-status tracking and queue abandonment hooks` | ⬜ Planned |
+| `P03-07` | P03 · Data & Infrastructure | 3 | `feat(mail): define mail port, transport adapter and named queue producer/worker` | ✅ Done |
+| `P03-08` | P03 · Data & Infrastructure | 3 | `feat(mail): add i18n Handlebars templates and render service` | ✅ Done |
+| `P03-09` | P03 · Data & Infrastructure | 3 | `feat(mail): add send-status tracking and queue abandonment hooks` | ✅ Done |
 | `P03-10` | P03 · Data & Infrastructure | 4 | `feat(infra): add first-party HTTP client adapter for outbound calls` | ⬜ Planned |
 | `P03-11` | P03 · Data & Infrastructure | 4 | `feat(infra): add basic global throttler configuration` | ⬜ Planned |
 | `P03-12` | P03 · Data & Infrastructure | 4 | `feat(infra): add basic idempotency middleware` | ⬜ Planned |

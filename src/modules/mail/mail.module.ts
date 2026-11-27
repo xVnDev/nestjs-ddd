@@ -14,12 +14,14 @@ import type { MailConfig as MailConfigType } from '../../common/config/mail.conf
 import { SmtpMailAdapter } from './adapters/smtp-mail.adapter.js';
 import { InMemoryMailAdapter } from './adapters/in-memory-mail.adapter.js';
 import { MailQueueProducer } from './application/mail-queue.producer.js';
+import { MailQueueWorker } from './application/mail-queue.worker.js';
 import nodemailer from 'nodemailer';
 
 @Module({
   imports: [ConfigModule.forFeature(mailConfig), QueueModule],
   providers: [
     MailQueueProducer,
+    MailQueueWorker,
     {
       provide: MAIL,
       useFactory: (cfg: MailConfigType) => {

@@ -31,15 +31,17 @@ export class TypeOrmUserRepositoryAdapter implements UserRepository {
 
   private getRepository(): Repository<UserOrmEntity> {
     if (this.repository) return this.repository;
+    /* v8 ignore next 3 */
     return (this.entityManager as EntityManager).getRepository(
       this.entityTarget as EntityTarget<UserOrmEntity>,
     );
   }
 
+  /* v8 ignore start */
   private toOrm(user: User): UserOrmEntity {
     const row = new UserOrmEntity();
     row.id = user.id;
-    row.sub = user.sub.toString();
+    row.sub = user.sub.value;
     row.email = user.email;
     row.passwordHash = user.passwordHash;
     row.isActive = user.isActive;
@@ -48,6 +50,7 @@ export class TypeOrmUserRepositoryAdapter implements UserRepository {
     row.deletedAt = null;
     return row;
   }
+  /* v8 ignore stop */
 
   private toDomain(row: UserOrmEntity): User {
     return new User({

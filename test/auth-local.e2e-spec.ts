@@ -9,6 +9,8 @@ import { IsEmail, IsString, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { createSeededFaker } from '../src/common/fixtures/seeded-faker.js';
 import { AuthModule } from '../src/modules/auth/auth.module.js';
+import { PersistenceModule } from '../src/modules/shared/infrastructure/persistence/persistence.module.js';
+import { isDatabaseConfigured } from '../src/common/config/database.config.js';
 import { PASSWORD_HASHER, USER_REPOSITORY } from '../src/modules/shared/ports/tokens.js';
 import { User } from '../src/modules/user/domain/entities/user.entity.js';
 import { Sub } from '../src/modules/user/domain/value-objects/sub.vo.js';
@@ -43,7 +45,10 @@ describe('Auth local (e2e)', () => {
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [AuthModule],
+      imports: [
+        ...(isDatabaseConfigured() ? [PersistenceModule] : []),
+        AuthModule,
+      ],
       controllers: [TestAuthController],
     }).compile();
 

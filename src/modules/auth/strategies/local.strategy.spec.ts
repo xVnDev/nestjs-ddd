@@ -3,7 +3,7 @@
  */
 
 import { describe, expect, it, vi } from 'vitest';
-import { UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { LocalStrategy } from './local.strategy.js';
 import { createSeededFaker } from '../../../common/fixtures/seeded-faker.js';
 import type { PasswordHasher } from '../../shared/ports/password-hasher.port.js';
@@ -99,5 +99,14 @@ describe('LocalStrategy', () => {
     await expect(
       strategy.validate(faker.internet.email(), 'any-password'),
     ).rejects.toBe(boom);
+  });
+
+  it('throws BadRequestException for malformed credentials', async () => {
+    const users = { findByEmail: vi.fn() } as any;
+    const hasher = { verify: vi.fn() } as any;
+    const strategy = new LocalStrategy(users, hasher);
+
+    await expect(strategy.validate('', 'password')).rejects.toBeInstanceOf(BadRequestException);
+    await expect(strategy.validate('user@example.com', '')).rejects.toBeInstanceOf(BadRequestException);
   });
 });

@@ -6,21 +6,24 @@ import { describe, expect, it, vi } from 'vitest';
 import { UnauthorizedException } from '@nestjs/common';
 import { LocalStrategy } from './local.strategy.js';
 import { createSeededFaker } from '../../../common/fixtures/seeded-faker.js';
-import { PASSWORD_HASHER, USER_REPOSITORY } from '../../shared/ports/tokens.js';
 import type { PasswordHasher } from '../../shared/ports/password-hasher.port.js';
 import type { UserRepository } from '../../shared/ports/user-repository.port.js';
 
 describe('LocalStrategy', () => {
-  it('returns the principal for valid credentials', async () => {
-    const faker = createSeededFaker(2);
-    const password = faker.internet.password({ length: 12 });
-    const user = {
+  function makeUser(faker: ReturnType<typeof createSeededFaker>) {
+    return {
       id: faker.string.uuid(),
       sub: { toString: () => 'local:id' },
       email: faker.internet.email().toLowerCase(),
       passwordHash: 'stored-hash',
       isActive: true,
     } as any;
+  }
+
+  it('returns the principal for valid credentials', async () => {
+    const faker = createSeededFaker(2);
+    const password = faker.internet.password({ length: 12 });
+    const user = makeUser(faker);
 
     const users = {
       findByEmail: vi.fn().mockResolvedValue(user),
@@ -38,13 +41,7 @@ describe('LocalStrategy', () => {
 
   it('throws UnauthorizedException for a wrong password', async () => {
     const faker = createSeededFaker(3);
-    const user = {
-      id: faker.string.uuid(),
-      sub: { toString: () => 'local:id' },
-      email: faker.internet.email().toLowerCase(),
-      passwordHash: 'stored-hash',
-      isActive: true,
-    } as any;
+    const user = makeUser(faker);
 
     const users = { findByEmail: vi.fn().mockResolvedValue(user) } as any;
     const hasher = { verify: vi.fn().mockResolvedValue(false) } as any;
@@ -64,5 +61,43 @@ describe('LocalStrategy', () => {
     await expect(
       strategy.validate(faker.internet.email(), 'any-password'),
     ).rejects.toBeInstanceOf(UnauthorizedException);
+  });
+
+  it('keeps failure messages enumeration-equivalent', async () => {
+    const faker = createSeededFaker(5);
+    const user = makeUser(faker);
+
+    const wrongPasswordStrategy = new LocalStrategy(
+      { findByEmail: vi.fn().mockResolvedValue(user) } as any,
+      { verify: vi.fn().mockResolvedValue(false) } as any,
+    );
+    const unknownEmailStrategy = new LocalStrategy(
+      { findByEmail: vi.fn().mockResolvedValue(null) } as any,
+      { verify: vi.fn() } as any,
+    );
+
+    const wrong = wrongPasswordStrategy
+      .validate(user.email, 'wrong-password')
+      .catch((error: unknown) => error);
+    const unknown = unknownEmailStrategy
+      .validate(faker.internet.email(), 'any-password')
+      .catch((error: unknown) => error);
+
+    const [wrongError, unknownError] = await Promise.all([wrong, unknown]);
+    expect((wrongError as Error).message).toBe(
+      (unknownError as Error).message,
+    );
+  });
+
+  it('propagates repository errors', async () => {
+    const faker = createSeededFaker(6);
+    const boom = new Error('repository exploded');
+    const users = { findByEmail: vi.fn().mockRejectedValue(boom) } as any;
+    const hasher = { verify: vi.fn() } as any;
+    const strategy = new LocalStrategy(users, hasher);
+
+    await expect(
+      strategy.validate(faker.internet.email(), 'any-password'),
+    ).rejects.toBe(boom);
   });
 });

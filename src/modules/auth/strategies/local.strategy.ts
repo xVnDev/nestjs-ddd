@@ -2,7 +2,12 @@
  * @file Thin Passport local strategy.
  */
 
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy as LocalStrategyBase } from 'passport-local';
 import { PASSWORD_HASHER, USER_REPOSITORY } from '../../shared/ports/tokens.js';
@@ -26,6 +31,15 @@ export class LocalStrategy extends PassportStrategy(LocalStrategyBase) {
     email: string,
     password: string,
   ): Promise<AuthenticatedPrincipal> {
+    if (
+      typeof email !== 'string' ||
+      typeof password !== 'string' ||
+      email.trim().length === 0 ||
+      password.length === 0
+    ) {
+      throw new BadRequestException();
+    }
+
     const user = await this.users.findByEmail(email);
     if (!user || !user.passwordHash) {
       await this.performDummyVerification(password);

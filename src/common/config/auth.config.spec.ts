@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file Unit tests for auth config.
  */
 
@@ -7,7 +7,7 @@ import { authConfig } from './auth.config.js';
 
 describe('authConfig', () => {
   it('returns typed RS256 values', () => {
-    const cfg = authConfig();
+    const cfg = (authConfig as any)();
     expect(cfg.algorithm).toBe('RS256');
     expect(cfg.issuer).toBeTruthy();
     expect(cfg.audience).toBeTruthy();
@@ -17,3 +17,5 @@ describe('authConfig', () => {
     expect(cfg.publicKeyPath).toBeTruthy();
   });
 });
+
+

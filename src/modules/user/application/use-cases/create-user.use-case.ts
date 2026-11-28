@@ -9,7 +9,6 @@ import type { UserRepository } from '../../../shared/ports/user-repository.port.
 import { User } from '../../domain/entities/user.entity.js';
 import { Sub } from '../../domain/value-objects/sub.vo.js';
 import { UserUniquenessService } from '../../domain/services/user-uniqueness.service.js';
-import { CreateUserDto } from '../../interfaces/dto/create-user.dto.js';
 import { randomUUID } from 'node:crypto';
 
 @Injectable()
@@ -19,7 +18,7 @@ export class CreateUserUseCase {
     @Inject(USER_REPOSITORY) private readonly repository: UserRepository,
   ) {}
 
-  public async execute(dto: CreateUserDto): Promise<User> {
+  public async execute(dto: any): Promise<User> {
     const id = randomUUID();
     const sub = dto.sub ? new Sub(dto.sub) : Sub.fromLocal(id);
     const passwordHash = await this.hasher.hash(dto.password);

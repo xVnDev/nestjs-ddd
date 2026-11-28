@@ -7,6 +7,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
   Patch,
   Post,
@@ -71,6 +72,7 @@ export class AdminUserController {
   }
 
   @Delete(':id')
+  @HttpCode(204)
   public async remove(@Param('id') id: string): Promise<void> {
     await this.deleteUser.execute(id);
   }

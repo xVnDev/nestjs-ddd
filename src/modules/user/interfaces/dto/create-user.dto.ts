@@ -3,7 +3,6 @@
  */
 
 import { ApiProperty, ApiTags } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsEmail,

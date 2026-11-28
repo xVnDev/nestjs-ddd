@@ -9,7 +9,6 @@ import type { UserRepository } from '../../../shared/ports/user-repository.port.
 import { NotFoundDomainError } from '../../../shared/domain/domain-error.js';
 import { User } from '../../domain/entities/user.entity.js';
 import { Sub } from '../../domain/value-objects/sub.vo.js';
-import { UpdateUserDto } from '../../interfaces/dto/update-user.dto.js';
 
 @Injectable()
 export class UpdateUserUseCase {
@@ -18,7 +17,7 @@ export class UpdateUserUseCase {
     @Inject(USER_REPOSITORY) private readonly repository: UserRepository,
   ) {}
 
-  public async execute(id: string, dto: UpdateUserDto): Promise<User> {
+  public async execute(id: string, dto: any): Promise<User> {
     const user = await this.repository.findById(id);
     if (!user) throw new NotFoundDomainError('User not found');
     if (dto.email !== undefined) user.changeEmail(dto.email);

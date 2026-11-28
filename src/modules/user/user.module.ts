@@ -14,12 +14,24 @@ import { MemoryPasswordHasherAdapter } from './infrastructure/adapters/memory-pa
 import { TypeOrmUserRepositoryAdapter } from './infrastructure/adapters/typeorm-user-repository.adapter.js';
 import { MemoryUserRepositoryAdapter } from './infrastructure/adapters/memory-user-repository.adapter.js';
 import { UserOrmEntity } from './infrastructure/persistence/user.orm-entity.js';
+import { AdminUserController } from './interfaces/admin-user.controller.js';
+import { CreateUserUseCase } from './application/use-cases/create-user.use-case.js';
+import { UpdateUserUseCase } from './application/use-cases/update-user.use-case.js';
+import { DeleteUserUseCase } from './application/use-cases/delete-user.use-case.js';
+import { GetUserUseCase } from './application/use-cases/get-user.use-case.js';
+import { ListUsersUseCase } from './application/use-cases/list-users.use-case.js';
+
+// Capture the database availability decision at module-definition time so it
+// cannot flip between decorator evaluation and factory execution (e.g. once
+// @nestjs/config loads .env mid-bootstrap).
+const dbConfigured = isDatabaseConfigured();
 
 @Module({
   imports: [
     ConfigModule.forFeature(authConfig),
     TypeOrmModule.forFeature([UserOrmEntity]),
   ],
+  controllers: [AdminUserController],
   providers: [
     {
       provide: PASSWORD_HASHER,
@@ -34,11 +46,16 @@ import { UserOrmEntity } from './infrastructure/persistence/user.orm-entity.js';
     {
       provide: USER_REPOSITORY,
       useFactory: (repo: any) =>
-        isDatabaseConfigured()
+        dbConfigured && repo
           ? new TypeOrmUserRepositoryAdapter(repo)
           : new MemoryUserRepositoryAdapter(),
-      inject: isDatabaseConfigured() ? [getRepositoryToken(UserOrmEntity)] : [],
+      inject: dbConfigured ? [getRepositoryToken(UserOrmEntity)] : [],
     },
+    CreateUserUseCase,
+    UpdateUserUseCase,
+    DeleteUserUseCase,
+    GetUserUseCase,
+    ListUsersUseCase,
   ],
   exports: [PASSWORD_HASHER, USER_REPOSITORY],
 })

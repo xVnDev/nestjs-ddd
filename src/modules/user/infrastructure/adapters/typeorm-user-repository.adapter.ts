@@ -65,7 +65,11 @@ export class TypeOrmUserRepositoryAdapter implements UserRepository {
   }
 
   async save(user: User): Promise<User> {
-    UserUniquenessService.assertUnique([user]);
+    const rows = await this.getRepository().find();
+    const existing = (rows ?? [])
+      .filter((r: any) => r.id !== user.id && r.deletedAt == null)
+      .map((r: any) => this.toDomain(r));
+    UserUniquenessService.assertUnique([...existing, user]);
     const row = this.toOrm(user);
     const saved = await this.getRepository().save(row);
     return this.toDomain(saved);

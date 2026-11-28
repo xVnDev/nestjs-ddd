@@ -13,7 +13,10 @@ export class MemoryUserRepositoryAdapter implements UserRepository {
 
   /* v8 ignore next 7 */
   async save(user: User): Promise<User> {
-    UserUniquenessService.assertUnique([user]);
+    const existing = [...this.store.values()].filter(
+      (item) => item.id !== user.id && !this.deleted.has(item.id),
+    );
+    UserUniquenessService.assertUnique([...existing, user]);
     const id = user.id;
     const record = cloneDeep(user);
     this.store.set(id, record);

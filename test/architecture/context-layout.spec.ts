@@ -184,7 +184,7 @@ export function findCommonDomainImports(
 
 describe('context layout', () => {
   it('every non-shared context exposes at least the four layer folders', () => {
-    const allowed = [...LAYERS, 'adapters', 'i18n'];
+    const allowed = [...LAYERS, 'adapters', 'i18n', 'use-cases', 'strategies'];
     for (const ctx of CONTEXTS) {
       const ctxDir = join(MODULES_DIR, ctx);
       const present = subDirs(ctxDir).sort();

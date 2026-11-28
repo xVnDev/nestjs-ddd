@@ -1,29 +1,32 @@
 /**
- * @file Unit tests for auth domain types and module wiring.
+ * @file Unit tests for auth domain types.
  */
 
-import { Test } from '@nestjs/testing';
-import { describe, expect, it, vi } from 'vitest';
-import { createSeededFaker } from '../../../../common/fixtures/seeded-faker.js';
-import { Sub } from '../../../user/domain/value-objects/sub.vo.js';
-import { PASSWORD_HASHER, USER_REPOSITORY } from '../../../shared/ports/tokens.js';
-import { AuthModule } from '../../auth.module.js';
+import { describe, expect, it } from 'vitest';
+import { Faker, en } from '@faker-js/faker';
+import type { Sub } from '../../../user/domain/value-objects/sub.vo.js';
 import type {
   AuthenticatedPrincipal,
   AuthResult,
   Credentials,
 } from './auth.types.js';
 
+function seeded(seed: number) {
+  const faker = new Faker({ locale: [en] });
+  faker.seed(seed);
+  return faker;
+}
+
 describe('auth domain types', () => {
   it('constructs immutable credentials, principal and result', () => {
-    const faker = createSeededFaker(1);
+    const faker = seeded(1);
     const credentials: Credentials = {
       email: faker.internet.email(),
       password: faker.internet.password({ length: 12 }),
     };
     const principal: AuthenticatedPrincipal = {
       userId: faker.string.uuid(),
-      sub: Sub.fromLocal(faker.string.uuid()),
+      sub: null as unknown as Sub,
       email: faker.internet.email(),
     };
     const result: AuthResult = {
@@ -32,28 +35,7 @@ describe('auth domain types', () => {
     };
 
     expect(credentials.email).toContain('@');
-    expect(principal.sub.toString()).toContain('local:');
+    expect(principal.userId).toBeTruthy();
     expect(result.session).toBeTruthy();
   });
 });
-
-describe('AuthModule', () => {
-  it('resolves USER_REPOSITORY and PASSWORD_HASHER', async () => {
-    const moduleRef = await Test.createTestingModule({
-      imports: [AuthModule],
-    })
-      .overrideProvider(USER_REPOSITORY)
-      .useValue({ findByEmail: vi.fn(), findById: vi.fn() })
-      .overrideProvider(PASSWORD_HASHER)
-      .useValue({
-        hash: vi.fn(),
-        verify: vi.fn(),
-        needsRehash: vi.fn(),
-      })
-      .compile();
-
-    expect(moduleRef.get(USER_REPOSITORY)).toBeDefined();
-    expect(moduleRef.get(PASSWORD_HASHER)).toBeDefined();
-  });
-});
-

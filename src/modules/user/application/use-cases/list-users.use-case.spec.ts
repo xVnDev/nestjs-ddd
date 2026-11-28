@@ -10,7 +10,12 @@ describe('ListUsersUseCase', () => {
     const items = [{ id: 'u1' }] as any;
     const repo = { findAll: vi.fn(async () => items) } as any;
     const useCase = new ListUsersUseCase(repo);
-    const query = { page: 2, limit: 5, email: 'a@b.com', isActive: true } as any;
+    const query = {
+      page: 2,
+      limit: 5,
+      email: 'a@b.com',
+      isActive: true,
+    } as any;
     const result = await useCase.execute(query);
     expect(repo.findAll).toHaveBeenCalledWith({
       page: 2,

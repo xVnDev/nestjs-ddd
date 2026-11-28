@@ -17,6 +17,8 @@ describe('GetUserUseCase', () => {
   it('throws not found when missing', async () => {
     const repo = { findById: vi.fn(async () => null) } as any;
     const useCase = new GetUserUseCase(repo);
-    await expect(useCase.execute('missing')).rejects.toThrow(NotFoundDomainError);
+    await expect(useCase.execute('missing')).rejects.toThrow(
+      NotFoundDomainError,
+    );
   });
 });

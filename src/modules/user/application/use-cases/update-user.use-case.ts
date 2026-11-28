@@ -3,7 +3,10 @@
  */
 
 import { Inject, Injectable } from '@nestjs/common';
-import { PASSWORD_HASHER, USER_REPOSITORY } from '../../../shared/ports/tokens.js';
+import {
+  PASSWORD_HASHER,
+  USER_REPOSITORY,
+} from '../../../shared/ports/tokens.js';
 import type { PasswordHasher } from '../../../shared/ports/password-hasher.port.js';
 import type { UserRepository } from '../../../shared/ports/user-repository.port.js';
 import { NotFoundDomainError } from '../../../shared/domain/domain-error.js';
@@ -22,7 +25,6 @@ export class UpdateUserUseCase {
     if (!user) throw new NotFoundDomainError('User not found');
     if (dto.email !== undefined) user.changeEmail(dto.email);
     if (dto.sub !== undefined) {
-      /* v8 ignore next */
       user.sub = new Sub(dto.sub);
     }
     if (dto.password !== undefined) {
@@ -31,7 +33,6 @@ export class UpdateUserUseCase {
     }
     if (dto.isActive !== undefined) {
       if (dto.isActive) {
-        /* v8 ignore next */
         user.activate();
       } else {
         user.deactivate();

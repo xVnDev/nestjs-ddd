@@ -65,12 +65,8 @@ describe('Admin users (e2e)', () => {
     expect(updated.body.email).toBe('updated@example.com');
     expect(updated.body).not.toHaveProperty('passwordHash');
 
-    await request(app.getHttpServer())
-      .delete(`/admin/users/${id}`)
-      .expect(204);
+    await request(app.getHttpServer()).delete(`/admin/users/${id}`).expect(204);
 
-    await request(app.getHttpServer())
-      .get(`/admin/users/${id}`)
-      .expect(404);
+    await request(app.getHttpServer()).get(`/admin/users/${id}`).expect(404);
   });
 });

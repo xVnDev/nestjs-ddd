@@ -3,7 +3,10 @@
  */
 
 import { Inject, Injectable } from '@nestjs/common';
-import { PASSWORD_HASHER, USER_REPOSITORY } from '../../../shared/ports/tokens.js';
+import {
+  PASSWORD_HASHER,
+  USER_REPOSITORY,
+} from '../../../shared/ports/tokens.js';
 import type { PasswordHasher } from '../../../shared/ports/password-hasher.port.js';
 import type { UserRepository } from '../../../shared/ports/user-repository.port.js';
 import { User } from '../../domain/entities/user.entity.js';

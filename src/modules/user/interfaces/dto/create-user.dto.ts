@@ -22,7 +22,9 @@ export class CreateUserDto {
   @IsEmail()
   email!: string;
 
-  @ApiProperty({ example: CreateUserDto.faker.internet.password({ length: 12 }) })
+  @ApiProperty({
+    example: CreateUserDto.faker.internet.password({ length: 12 }),
+  })
   @IsString()
   @MinLength(8)
   password!: string;

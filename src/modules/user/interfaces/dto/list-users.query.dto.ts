@@ -37,7 +37,10 @@ export class ListUsersQueryDto {
   @Max(100)
   limit?: number = 20;
 
-  @ApiProperty({ example: ListUsersQueryDto.faker.internet.email(), required: false })
+  @ApiProperty({
+    example: ListUsersQueryDto.faker.internet.email(),
+    required: false,
+  })
   @IsOptional()
   @IsEmail()
   email?: string;

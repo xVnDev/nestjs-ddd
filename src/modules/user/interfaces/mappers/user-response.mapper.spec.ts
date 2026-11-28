@@ -19,7 +19,9 @@ describe('toUserResponse', () => {
     const dto = toUserResponse(user);
     expect(dto.id).toBe('u1');
     expect(dto.email).toBe('a@b.com');
-    expect((dto as unknown as Record<string, unknown>).passwordHash).toBeUndefined();
+    expect(
+      (dto as unknown as Record<string, unknown>).passwordHash,
+    ).toBeUndefined();
     expect(Object.keys(dto)).not.toContain('passwordHash');
   });
 });

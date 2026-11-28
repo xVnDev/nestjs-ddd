@@ -22,6 +22,44 @@ describe('RolesGuard', () => {
     expect(guard.canActivate(context)).toBe(true);
   });
 
+  it('falls back to Reflect metadata on controller when handler has none', () => {
+    const handler = function handler() {};
+    const controller = class Controller {};
+    Reflect.defineMetadata(ROLES_KEY, ['admin'], controller);
+
+    const context = {
+      getHandler: vi.fn(() => handler),
+      getClass: vi.fn(() => controller),
+    } as unknown as ExecutionContext;
+
+    const guard = new RolesGuard();
+    expect(guard.canActivate(context)).toBe(true);
+  });
+
+  it('handles missing metadata on both handler and controller', () => {
+    const handler = function handler() {};
+    const controller = class Controller {};
+
+    const context = {
+      getHandler: vi.fn(() => handler),
+      getClass: vi.fn(() => controller),
+    } as unknown as ExecutionContext;
+
+    const guard = new RolesGuard();
+    expect(guard.canActivate(context)).toBe(true);
+  });
+
+  it('handles explicit undefined reflector', () => {
+    const handler = function handler() {};
+    const controller = class Controller {};
+    const context = {
+      getHandler: vi.fn(() => handler),
+      getClass: vi.fn(() => controller),
+    } as unknown as ExecutionContext;
+    const guard = new RolesGuard(undefined);
+    expect(guard.canActivate(context)).toBe(true);
+  });
+
   it('uses reflector when provided', () => {
     const reflector = {
       getAllAndOverride: vi.fn(() => ['admin']),
@@ -32,6 +70,9 @@ describe('RolesGuard', () => {
     } as unknown as ExecutionContext;
     const guard = new RolesGuard(reflector);
     expect(guard.canActivate(context)).toBe(true);
-    expect(reflector.getAllAndOverride).toHaveBeenCalledWith(ROLES_KEY, expect.any(Array));
+    expect(reflector.getAllAndOverride).toHaveBeenCalledWith(
+      ROLES_KEY,
+      expect.any(Array),
+    );
   });
 });

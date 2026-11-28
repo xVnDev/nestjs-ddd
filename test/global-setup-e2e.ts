@@ -9,13 +9,16 @@ export default async function globalSetup() {
   const dataSource = new DataSource({
     type: 'postgres',
     url,
-    ssl: process.env.DATABASE_SSL === 'true' || process.env.DATABASE_SSL === '1',
+    ssl:
+      process.env.DATABASE_SSL === 'true' || process.env.DATABASE_SSL === '1',
     synchronize: false,
     migrations: [Init1795719746297, AddUsersTable1795719746298],
   });
 
   await dataSource.initialize();
   await dataSource.runMigrations();
-  await dataSource.query('TRUNCATE TABLE "users", "soft_delete_entity" CASCADE');
+  await dataSource.query(
+    'TRUNCATE TABLE "users", "soft_delete_entity" CASCADE',
+  );
   await dataSource.destroy();
 }

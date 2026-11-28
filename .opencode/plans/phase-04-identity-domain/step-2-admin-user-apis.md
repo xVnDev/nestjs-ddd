@@ -1,6 +1,6 @@
 # P04 · Step 2 — Admin User APIs
 
-**Project:** nestjs-ddd  |  **Phase:** P04 — Identity Domain  |  **Base branch:** `dev`  |  **Status:** ⬜ Planned
+**Project:** nestjs-ddd  |  **Phase:** P04 — Identity Domain  |  **Base branch:** `dev`  |  **Status:** ✅ Done
 
 > Source of truth: [`roadmap.md`](../../../roadmap.md) §4. Umbrella IDs `P04-04`, `P04-05`, `P04-06` stay in the roadmap; this file lists the final atomic split (`P04-04a` … `P04-06c`).
 > **Format**: `P<phase>-<umbrella><letter>` — one atomic task = one commit; sibling atomic tasks share one branch (branch per umbrella task). Every atomic task uses the 7-field format: `Description`, `CLI(s)`, `Package(s)`, `File(s)/Folder(s)`, `Branch`, `Commit`, `Testing`.
@@ -144,11 +144,11 @@ Add validated admin request DTOs and a temporary RBAC guard placeholder, impleme
 
 ## Phase Gate (end of step)
 
-- [ ] Full unit tests + coverage thresholds pass; use case specs mock both ports with `vi.fn()`.
-- [ ] E2E passes for admin CRUD happy paths, validation/whitelist/conflict/404 negative paths and the in-memory fallback binding.
-- [ ] Admin routes present only in the admin OpenAPI document; no password hash in any response or error body.
-- [ ] Lint / format / typecheck clean; security audit & version sync pass. Conformance specs from step 1 still pass unchanged.
-- [ ] Each atomic commit pushed on its shared branch; PR merged into `dev` in this exact order:
+- [x] Full unit tests + coverage thresholds pass; use case specs mock both ports with `vi.fn()`.
+- [x] E2E passes for admin CRUD happy paths, validation/whitelist/conflict/404 negative paths and the in-memory fallback binding.
+- [x] Admin routes present only in the admin OpenAPI document; no password hash in any response or error body.
+- [x] Lint / format / typecheck clean; security audit & version sync pass. Conformance specs from step 1 still pass unchanged.
+- [x] Each atomic commit pushed on its shared branch; PR merged into `dev` in this exact order:
   `P04-04a` → `P04-04b` → `P04-04c` → `P04-05a` → `P04-05b` → `P04-05c` → `P04-05d` → `P04-06a` → `P04-06b` → `P04-06c`.
-- [ ] Status for umbrella IDs `P04-04`, `P04-05`, `P04-06` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
-- [ ] Re-check the P04 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting the next step.
+- [x] Status for umbrella IDs `P04-04`, `P04-05`, `P04-06` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
+- [x] Re-check the P04 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting the next step.

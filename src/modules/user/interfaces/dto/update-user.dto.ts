@@ -18,12 +18,18 @@ import { createSeededFaker } from '../../../../common/fixtures/seeded-faker.js';
 export class UpdateUserDto {
   private static readonly faker = createSeededFaker(2);
 
-  @ApiProperty({ example: UpdateUserDto.faker.internet.email(), required: false })
+  @ApiProperty({
+    example: UpdateUserDto.faker.internet.email(),
+    required: false,
+  })
   @IsOptional()
   @IsEmail()
   email?: string;
 
-  @ApiProperty({ example: UpdateUserDto.faker.internet.password({ length: 12 }), required: false })
+  @ApiProperty({
+    example: UpdateUserDto.faker.internet.password({ length: 12 }),
+    required: false,
+  })
   @IsOptional()
   @IsString()
   @MinLength(8)

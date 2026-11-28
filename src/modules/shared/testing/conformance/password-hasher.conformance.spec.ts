@@ -17,5 +17,10 @@ definePortConformance(
       const digest = await adapter.hash('secret');
       expect(await adapter.verify('other', digest)).toBe(false);
     });
+
+    it('needsRehash is callable', () => {
+      const adapter = getAdapter();
+      expect(typeof adapter.needsRehash('x')).toBe('boolean');
+    });
   },
 );

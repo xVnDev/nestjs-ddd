@@ -26,6 +26,7 @@ const TOKENS = [
 function walk(dir: string): string[] {
   const out: string[] = [];
   for (const name of readdirSync(dir)) {
+    if (name === 'conformance') continue;
     const p = join(dir, name);
     const st = statSync(p);
     if (st.isDirectory()) out.push(...walk(p));

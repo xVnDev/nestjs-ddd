@@ -1,0 +1,25 @@
+name: Setup project
+description: Setup Node.js with npm cache and install dependencies (repository must be checked out by the caller)
+inputs:
+  node-version:
+    description: Node.js version
+    default: 'lts/*'
+  install:
+    description: Run npm ci
+    default: 'true'
+  setup-node:
+    description: Setup Node.js
+    default: 'true'
+runs:
+  using: composite
+  steps:
+    - name: Setup Node.js
+      if: inputs.setup-node == 'true'
+      uses: actions/setup-node@v7
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'npm'
+    - name: Install dependencies
+      if: inputs.install == 'true'
+      run: npm ci --ignore-scripts
+      shell: bash

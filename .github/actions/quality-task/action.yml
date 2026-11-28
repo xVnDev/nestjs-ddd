@@ -1,0 +1,29 @@
+name: Run quality task
+description: Run a single quality task based on input
+inputs:
+  task:
+    description: Task to run
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Run task
+      run: |
+        case "${{ inputs.task }}" in
+          lint) npm run lint ;;
+          typecheck) npm run typecheck ;;
+          unit) npm run test:unit ;;
+          e2e) npm run test:e2e ;;
+          arch) npm run test:arch ;;
+          migration)
+            npm run build
+            npm run migration:run
+            npm run typeorm -- migration:show
+            npm run test:e2e -- migration
+            if grep -R "synchronize: true" src/; then
+              echo "synchronize must not be enabled";
+              exit 1;
+            fi
+            ;;
+        esac
+      shell: bash

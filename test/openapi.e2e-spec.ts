@@ -91,4 +91,27 @@ describe('OpenAPI (e2e)', () => {
     expect(res.headers['x-frame-options']).toBe('DENY');
     expect(res.headers['x-content-type-options']).toBe('nosniff');
   });
+
+  it('admin routes appear only in the admin document', async () => {
+    const userDoc = await request(app.getHttpServer())
+      .get('/docs-json')
+      .expect(200);
+    const adminDoc = await request(app.getHttpServer())
+      .get('/admin/docs-json')
+      .expect(200);
+
+    const userPaths = Object.keys(userDoc.body.paths ?? {});
+    const adminPaths = Object.keys(adminDoc.body.paths ?? {});
+
+    expect(adminPaths.some((p) => p.includes('/admin/users'))).toBe(true);
+    expect(userPaths.some((p) => p.includes('/admin/users'))).toBe(false);
+
+    for (const pathItem of Object.values(adminDoc.body.paths ?? {})) {
+      for (const op of Object.values(pathItem as Record<string, any>)) {
+        if (op && typeof op === 'object' && 'tags' in op) {
+          expect((op as { tags?: string[] }).tags).toContain('admin');
+        }
+      }
+    }
+  });
 });

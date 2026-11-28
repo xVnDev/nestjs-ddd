@@ -383,6 +383,10 @@ export function checkInwardDependencies(records: ImportRecord[]): Violation[] {
     const ctx = contextOf(r.file);
     const resolved = resolveSpecifier(r.specifier, r.file);
 
+    if (layer === 'domain' && r.isTypeOnly && resolvesToDomain(r)) {
+      continue;
+    }
+
     if (layer === 'domain') {
       if (r.specifier.startsWith('.') || r.specifier.startsWith('/')) {
         const sameContextDomain =

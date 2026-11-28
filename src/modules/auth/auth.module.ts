@@ -1,7 +1,14 @@
-import { Module } from '@nestjs/common';
-
-/**
- * Composition root for the `auth` bounded context.
+﻿/**
+ * @file Composition root for the `auth` bounded context.
  */
-@Module({})
+
+import { Module } from '@nestjs/common';
+import { UserModule } from '../user/user.module.js';
+import { LocalStrategy } from './strategies/local.strategy.js';
+
+@Module({
+  imports: [UserModule],
+  providers: [LocalStrategy],
+  exports: [LocalStrategy],
+})
 export class AuthModule {}

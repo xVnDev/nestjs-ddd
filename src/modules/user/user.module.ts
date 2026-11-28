@@ -29,7 +29,7 @@ const dbConfigured = isDatabaseConfigured();
 @Module({
   imports: [
     ConfigModule.forFeature(authConfig),
-    TypeOrmModule.forFeature([UserOrmEntity]),
+    ...(dbConfigured ? [TypeOrmModule.forFeature([UserOrmEntity])] : []),
   ],
   controllers: [AdminUserController],
   providers: [
@@ -60,3 +60,4 @@ const dbConfigured = isDatabaseConfigured();
   exports: [PASSWORD_HASHER, USER_REPOSITORY],
 })
 export class UserModule {}
+

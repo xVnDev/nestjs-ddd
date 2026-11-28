@@ -34,7 +34,7 @@ jobs:
         image: postgres:16
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_DB: nestjs_ddd
         ports:
           - 5432:5432
@@ -80,7 +80,7 @@ jobs:
         image: postgres:16
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_DB: nestjs_ddd
         ports:
           - 5432:5432
@@ -106,13 +106,21 @@ jobs:
           path: coverage/
 
   codeql:
-    name: codeql
-    runs-on: ubuntu-latest
+    name: codeql (${{ matrix.language }})
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
     needs: [quality, coverage]
     permissions:
       actions: read
       contents: read
       security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - language: actions
+          build-mode: none
+        - language: javascript-typescript
+          build-mode: none
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -120,6 +128,9 @@ jobs:
           fetch-depth: 0
       - name: Run CodeQL scan
         uses: ./.github/actions/codeql/
+        with:
+          language: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
 
   snyk-dependencies:
     name: snyk-dependencies
@@ -186,7 +197,7 @@ jobs:
         image: postgres:16
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_DB: nestjs_ddd
         ports:
           - 5432:5432

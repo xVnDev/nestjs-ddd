@@ -38,12 +38,7 @@ describe('MemoryPasswordHasherAdapter', () => {
       timeCost: 1,
       parallelism: 1,
     });
-    const other = new MemoryPasswordHasherAdapter({
-      seed: 1,
-      memoryCost: 2,
-      timeCost: 1,
-      parallelism: 1,
-    });
+
     // craft digest with different params by using other? Instead check malformed
     expect(adapter.needsRehash('$memory$v=1$m=999,t=1,p=1$salt$hash')).toBe(
       true,

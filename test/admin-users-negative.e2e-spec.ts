@@ -87,8 +87,4 @@ describe('Admin users negative (e2e)', () => {
       .delete('/admin/users/00000000-0000-0000-0000-000000000000')
       .expect(404);
   });
-
-  it.skip('returns 403 for unprivileged (TODO P05-09c)', async () => {
-    // Placeholder: real RBAC guard lands in P05-09c.
-  });
 });

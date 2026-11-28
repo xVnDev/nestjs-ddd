@@ -15,6 +15,7 @@ import type { Queue } from './queue.port.js';
 import type { Mail } from './mail.port.js';
 import type { MailStatusStore } from '../../mail/domain/ports/mail-status-store.port.js';
 import type { RepositoryPort } from './repository.port.js';
+import type { UserRepository } from './user-repository.port.js';
 import type { HttpClientPort } from './http-client.port.js';
 import type { CircuitBreakerPort } from './circuit-breaker.port.js';
 
@@ -74,6 +75,11 @@ export const MAIL_STATUS_STORE: PortToken<MailStatusStore> = Symbol.for(
 export const REPOSITORY_PORT: PortToken<RepositoryPort<any>> = Symbol.for(
   'REPOSITORY_PORT',
 ) as PortToken<RepositoryPort<any>>;
+
+/** User repository port token. */
+export const USER_REPOSITORY: PortToken<UserRepository> = Symbol.for(
+  'USER_REPOSITORY',
+) as PortToken<UserRepository>;
 
 /** HTTP client port token. */
 export const HTTP_CLIENT_PORT: PortToken<HttpClientPort> = Symbol.for(

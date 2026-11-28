@@ -43,6 +43,7 @@ describe('crypto and identity ports', () => {
     const hasher: PasswordHasher = {
       hash: vi.fn(async () => 'digest'),
       verify: vi.fn(async () => true),
+      needsRehash: vi.fn(() => false),
     };
     const enc: EncryptionService = {
       encrypt: vi.fn(async () => 'cipher'),

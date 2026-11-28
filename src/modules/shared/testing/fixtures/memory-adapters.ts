@@ -22,6 +22,7 @@ export const passwordHasherMemoryAdapter = {
     hash: async (plain: string) => `hashed:${plain}`,
     verify: async (plain: string, digest: string) =>
       digest === `hashed:${plain}`,
+    needsRehash: () => false,
   }),
 };
 

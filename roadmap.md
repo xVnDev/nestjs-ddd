@@ -131,9 +131,9 @@ Status legend: ⬜ Planned · 🚧 In progress · ✅ Done · ⏸ Blocked · ❌
 | `P03-11` | P03 · Data & Infrastructure | 4 | `feat(infra): add basic global throttler configuration` | ✅ Done |
 | `P03-12` | P03 · Data & Infrastructure | 4 | `feat(infra): add basic idempotency middleware` | ✅ Done |
 | `P03-13` | P03 · Data & Infrastructure | 4 | `feat(infra): add basic resilience/circuit-breaker configuration` | ✅ Done |
-| `P04-01` | P04 · Identity Domain | 1 | `feat(user): model User aggregate with sub identity value object` | ⬜ Planned |
-| `P04-02` | P04 · Identity Domain | 1 | `feat(user): add Argon2id password hasher adapter plus conformance spec` | ⬜ Planned |
-| `P04-03` | P04 · Identity Domain | 1 | `feat(user): add user repository port, TypeORM adapter and conformance spec` | ⬜ Planned |
+| `P04-01` | P04 · Identity Domain | 1 | `feat(user): model User aggregate with sub identity value object` | ✅ Done |
+| `P04-02` | P04 · Identity Domain | 1 | `feat(user): add Argon2id password hasher adapter plus conformance spec` | ✅ Done |
+| `P04-03` | P04 · Identity Domain | 1 | `feat(user): add user repository port, TypeORM adapter and conformance spec` | ✅ Done |
 | `P04-04` | P04 · Identity Domain | 2 | `feat(user): add admin DTOs and RBAC guard placeholder` | ⬜ Planned |
 | `P04-05` | P04 · Identity Domain | 2 | `feat(user): add admin CRUD use cases and controller` | ⬜ Planned |
 | `P04-06` | P04 · Identity Domain | 2 | `chore(test): add admin API E2E coverage` | ⬜ Planned |

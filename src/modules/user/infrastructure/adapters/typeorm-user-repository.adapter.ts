@@ -77,16 +77,23 @@ export class TypeOrmUserRepositoryAdapter implements UserRepository {
   }
 
   async findBySub(sub: Sub): Promise<User | null> {
-    const row = await this.getRepository().findOne({ where: { sub: sub.toString() } });
+    const row = await this.getRepository().findOne({
+      where: { sub: sub.toString() },
+    });
     return row ? this.toDomain(row) : null;
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    const row = await this.getRepository().findOne({ where: { email: email.trim().toLowerCase() } });
+    const row = await this.getRepository().findOne({
+      where: { email: email.trim().toLowerCase() },
+    });
     return row ? this.toDomain(row) : null;
   }
 
-  async findAll(options?: { page?: number; pageSize?: number }): Promise<User[]> {
+  async findAll(options?: {
+    page?: number;
+    pageSize?: number;
+  }): Promise<User[]> {
     const page = options?.page ?? 1;
     const pageSize = options?.pageSize ?? 20;
     const rows = await this.getRepository().find({

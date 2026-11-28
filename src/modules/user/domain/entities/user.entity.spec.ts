@@ -18,7 +18,11 @@ describe('User', () => {
   it('stores a Sub (not a raw string)', () => {
     const faker = seeded(1);
     const sub = Sub.fromLocal(faker.string.uuid());
-    const user = new User({ id: faker.string.uuid(), sub, email: faker.internet.email() });
+    const user = new User({
+      id: faker.string.uuid(),
+      sub,
+      email: faker.internet.email(),
+    });
     expect(user.sub).toBeInstanceOf(Sub);
   });
 
@@ -36,28 +40,46 @@ describe('User', () => {
     const faker = seeded(3);
     expect(
       () =>
-        new User({ id: '', sub: Sub.fromLocal(faker.string.uuid()), email: faker.internet.email() }),
+        new User({
+          id: '',
+          sub: Sub.fromLocal(faker.string.uuid()),
+          email: faker.internet.email(),
+        }),
     ).toThrow(ValidationDomainError);
   });
 
   it('rejects missing sub', () => {
     const faker = seeded(4);
     expect(
-      () => new User({ id: faker.string.uuid(), sub: null as unknown as Sub, email: faker.internet.email() }),
+      () =>
+        new User({
+          id: faker.string.uuid(),
+          sub: null as unknown as Sub,
+          email: faker.internet.email(),
+        }),
     ).toThrow();
   });
 
   it('rejects empty email', () => {
     const faker = seeded(30);
     expect(
-      () => new User({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email: '   ' }),
+      () =>
+        new User({
+          id: faker.string.uuid(),
+          sub: Sub.fromLocal(faker.string.uuid()),
+          email: '   ',
+        }),
     ).toThrow(ValidationDomainError);
   });
 
   it('createLocal positional missing hash throws', () => {
     const faker = seeded(31);
     expect(() =>
-      User.createLocal(faker.string.uuid(), Sub.fromLocal(faker.string.uuid()), faker.internet.email()),
+      User.createLocal(
+        faker.string.uuid(),
+        Sub.fromLocal(faker.string.uuid()),
+        faker.internet.email(),
+      ),
     ).toThrow(ValidationDomainError);
   });
 
@@ -163,13 +185,21 @@ describe('User', () => {
 
   it('changeEmail throws on empty', () => {
     const faker = seeded(13);
-    const user = new User({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email: faker.internet.email() });
+    const user = new User({
+      id: faker.string.uuid(),
+      sub: Sub.fromLocal(faker.string.uuid()),
+      email: faker.internet.email(),
+    });
     expect(() => user.changeEmail('   ')).toThrow(ValidationDomainError);
   });
 
   it('changeEmail no-op when same', () => {
     const faker = seeded(14);
-    const user = new User({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email: 'a@b.com' });
+    const user = new User({
+      id: faker.string.uuid(),
+      sub: Sub.fromLocal(faker.string.uuid()),
+      email: 'a@b.com',
+    });
     user.pullEvents();
     user.changeEmail('A@B.com'.toLowerCase());
     // email normalised same, no event
@@ -178,14 +208,23 @@ describe('User', () => {
 
   it('setEmail alias works', () => {
     const faker = seeded(15);
-    const user = new User({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email: faker.internet.email() });
+    const user = new User({
+      id: faker.string.uuid(),
+      sub: Sub.fromLocal(faker.string.uuid()),
+      email: faker.internet.email(),
+    });
     user.setEmail('x@y.com');
     expect(user.email).toBe('x@y.com');
   });
 
   it('activate no-op when already active', () => {
     const faker = seeded(16);
-    const user = new User({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email: faker.internet.email(), isActive: true });
+    const user = new User({
+      id: faker.string.uuid(),
+      sub: Sub.fromLocal(faker.string.uuid()),
+      email: faker.internet.email(),
+      isActive: true,
+    });
     user.pullEvents();
     user.activate();
     expect(user.pullEvents().length).toBe(0);
@@ -193,7 +232,12 @@ describe('User', () => {
 
   it('deactivate no-op when already inactive', () => {
     const faker = seeded(17);
-    const user = new User({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email: faker.internet.email(), isActive: false });
+    const user = new User({
+      id: faker.string.uuid(),
+      sub: Sub.fromLocal(faker.string.uuid()),
+      email: faker.internet.email(),
+      isActive: false,
+    });
     user.pullEvents();
     user.deactivate();
     expect(user.pullEvents().length).toBe(0);
@@ -201,48 +245,93 @@ describe('User', () => {
 
   it('isFederated true when no hash', () => {
     const faker = seeded(18);
-    const user = User.createFederated({ id: faker.string.uuid(), sub: Sub.fromFederated('google', faker.string.uuid()), email: faker.internet.email() });
+    const user = User.createFederated({
+      id: faker.string.uuid(),
+      sub: Sub.fromFederated('google', faker.string.uuid()),
+      email: faker.internet.email(),
+    });
     expect(user.isFederated()).toBe(true);
     expect(user.isLocal()).toBe(false);
   });
 
   it('clearEvents works', () => {
     const faker = seeded(19);
-    const user = new User({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email: faker.internet.email() });
+    const user = new User({
+      id: faker.string.uuid(),
+      sub: Sub.fromLocal(faker.string.uuid()),
+      email: faker.internet.email(),
+    });
     user.clearEvents();
     expect(user.events.length).toBe(0);
   });
 
   it('pullEvents alias', () => {
     const faker = seeded(20);
-    const user = new User({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email: faker.internet.email() });
+    const user = new User({
+      id: faker.string.uuid(),
+      sub: Sub.fromLocal(faker.string.uuid()),
+      email: faker.internet.email(),
+    });
     expect(user.pullDomainEvents().length).toBe(1);
   });
 
   it('create factory', () => {
     const faker = seeded(21);
-    const user = User.create({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email: faker.internet.email(), passwordHash: 'h' });
+    const user = User.create({
+      id: faker.string.uuid(),
+      sub: Sub.fromLocal(faker.string.uuid()),
+      email: faker.internet.email(),
+      passwordHash: 'h',
+    });
     expect(user.passwordHash).toBe('h');
   });
 
   it('createLocal positional', () => {
     const faker = seeded(22);
-    const user = User.createLocal(faker.string.uuid(), Sub.fromLocal(faker.string.uuid()), faker.internet.email(), 'h');
+    const user = User.createLocal(
+      faker.string.uuid(),
+      Sub.fromLocal(faker.string.uuid()),
+      faker.internet.email(),
+      'h',
+    );
     expect(user.passwordHash).toBe('h');
   });
 
   it('createFederated positional drops hash', () => {
     const faker = seeded(23);
-    const user = User.createFederated(faker.string.uuid(), Sub.fromLocal(faker.string.uuid()), faker.internet.email(), 'h');
+    const user = User.createFederated(
+      faker.string.uuid(),
+      Sub.fromLocal(faker.string.uuid()),
+      faker.internet.email(),
+      'h',
+    );
     expect(user.passwordHash).toBeNull();
   });
 
   it('aliases local/federated/fromLocal/fromFederated', () => {
     const faker = seeded(24);
-    const u1 = User.local({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email: faker.internet.email(), passwordHash: 'h' });
-    const u2 = User.federated({ id: faker.string.uuid(), sub: Sub.fromFederated('g', faker.string.uuid()), email: faker.internet.email() });
-    const u3 = User.fromLocal({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email: faker.internet.email(), passwordHash: 'h' });
-    const u4 = User.fromFederated({ id: faker.string.uuid(), sub: Sub.fromFederated('g', faker.string.uuid()), email: faker.internet.email() });
+    const u1 = User.local({
+      id: faker.string.uuid(),
+      sub: Sub.fromLocal(faker.string.uuid()),
+      email: faker.internet.email(),
+      passwordHash: 'h',
+    });
+    const u2 = User.federated({
+      id: faker.string.uuid(),
+      sub: Sub.fromFederated('g', faker.string.uuid()),
+      email: faker.internet.email(),
+    });
+    const u3 = User.fromLocal({
+      id: faker.string.uuid(),
+      sub: Sub.fromLocal(faker.string.uuid()),
+      email: faker.internet.email(),
+      passwordHash: 'h',
+    });
+    const u4 = User.fromFederated({
+      id: faker.string.uuid(),
+      sub: Sub.fromFederated('g', faker.string.uuid()),
+      email: faker.internet.email(),
+    });
     expect(u1.passwordHash).toBe('h');
     expect(u2.passwordHash).toBeNull();
     expect(u3.passwordHash).toBe('h');
@@ -251,19 +340,32 @@ describe('User', () => {
 
   it('register alias', () => {
     const faker = seeded(25);
-    const user = User.register({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email: faker.internet.email(), passwordHash: 'h' });
+    const user = User.register({
+      id: faker.string.uuid(),
+      sub: Sub.fromLocal(faker.string.uuid()),
+      email: faker.internet.email(),
+      passwordHash: 'h',
+    });
     expect(user.passwordHash).toBe('h');
   });
 
   it('uncommittedEvents getter', () => {
     const faker = seeded(26);
-    const user = new User({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email: faker.internet.email() });
+    const user = new User({
+      id: faker.string.uuid(),
+      sub: Sub.fromLocal(faker.string.uuid()),
+      email: faker.internet.email(),
+    });
     expect(user.uncommittedEvents.length).toBe(1);
   });
 
   it('events getter', () => {
     const faker = seeded(27);
-    const user = new User({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email: faker.internet.email() });
+    const user = new User({
+      id: faker.string.uuid(),
+      sub: Sub.fromLocal(faker.string.uuid()),
+      email: faker.internet.email(),
+    });
     expect(user.events.length).toBe(1);
   });
 });

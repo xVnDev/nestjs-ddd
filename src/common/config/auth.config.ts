@@ -33,9 +33,11 @@ export const authConfig = registerAs<AuthConfig>('auth', () => {
   return {
     adapter: env.NODE_ENV === 'production' ? 'argon2' : 'memory',
     argon2: {
-      memoryCost: Number.isFinite(memoryCost) && memoryCost > 0 ? memoryCost : 65536,
+      memoryCost:
+        Number.isFinite(memoryCost) && memoryCost > 0 ? memoryCost : 65536,
       timeCost: Number.isFinite(timeCost) && timeCost > 0 ? timeCost : 3,
-      parallelism: Number.isFinite(parallelism) && parallelism > 0 ? parallelism : 4,
+      parallelism:
+        Number.isFinite(parallelism) && parallelism > 0 ? parallelism : 4,
     },
   };
 });

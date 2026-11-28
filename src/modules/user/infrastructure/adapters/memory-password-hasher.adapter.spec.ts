@@ -32,10 +32,22 @@ describe('MemoryPasswordHasherAdapter', () => {
   });
 
   it('needsRehash true when params change', () => {
-    const adapter = new MemoryPasswordHasherAdapter({ seed: 1, memoryCost: 1, timeCost: 1, parallelism: 1 });
-    const other = new MemoryPasswordHasherAdapter({ seed: 1, memoryCost: 2, timeCost: 1, parallelism: 1 });
+    const adapter = new MemoryPasswordHasherAdapter({
+      seed: 1,
+      memoryCost: 1,
+      timeCost: 1,
+      parallelism: 1,
+    });
+    const other = new MemoryPasswordHasherAdapter({
+      seed: 1,
+      memoryCost: 2,
+      timeCost: 1,
+      parallelism: 1,
+    });
     // craft digest with different params by using other? Instead check malformed
-    expect(adapter.needsRehash('$memory$v=1$m=999,t=1,p=1$salt$hash')).toBe(true);
+    expect(adapter.needsRehash('$memory$v=1$m=999,t=1,p=1$salt$hash')).toBe(
+      true,
+    );
   });
 
   it('does not leak plaintext', async () => {

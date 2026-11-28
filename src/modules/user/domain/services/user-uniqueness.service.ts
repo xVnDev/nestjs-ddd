@@ -161,9 +161,14 @@ export class UserUniquenessService {
   }
 
   // Aliases
-  public static checkUnique = (...args: [User[]]) => UserUniquenessService.assertUnique(...args);
-  public static validate = (...args: [User[]]) => UserUniquenessService.assertUnique(...args);
-  public static ensureUnique = (...args: [User[]]) => UserUniquenessService.assertUnique(...args);
-  public static mergeUsers = (a: User, b: User) => UserUniquenessService.merge(a, b);
-  public static resolveMerge = (users: User[]) => UserUniquenessService.dedupe(users);
+  public static checkUnique = (...args: [User[]]) =>
+    UserUniquenessService.assertUnique(...args);
+  public static validate = (...args: [User[]]) =>
+    UserUniquenessService.assertUnique(...args);
+  public static ensureUnique = (...args: [User[]]) =>
+    UserUniquenessService.assertUnique(...args);
+  public static mergeUsers = (a: User, b: User) =>
+    UserUniquenessService.merge(a, b);
+  public static resolveMerge = (users: User[]) =>
+    UserUniquenessService.dedupe(users);
 }

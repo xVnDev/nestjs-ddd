@@ -16,8 +16,20 @@ type ConfigInput =
   | null
   | number
   | Argon2Params
-  | { argon2?: Partial<Argon2Params>; auth?: { argon2?: Partial<Argon2Params> } }
-  | { memoryCost?: number; timeCost?: number; parallelism?: number; m?: number; t?: number; p?: number; memory?: number; time?: number }
+  | {
+      argon2?: Partial<Argon2Params>;
+      auth?: { argon2?: Partial<Argon2Params> };
+    }
+  | {
+      memoryCost?: number;
+      timeCost?: number;
+      parallelism?: number;
+      m?: number;
+      t?: number;
+      p?: number;
+      memory?: number;
+      time?: number;
+    }
   | (() => unknown);
 
 const DEFAULT_MEMORY_COST = 65536;
@@ -28,7 +40,8 @@ export class Argon2PasswordHasherAdapter implements PasswordHasher {
   private params: Argon2Params;
 
   public constructor(config?: ConfigInput) {
-    const raw = typeof config === 'function' ? (config as () => unknown)() : config;
+    const raw =
+      typeof config === 'function' ? (config as () => unknown)() : config;
     if (typeof raw === 'number') {
       this.params = {
         memoryCost: raw,
@@ -42,8 +55,14 @@ export class Argon2PasswordHasherAdapter implements PasswordHasher {
     const src =
       obj.argon2 && typeof obj.argon2 === 'object'
         ? (obj.argon2 as Record<string, unknown>)
-        : obj.auth && typeof obj.auth === 'object' && (obj.auth as Record<string, unknown>).argon2 && typeof (obj.auth as Record<string, unknown>).argon2 === 'object'
-          ? ((obj.auth as Record<string, unknown>).argon2 as Record<string, unknown>)
+        : obj.auth &&
+            typeof obj.auth === 'object' &&
+            (obj.auth as Record<string, unknown>).argon2 &&
+            typeof (obj.auth as Record<string, unknown>).argon2 === 'object'
+          ? ((obj.auth as Record<string, unknown>).argon2 as Record<
+              string,
+              unknown
+            >)
           : obj;
     const memoryCost = (src.memoryCost ??
       src.memory ??
@@ -65,9 +84,13 @@ export class Argon2PasswordHasherAdapter implements PasswordHasher {
       obj.p ??
       DEFAULT_PARALLELISM) as number;
     this.params = {
-      memoryCost: Number.isFinite(memoryCost) ? memoryCost : DEFAULT_MEMORY_COST,
+      memoryCost: Number.isFinite(memoryCost)
+        ? memoryCost
+        : DEFAULT_MEMORY_COST,
       timeCost: Number.isFinite(timeCost) ? timeCost : DEFAULT_TIME_COST,
-      parallelism: Number.isFinite(parallelism) ? parallelism : DEFAULT_PARALLELISM,
+      parallelism: Number.isFinite(parallelism)
+        ? parallelism
+        : DEFAULT_PARALLELISM,
     };
   }
 
@@ -85,7 +108,10 @@ export class Argon2PasswordHasherAdapter implements PasswordHasher {
     });
   }
 
-  public async verify(plainOrDigest: string, digestOrPlain: string): Promise<boolean> {
+  public async verify(
+    plainOrDigest: string,
+    digestOrPlain: string,
+  ): Promise<boolean> {
     let plain = plainOrDigest;
     let digest = digestOrPlain;
     if (

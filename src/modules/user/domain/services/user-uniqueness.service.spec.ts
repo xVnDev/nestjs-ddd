@@ -24,14 +24,24 @@ describe('UserUniquenessService', () => {
       new User({ id: faker.string.uuid(), sub, email: faker.internet.email() }),
     ];
     expect(UserUniquenessService.hasDuplicateSub(users)).toBe(true);
-    expect(() => UserUniquenessService.assertUnique(users)).toThrow(ConflictDomainError);
+    expect(() => UserUniquenessService.assertUnique(users)).toThrow(
+      ConflictDomainError,
+    );
   });
 
   it('allows distinct Subs', () => {
     const faker = seeded(22);
     const users = [
-      new User({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email: faker.internet.email() }),
-      new User({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email: faker.internet.email() }),
+      new User({
+        id: faker.string.uuid(),
+        sub: Sub.fromLocal(faker.string.uuid()),
+        email: faker.internet.email(),
+      }),
+      new User({
+        id: faker.string.uuid(),
+        sub: Sub.fromLocal(faker.string.uuid()),
+        email: faker.internet.email(),
+      }),
     ];
     expect(UserUniquenessService.isUnique(users)).toBe(true);
   });
@@ -40,8 +50,18 @@ describe('UserUniquenessService', () => {
     const faker = seeded(23);
     const email = faker.internet.email();
     const users = [
-      User.createLocal({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email, passwordHash: 'h1' }),
-      User.createLocal({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email, passwordHash: 'h2' }),
+      User.createLocal({
+        id: faker.string.uuid(),
+        sub: Sub.fromLocal(faker.string.uuid()),
+        email,
+        passwordHash: 'h1',
+      }),
+      User.createLocal({
+        id: faker.string.uuid(),
+        sub: Sub.fromLocal(faker.string.uuid()),
+        email,
+        passwordHash: 'h2',
+      }),
     ];
     expect(UserUniquenessService.hasDuplicateEmail(users)).toBe(true);
   });
@@ -50,8 +70,16 @@ describe('UserUniquenessService', () => {
     const faker = seeded(24);
     const email = faker.internet.email();
     const users = [
-      User.createFederated({ id: faker.string.uuid(), sub: Sub.fromFederated('google', faker.string.uuid()), email }),
-      User.createFederated({ id: faker.string.uuid(), sub: Sub.fromFederated('github', faker.string.uuid()), email }),
+      User.createFederated({
+        id: faker.string.uuid(),
+        sub: Sub.fromFederated('google', faker.string.uuid()),
+        email,
+      }),
+      User.createFederated({
+        id: faker.string.uuid(),
+        sub: Sub.fromFederated('github', faker.string.uuid()),
+        email,
+      }),
     ];
     expect(UserUniquenessService.hasDuplicateEmail(users)).toBe(false);
   });
@@ -80,7 +108,11 @@ describe('UserUniquenessService', () => {
     const svc = new UserUniquenessService();
     const faker = seeded(26);
     const users = [
-      new User({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email: faker.internet.email() }),
+      new User({
+        id: faker.string.uuid(),
+        sub: Sub.fromLocal(faker.string.uuid()),
+        email: faker.internet.email(),
+      }),
     ];
     expect(svc.isUnique(users)).toBe(true);
     expect(svc.hasDuplicateSub(users)).toBe(false);
@@ -104,25 +136,55 @@ describe('UserUniquenessService', () => {
     const faker = seeded(28);
     const email = faker.internet.email();
     const users = [
-      User.createLocal({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email, passwordHash: 'h1' }),
-      User.createLocal({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email, passwordHash: 'h2' }),
+      User.createLocal({
+        id: faker.string.uuid(),
+        sub: Sub.fromLocal(faker.string.uuid()),
+        email,
+        passwordHash: 'h1',
+      }),
+      User.createLocal({
+        id: faker.string.uuid(),
+        sub: Sub.fromLocal(faker.string.uuid()),
+        email,
+        passwordHash: 'h2',
+      }),
     ];
-    expect(UserUniquenessService.findDuplicateEmail(users)).toBe(email.toLowerCase());
+    expect(UserUniquenessService.findDuplicateEmail(users)).toBe(
+      email.toLowerCase(),
+    );
   });
 
   it('canMerge true for same email', () => {
     const faker = seeded(29);
     const email = faker.internet.email();
-    const a = User.createFederated({ id: faker.string.uuid(), sub: Sub.fromFederated('google', faker.string.uuid()), email });
-    const b = User.createLocal({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email, passwordHash: 'h' });
+    const a = User.createFederated({
+      id: faker.string.uuid(),
+      sub: Sub.fromFederated('google', faker.string.uuid()),
+      email,
+    });
+    const b = User.createLocal({
+      id: faker.string.uuid(),
+      sub: Sub.fromLocal(faker.string.uuid()),
+      email,
+      passwordHash: 'h',
+    });
     expect(UserUniquenessService.canMerge(a, b)).toBe(true);
   });
 
   it('merge combines into local', () => {
     const faker = seeded(30);
     const email = faker.internet.email();
-    const a = User.createFederated({ id: faker.string.uuid(), sub: Sub.fromFederated('google', faker.string.uuid()), email });
-    const b = User.createLocal({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email, passwordHash: 'h' });
+    const a = User.createFederated({
+      id: faker.string.uuid(),
+      sub: Sub.fromFederated('google', faker.string.uuid()),
+      email,
+    });
+    const b = User.createLocal({
+      id: faker.string.uuid(),
+      sub: Sub.fromLocal(faker.string.uuid()),
+      email,
+      passwordHash: 'h',
+    });
     const merged = UserUniquenessService.merge(a, b);
     expect(merged.isLocal()).toBe(true);
     expect(merged.passwordHash).toBe('h');
@@ -131,8 +193,17 @@ describe('UserUniquenessService', () => {
   it('merge when first is local', () => {
     const faker = seeded(37);
     const email = faker.internet.email();
-    const a = User.createLocal({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email, passwordHash: 'h' });
-    const b = User.createFederated({ id: faker.string.uuid(), sub: Sub.fromFederated('google', faker.string.uuid()), email });
+    const a = User.createLocal({
+      id: faker.string.uuid(),
+      sub: Sub.fromLocal(faker.string.uuid()),
+      email,
+      passwordHash: 'h',
+    });
+    const b = User.createFederated({
+      id: faker.string.uuid(),
+      sub: Sub.fromFederated('google', faker.string.uuid()),
+      email,
+    });
     const merged = UserUniquenessService.merge(a, b);
     expect(merged.isLocal()).toBe(true);
   });
@@ -140,8 +211,16 @@ describe('UserUniquenessService', () => {
   it('merge when both federated', () => {
     const faker = seeded(38);
     const email = faker.internet.email();
-    const a = User.createFederated({ id: faker.string.uuid(), sub: Sub.fromFederated('google', faker.string.uuid()), email });
-    const b = User.createFederated({ id: faker.string.uuid(), sub: Sub.fromFederated('github', faker.string.uuid()), email });
+    const a = User.createFederated({
+      id: faker.string.uuid(),
+      sub: Sub.fromFederated('google', faker.string.uuid()),
+      email,
+    });
+    const b = User.createFederated({
+      id: faker.string.uuid(),
+      sub: Sub.fromFederated('github', faker.string.uuid()),
+      email,
+    });
     const merged = UserUniquenessService.merge(a, b);
     expect(merged.isFederated()).toBe(true);
   });
@@ -160,8 +239,17 @@ describe('UserUniquenessService', () => {
     const svc = new UserUniquenessService();
     const faker = seeded(31);
     const email = faker.internet.email();
-    const a = User.createFederated({ id: faker.string.uuid(), sub: Sub.fromFederated('google', faker.string.uuid()), email });
-    const b = User.createLocal({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email, passwordHash: 'h' });
+    const a = User.createFederated({
+      id: faker.string.uuid(),
+      sub: Sub.fromFederated('google', faker.string.uuid()),
+      email,
+    });
+    const b = User.createLocal({
+      id: faker.string.uuid(),
+      sub: Sub.fromLocal(faker.string.uuid()),
+      email,
+      passwordHash: 'h',
+    });
     expect(svc.canMerge(a, b)).toBe(true);
     const m = svc.merge(a, b);
     expect(m.isLocal()).toBe(true);
@@ -176,23 +264,41 @@ describe('UserUniquenessService', () => {
       new User({ id: faker.string.uuid(), sub, email: faker.internet.email() }),
       new User({ id: faker.string.uuid(), sub, email: faker.internet.email() }),
     ];
-    expect(() => UserUniquenessService.assertUniqueSub(users)).toThrow(ConflictDomainError);
+    expect(() => UserUniquenessService.assertUniqueSub(users)).toThrow(
+      ConflictDomainError,
+    );
   });
 
   it('assertUniqueEmail throws', () => {
     const faker = seeded(33);
     const email = faker.internet.email();
     const users = [
-      User.createLocal({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email, passwordHash: 'h1' }),
-      User.createLocal({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email, passwordHash: 'h2' }),
+      User.createLocal({
+        id: faker.string.uuid(),
+        sub: Sub.fromLocal(faker.string.uuid()),
+        email,
+        passwordHash: 'h1',
+      }),
+      User.createLocal({
+        id: faker.string.uuid(),
+        sub: Sub.fromLocal(faker.string.uuid()),
+        email,
+        passwordHash: 'h2',
+      }),
     ];
-    expect(() => UserUniquenessService.assertUniqueEmail(users)).toThrow(ConflictDomainError);
+    expect(() => UserUniquenessService.assertUniqueEmail(users)).toThrow(
+      ConflictDomainError,
+    );
   });
 
   it('aliases', () => {
     const faker = seeded(34);
     const users = [
-      new User({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email: faker.internet.email() }),
+      new User({
+        id: faker.string.uuid(),
+        sub: Sub.fromLocal(faker.string.uuid()),
+        email: faker.internet.email(),
+      }),
     ];
     expect(() => UserUniquenessService.checkUnique(users)).not.toThrow();
     expect(() => UserUniquenessService.validate(users)).not.toThrow();
@@ -203,7 +309,11 @@ describe('UserUniquenessService', () => {
     const svc = new UserUniquenessService();
     const faker = seeded(35);
     const users = [
-      new User({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email: faker.internet.email() }),
+      new User({
+        id: faker.string.uuid(),
+        sub: Sub.fromLocal(faker.string.uuid()),
+        email: faker.internet.email(),
+      }),
     ];
     svc.assertUniqueSub(users);
     svc.assertUniqueEmail(users);
@@ -215,8 +325,17 @@ describe('UserUniquenessService', () => {
   it('mergeUsers alias and resolveMerge alias', () => {
     const faker = seeded(36);
     const email = faker.internet.email();
-    const a = User.createFederated({ id: faker.string.uuid(), sub: Sub.fromFederated('google', faker.string.uuid()), email });
-    const b = User.createLocal({ id: faker.string.uuid(), sub: Sub.fromLocal(faker.string.uuid()), email, passwordHash: 'h' });
+    const a = User.createFederated({
+      id: faker.string.uuid(),
+      sub: Sub.fromFederated('google', faker.string.uuid()),
+      email,
+    });
+    const b = User.createLocal({
+      id: faker.string.uuid(),
+      sub: Sub.fromLocal(faker.string.uuid()),
+      email,
+      passwordHash: 'h',
+    });
     const m = UserUniquenessService.mergeUsers(a, b);
     expect(m.isLocal()).toBe(true);
     const r = UserUniquenessService.resolveMerge([a, b]);

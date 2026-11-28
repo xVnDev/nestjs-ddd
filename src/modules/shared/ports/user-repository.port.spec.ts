@@ -26,7 +26,9 @@ describe('user repository port', () => {
   });
 
   it('has expected method signatures', () => {
-    expectTypeOf<UserRepository['save']>().returns.toEqualTypeOf<Promise<User>>();
+    expectTypeOf<UserRepository['save']>().returns.toEqualTypeOf<
+      Promise<User>
+    >();
     expectTypeOf<UserRepository['findById']>().returns.toEqualTypeOf<
       Promise<User | null>
     >();

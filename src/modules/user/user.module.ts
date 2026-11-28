@@ -9,8 +9,6 @@ import { isDatabaseConfigured } from '../../common/config/database.config.js';
 import { USER_REPOSITORY, PASSWORD_HASHER } from '../shared/ports/tokens.js';
 import { authConfig, AUTH_CONFIG } from '../../common/config/auth.config.js';
 import type { AuthConfig as AuthConfigType } from '../../common/config/auth.config.js';
-import { databaseConfig, DATABASE_CONFIG } from '../../common/config/database.config.js';
-import type { DatabaseConfig as DatabaseConfigType } from '../../common/config/database.config.js';
 import { Argon2PasswordHasherAdapter } from './infrastructure/adapters/argon2-password-hasher.adapter.js';
 import { MemoryPasswordHasherAdapter } from './infrastructure/adapters/memory-password-hasher.adapter.js';
 import { TypeOrmUserRepositoryAdapter } from './infrastructure/adapters/typeorm-user-repository.adapter.js';

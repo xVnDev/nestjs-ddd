@@ -63,7 +63,12 @@ definePortConformance<UserRepository>(
   (getAdapter) => {
     it('saves and finds by id', async () => {
       const adapter = getAdapter();
-      const user = new User({ id: 'u1', sub: Sub.fromLocal('abc'), email: 'a@b.com', passwordHash: 'h' });
+      const user = new User({
+        id: 'u1',
+        sub: Sub.fromLocal('abc'),
+        email: 'a@b.com',
+        passwordHash: 'h',
+      });
       await adapter.save(user);
       const found = await adapter.findById('u1');
       expect(found?.email).toBe('a@b.com');
@@ -71,7 +76,12 @@ definePortConformance<UserRepository>(
 
     it('finds by sub', async () => {
       const adapter = getAdapter();
-      const user = new User({ id: 'u2', sub: Sub.fromLocal('xyz'), email: 'x@y.com', passwordHash: 'h' });
+      const user = new User({
+        id: 'u2',
+        sub: Sub.fromLocal('xyz'),
+        email: 'x@y.com',
+        passwordHash: 'h',
+      });
       await adapter.save(user);
       const found = await adapter.findBySub(Sub.fromLocal('xyz'));
       expect(found?.id).toBe('u2');
@@ -79,7 +89,12 @@ definePortConformance<UserRepository>(
 
     it('finds by email', async () => {
       const adapter = getAdapter();
-      const user = new User({ id: 'u3', sub: Sub.fromLocal('q'), email: 'q@r.com', passwordHash: 'h' });
+      const user = new User({
+        id: 'u3',
+        sub: Sub.fromLocal('q'),
+        email: 'q@r.com',
+        passwordHash: 'h',
+      });
       await adapter.save(user);
       const found = await adapter.findByEmail('q@r.com');
       expect(found?.id).toBe('u3');
@@ -88,7 +103,14 @@ definePortConformance<UserRepository>(
     it('pages results', async () => {
       const adapter = getAdapter();
       for (let i = 0; i < 5; i++) {
-        await adapter.save(new User({ id: `p${i}`, sub: Sub.fromLocal(`p${i}`), email: `p${i}@t.com`, passwordHash: 'h' }));
+        await adapter.save(
+          new User({
+            id: `p${i}`,
+            sub: Sub.fromLocal(`p${i}`),
+            email: `p${i}@t.com`,
+            passwordHash: 'h',
+          }),
+        );
       }
       const page = await adapter.findAll({ page: 2, pageSize: 2 });
       expect(page.length).toBe(2);
@@ -96,7 +118,12 @@ definePortConformance<UserRepository>(
 
     it('soft deletes', async () => {
       const adapter = getAdapter();
-      const user = new User({ id: 'd1', sub: Sub.fromLocal('d'), email: 'd@t.com', passwordHash: 'h' });
+      const user = new User({
+        id: 'd1',
+        sub: Sub.fromLocal('d'),
+        email: 'd@t.com',
+        passwordHash: 'h',
+      });
       await adapter.save(user);
       await adapter.softDelete('d1');
       expect(await adapter.findById('d1')).toBeNull();

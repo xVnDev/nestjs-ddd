@@ -109,7 +109,7 @@ describe('port conformance', () => {
       expect((ports as Record<string, unknown>)[name]).toBeDefined();
     }
     const values = TOKENS.map((n) => (ports as Record<string, unknown>)[n]);
-    expect(new Set(values).size).toBe(11);
+    expect(new Set(values).size).toBe(12);
   });
 
   it('port layer is import-pure', () => {
@@ -126,7 +126,7 @@ describe('port conformance', () => {
       (acc, f) => acc + countExportedInterfaces(readFileSync(f, 'utf8')),
       0,
     );
-    expect(total).toBe(11);
+    expect(total).toBe(12);
   });
 
   it('detects a forbidden import via a stubbed file reader', () => {

@@ -2,7 +2,7 @@
  * @file In-memory password hasher fallback adapter.
  */
 
-import { createHash, randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
+import { createHash, scryptSync, timingSafeEqual } from 'node:crypto';
 import type { PasswordHasher } from '../../../shared/ports/password-hasher.port.js';
 
 export interface MemoryPasswordHasherOptions {
@@ -22,7 +22,8 @@ function normalizeSeed(input: unknown): number {
   if (typeof input === 'number' && Number.isFinite(input)) return input;
   if (typeof input === 'string' && input.length > 0) {
     let acc = 0;
-    for (let i = 0; i < input.length; i++) acc = (acc * 31 + input.charCodeAt(i)) >>> 0;
+    for (let i = 0; i < input.length; i++)
+      acc = (acc * 31 + input.charCodeAt(i)) >>> 0;
     return acc || 1;
   }
   if (input && typeof input === 'object') {
@@ -35,7 +36,11 @@ function normalizeSeed(input: unknown): number {
 
 export class MemoryPasswordHasherAdapter implements PasswordHasher {
   private readonly seed: number;
-  private readonly params: { memoryCost: number; timeCost: number; parallelism: number };
+  private readonly params: {
+    memoryCost: number;
+    timeCost: number;
+    parallelism: number;
+  };
 
   public constructor(options?: number | string | MemoryPasswordHasherOptions) {
     this.seed = normalizeSeed(options);
@@ -50,7 +55,10 @@ export class MemoryPasswordHasherAdapter implements PasswordHasher {
   }
 
   private salt(): Buffer {
-    return createHash('sha256').update(`nestjs-ddd:${this.seed}`).digest().subarray(0, 16);
+    return createHash('sha256')
+      .update(`nestjs-ddd:${this.seed}`)
+      .digest()
+      .subarray(0, 16);
   }
 
   public async hash(plain: string): Promise<string> {
@@ -65,7 +73,10 @@ export class MemoryPasswordHasherAdapter implements PasswordHasher {
   }
 
   /* v8 ignore next 5 */
-  public async verify(plainOrDigest: string, digestOrPlain: string): Promise<boolean> {
+  public async verify(
+    plainOrDigest: string,
+    digestOrPlain: string,
+  ): Promise<boolean> {
     let plain = plainOrDigest;
     let digest = digestOrPlain;
     if (
@@ -81,7 +92,11 @@ export class MemoryPasswordHasherAdapter implements PasswordHasher {
     if (parts.length < 6 || parts[1] !== 'memory') return false;
     const salt = Buffer.from(parts[4], 'base64');
     const expected = Buffer.from(parts[5], 'base64');
-    const derived = scryptSync(plain, salt, expected.length, { N: 16384, r: 8, p: 1 });
+    const derived = scryptSync(plain, salt, expected.length, {
+      N: 16384,
+      r: 8,
+      p: 1,
+    });
     if (derived.length !== expected.length) return false;
     return timingSafeEqual(derived, expected);
   }

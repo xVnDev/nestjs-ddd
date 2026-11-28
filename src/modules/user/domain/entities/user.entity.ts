@@ -57,7 +57,11 @@ export class User extends Entity<string> {
       };
     }
 
-    if (!props.id || typeof props.id !== 'string' || props.id.trim().length === 0) {
+    if (
+      !props.id ||
+      typeof props.id !== 'string' ||
+      props.id.trim().length === 0
+    ) {
       throw new ValidationDomainError('User id is required');
     }
     const sub = toSub(props.sub);
@@ -149,9 +153,11 @@ export class User extends Entity<string> {
 
   // Aliases
   public static local = (...args: unknown[]) => User.createLocal(...args);
-  public static federated = (...args: unknown[]) => User.createFederated(...args);
+  public static federated = (...args: unknown[]) =>
+    User.createFederated(...args);
   public static fromLocal = (...args: unknown[]) => User.createLocal(...args);
-  public static fromFederated = (...args: unknown[]) => User.createFederated(...args);
+  public static fromFederated = (...args: unknown[]) =>
+    User.createFederated(...args);
   public static register = (...args: unknown[]) => User.createLocal(...args);
 
   // ---- Mutations ----

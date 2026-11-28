@@ -51,7 +51,10 @@ export class MemoryUserRepositoryAdapter implements UserRepository {
     return null;
   }
 
-  async findAll(options?: { page?: number; pageSize?: number }): Promise<User[]> {
+  async findAll(options?: {
+    page?: number;
+    pageSize?: number;
+  }): Promise<User[]> {
     const page = options?.page ?? 1;
     const pageSize = options?.pageSize ?? 20;
     const items = [...this.store.entries()]

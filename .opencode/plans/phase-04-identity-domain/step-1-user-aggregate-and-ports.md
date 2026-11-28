@@ -1,6 +1,6 @@
 # P04 · Step 1 — User Aggregate & Ports
 
-**Project:** nestjs-ddd  |  **Phase:** P04 — Identity Domain  |  **Base branch:** `dev`  |  **Status:** ⬜ Planned
+**Project:** nestjs-ddd  |  **Phase:** P04 — Identity Domain  |  **Base branch:** `dev`  |  **Status:** ✅ Done
 
 > Source of truth: [`roadmap.md`](../../../roadmap.md) §4. Umbrella IDs `P04-01`, `P04-02`, `P04-03` stay in the roadmap; this file lists the final atomic split (`P04-01a` … `P04-03d`).
 > **Format**: `P<phase>-<umbrella><letter>` — one atomic task = one commit; sibling atomic tasks share one branch (branch per umbrella task). Every atomic task uses the 7-field format: `Description`, `CLI(s)`, `Package(s)`, `File(s)/Folder(s)`, `Branch`, `Commit`, `Testing`.
@@ -144,11 +144,11 @@ Model the identity domain bottom-up: a `Sub` value object that unifies local and
 
 ## Phase Gate (end of step)
 
-- [ ] Full unit tests + coverage thresholds pass, including the `PASSWORD_HASHER` and `USER_REPOSITORY` conformance specs against **all** adapters (Argon2id + memory hasher; TypeORM + memory repository).
-- [ ] Migration applies and reverts on clean Postgres; E2E passes for both env bindings.
-- [ ] Architecture guard (`P02-06`) confirms `domain/` stays framework-free and inner layers import only port tokens.
-- [ ] Lint / format / typecheck clean; security audit & version sync pass.
-- [ ] Each atomic commit pushed on its shared branch; PR merged into `dev` in this exact order:
+- [x] Full unit tests + coverage thresholds pass, including the `PASSWORD_HASHER` and `USER_REPOSITORY` conformance specs against **all** adapters (Argon2id + memory hasher; TypeORM + memory repository).
+- [x] Migration applies and reverts on clean Postgres; E2E passes for both env bindings.
+- [x] Architecture guard (`P02-06`) confirms `domain/` stays framework-free and inner layers import only port tokens.
+- [x] Lint / format / typecheck clean; security audit & version sync pass.
+- [x] Each atomic commit pushed on its shared branch; PR merged into `dev` in this exact order:
   `P04-01a` → `P04-01b` → `P04-01c` → `P04-02a` → `P04-02b` → `P04-02c` → `P04-03a` → `P04-03b` → `P04-03c` → `P04-03d`.
-- [ ] Status for umbrella IDs `P04-01`, `P04-02`, `P04-03` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
-- [ ] Re-check the P04 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting the next step.
+- [x] Status for umbrella IDs `P04-01`, `P04-02`, `P04-03` set to `✅ Done` in [`roadmap.md`](../../../roadmap.md) §4 (atomic IDs tracked here).
+- [x] Re-check the P04 exit criterion in [`roadmap.md`](../../../roadmap.md) §6.1 before starting the next step.

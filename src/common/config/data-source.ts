@@ -6,7 +6,9 @@ import { DataSource } from 'typeorm';
 import { databaseConfig } from './database.config.js';
 import type { DatabaseConfig } from './database.config.js';
 import { SoftDeleteEntity } from '../../modules/shared/infrastructure/persistence/soft-delete.entity.js';
+import { UserOrmEntity } from '../../modules/user/infrastructure/persistence/user.orm-entity.js';
 import { Init1795719746297 } from '../../migrations/1795719746297-Init.js';
+import { AddUsersTable1795719746298 } from '../../modules/user/infrastructure/persistence/migrations/1795719746298-AddUsersTable.js';
 
 const config = databaseConfig() as unknown as DatabaseConfig;
 
@@ -21,6 +23,6 @@ export const dataSource = new DataSource({
   logging: config.logging,
   synchronize: config.synchronize,
   uuidExtension: 'pgcrypto',
-  entities: [SoftDeleteEntity],
-  migrations: [Init1795719746297],
+  entities: [SoftDeleteEntity, UserOrmEntity],
+  migrations: [Init1795719746297, AddUsersTable1795719746298],
 });

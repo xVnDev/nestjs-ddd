@@ -35,7 +35,9 @@ describe('TypeOrmUserRepositoryAdapter', () => {
   });
 
   it('save consults uniqueness service', async () => {
-    const spy = vi.spyOn(Uniqueness.UserUniquenessService, 'assertUnique').mockImplementation(() => undefined);
+    const spy = vi
+      .spyOn(Uniqueness.UserUniquenessService, 'assertUnique')
+      .mockImplementation(() => undefined);
     const repo = {
       findOne: vi.fn(),
       save: vi.fn(async (row: any) => row),

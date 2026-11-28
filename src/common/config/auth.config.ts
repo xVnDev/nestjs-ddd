@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file Typed auth configuration slice registered via registerAs.
  */
 
@@ -18,6 +18,22 @@ export interface AuthConfig {
   adapter: 'argon2' | 'memory';
   /** Argon2id parameters. */
   argon2: Argon2Config;
+  /** JWT signing algorithm. */
+  algorithm: 'RS256';
+  /** JWT issuer. */
+  issuer: string;
+  /** JWT audience. */
+  audience: string;
+  /** Access token TTL. */
+  accessTtl: string;
+  /** Refresh token TTL. */
+  refreshTtl: string;
+  /** Path to the RSA private key PEM. */
+  privateKeyPath: string;
+  /** Path to the RSA public key PEM. */
+  publicKeyPath: string;
+  /** Key id. */
+  kid: string;
 }
 
 /**
@@ -39,6 +55,14 @@ export const authConfig = registerAs<AuthConfig>('auth', () => {
       parallelism:
         Number.isFinite(parallelism) && parallelism > 0 ? parallelism : 4,
     },
+    algorithm: 'RS256',
+    issuer: process.env.JWT_ISSUER || 'nestjs-ddd',
+    audience: process.env.JWT_AUDIENCE || 'nestjs-ddd',
+    accessTtl: process.env.JWT_ACCESS_TTL || '15m',
+    refreshTtl: process.env.JWT_REFRESH_TTL || '7d',
+    privateKeyPath: env.JWT_PRIVATE_KEY_PATH || 'keys/jwt-private.pem',
+    publicKeyPath: env.JWT_PUBLIC_KEY_PATH || 'keys/jwt-public.pem',
+    kid: process.env.JWT_KID || '',
   };
 });
 

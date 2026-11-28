@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file Joi environment schema, typed Env and validateEnv helper.
  */
 
@@ -16,8 +16,23 @@ export const envSchema = Joi.object({
   MAIL_SMTP_PORT: Joi.number().integer().min(1).max(65535).optional(),
   MAIL_DEFAULT_LOCALE: Joi.string().allow('').optional(),
   REDIS_URL: Joi.string().allow('').optional(),
-  JWT_PRIVATE_KEY_PATH: Joi.string().allow('').optional(),
-  JWT_PUBLIC_KEY_PATH: Joi.string().allow('').optional(),
+  JWT_PRIVATE_KEY_PATH: Joi.string()
+    .when('NODE_ENV', {
+      is: 'production',
+      then: Joi.required(),
+      otherwise: Joi.string().allow('').optional(),
+    }),
+  JWT_PUBLIC_KEY_PATH: Joi.string()
+    .when('NODE_ENV', {
+      is: 'production',
+      then: Joi.required(),
+      otherwise: Joi.string().allow('').optional(),
+    }),
+  JWT_KID: Joi.string().allow('').optional(),
+  JWT_ISSUER: Joi.string().allow('').optional(),
+  JWT_AUDIENCE: Joi.string().allow('').optional(),
+  JWT_ACCESS_TTL: Joi.string().allow('').optional(),
+  JWT_REFRESH_TTL: Joi.string().allow('').optional(),
 
   QUEUE_REDIS_URL: Joi.string().uri().allow('').optional(),
   QUEUE_PREFIX: Joi.string().allow('').optional(),
@@ -57,6 +72,11 @@ export interface Env {
   REDIS_URL?: string;
   JWT_PRIVATE_KEY_PATH?: string;
   JWT_PUBLIC_KEY_PATH?: string;
+  JWT_KID?: string;
+  JWT_ISSUER?: string;
+  JWT_AUDIENCE?: string;
+  JWT_ACCESS_TTL?: string;
+  JWT_REFRESH_TTL?: string;
   DATABASE_URL: string;
   DATABASE_SSL?: string;
   DATABASE_POOL_SIZE?: number;

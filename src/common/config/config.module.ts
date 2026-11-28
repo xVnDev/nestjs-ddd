@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file Global Nest config module with Joi validation and config slices.
  */
 
@@ -6,6 +6,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule as NestConfigModule } from '@nestjs/config';
 import { envSchema, validateEnv } from './validation/env.validation.js';
 import { appConfig } from './app.config.js';
+import { authConfig } from './auth.config.js';
 import { cacheConfig } from './cache.config.js';
 import { httpConfig } from './http.config.js';
 import { idempotencyConfig } from './idempotency.config.js';
@@ -28,6 +29,7 @@ import { databaseConfig } from './database.config.js';
       expandVariables: true,
       load: [
         appConfig,
+        authConfig,
         cacheConfig,
         httpConfig,
         throttlerConfig,

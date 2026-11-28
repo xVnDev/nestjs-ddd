@@ -134,9 +134,9 @@ Status legend: ⬜ Planned · 🚧 In progress · ✅ Done · ⏸ Blocked · ❌
 | `P04-01` | P04 · Identity Domain | 1 | `feat(user): model User aggregate with sub identity value object` | ✅ Done |
 | `P04-02` | P04 · Identity Domain | 1 | `feat(user): add Argon2id password hasher adapter plus conformance spec` | ✅ Done |
 | `P04-03` | P04 · Identity Domain | 1 | `feat(user): add user repository port, TypeORM adapter and conformance spec` | ✅ Done |
-| `P04-04` | P04 · Identity Domain | 2 | `feat(user): add admin DTOs and RBAC guard placeholder` | ⬜ Planned |
-| `P04-05` | P04 · Identity Domain | 2 | `feat(user): add admin CRUD use cases and controller` | ⬜ Planned |
-| `P04-06` | P04 · Identity Domain | 2 | `chore(test): add admin API E2E coverage` | ⬜ Planned |
+| `P04-04` | P04 · Identity Domain | 2 | `feat(user): add admin DTOs and RBAC guard placeholder` | ✅ Done |
+| `P04-05` | P04 · Identity Domain | 2 | `feat(user): add admin CRUD use cases and controller` | ✅ Done |
+| `P04-06` | P04 · Identity Domain | 2 | `chore(test): add admin API E2E coverage` | ✅ Done |
 | `P05-01` | P05 · Authentication | 1 | `feat(auth): implement local strategy with Argon2id verification` | ⬜ Planned |
 | `P05-02` | P05 · Authentication | 1 | `feat(auth): expose local login endpoint` | ⬜ Planned |
 | `P05-03` | P05 · Authentication | 1 | `feat(auth): add RS256 key pair config with kid` | ⬜ Planned |

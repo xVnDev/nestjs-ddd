@@ -98,6 +98,10 @@
     },
     "testcontainers": {
       "minimatch": "^11.0.9"
+    },
+    "@nestjs-modules/mailer": {
+      "minimatch": "^11.0.9",
+      "glob": "^14.0.6"
     }
   }
 }

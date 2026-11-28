@@ -6,5 +6,6 @@ export default mergeConfig(base, defineConfig({
     include: ['test/**/*.e2e-spec.ts'],
     testTimeout: 30000,
     setupFiles: ['test/setup-e2e.ts'],
+    globalSetup: ['test/global-setup-e2e.ts'],
   },
 }));

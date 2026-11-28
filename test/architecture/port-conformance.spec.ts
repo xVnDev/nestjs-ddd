@@ -21,6 +21,7 @@ const TOKENS = [
   'REPOSITORY_PORT',
   'HTTP_CLIENT_PORT',
   'CIRCUIT_BREAKER_PORT',
+  'USER_REPOSITORY',
 ] as const;
 
 function walk(dir: string): string[] {
@@ -103,7 +104,7 @@ function countExportedInterfaces(source: string): number {
 }
 
 describe('port conformance', () => {
-  it('exports all eleven tokens', () => {
+  it('exports all twelve tokens', () => {
     for (const name of TOKENS) {
       expect((ports as Record<string, unknown>)[name]).toBeDefined();
     }
@@ -119,7 +120,7 @@ describe('port conformance', () => {
     expect(offenders).toEqual([]);
   });
 
-  it('has one interface per token (11 total)', () => {
+  it('has one interface per token (12 total)', () => {
     const files = walk(PORTS_DIR).filter((f) => f.endsWith('.port.ts'));
     const total = files.reduce(
       (acc, f) => acc + countExportedInterfaces(readFileSync(f, 'utf8')),
